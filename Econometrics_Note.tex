@@ -1,0 +1,280 @@
+\documentclass[paper=a4paper,fontsize=10pt]{jlreq}
+\usepackage{luatexja-fontspec}
+\setmainfont{Harano Aji Mincho}
+\setsansfont{Harano Aji Gothic}
+\setmainjfont{Harano Aji Mincho}
+\setsansjfont{Harano Aji Gothic}
+
+\usepackage{amsmath,amssymb}
+\usepackage{unicode-math}
+\setmathfont{LatinModernMath-Regular}
+
+
+\begin{document}
+
+\title{Econometrics Note}
+\author{
+  Sora Maekawa \thanks{一橋大学経済学部 3年, 五年一貫専修コース公共経済プログラム, 佐藤ゼミ24期}
+}
+\maketitle
+
+\section{準備}
+\subsection{確率論}
+\paragraph{確率空間}
+$( \Omega, \mathfrak{B} (\Omega), \mathbb{P} )$ で数学的に定義される. ここで, $ \Omega= \{\omega_1, \dots, \omega_M\} $, $M \in \mathbb{N} $ は標本空間（事象の集まり）,$\mathfrak{B} (\Omega)=\{A:A\subseteq{\Omega} \}$ は$\Omega$ のべき集合（確率を測りたい対象の集まり）で, これに対して $\mathbb{P}:\mathfrak{B}\rightarrow [0,1]$ で確率を与える.\\
+
+\rmfamily\mcfamily\bfseries{Ex. コイントス}\mdseries　結果を確率空間により数学的に記述すると以下のようになる. $M=2$, $\Omega=\{表, 裏\}$, $\mathfrak{B}(\Omega)=\{\phi, \{表\}, \{裏\}, \Omega\}$, $\mathbb{P}(\phi)=0$, $\mathbb{P}(\{表\})=\mathbb{P}(\{裏\})=1/2$, $\mathbb{P}(\Omega)=1$.\\
+
+\paragraph{確率変数}
+確率的に値を取る数のことで, 確率空間上の関数として定義される. ある確率変数 $X:\Omega\rightarrow\mathbb{R}$ に対し, 定義域, 値域それぞれの部分集合$A\subseteq\Omega, B\subseteq\mathbb{R}$ を考える. この時, $X(A)=\{X(\omega):\omega\in A\}\subseteq \mathbb{R}$ を $X$ による$A$の像と呼び, $X^{-1}(B)=\{\omega\in \Omega:X(\omega)\in B\}=\{X\in B\}\subseteq \Omega$ を $X$ による$A$の逆像と呼ぶ. \rmfamily\mcfamily\bfseries{NOTATION}\mdseries : $ \{ X \in \{x\} \} \equiv \{ X=x \} $. ここで$x$は$X$の実現値の一つ.\\
+
+\rmfamily\mcfamily\bfseries{Ex. コイントスと賭け}\mdseries　前の例にてコインが表の時$100$ドルを, 裏の時$-50$ドルとなる賭けの損益を$X$とおく. このとき, $X$は確率変数であり, $X(表)=100, X(裏)=-50$（$x\in\{100, -50\}$）. また, $\{X(・) = x = 100\}=\{\omega\in\Omega:X(\omega)=100\}=\{表\}$ （裏でも同様に記せる）から $\mathbb{P}(X=-50)=\mathbb{P}(X=100)=1/2$である. \rmfamily\mcfamily\bfseries{NOTE}\mdseries : 確率変数$X$は事象$\omega$それ自体ではなく, $\omega$ の関数. 今回の場合ならコインの面ではなく, それによる損益.\\
+
+\paragraph{条件付き期待値の諸性質}
+$\mathbb{E}(Y)=\mathbb{E}(\mathbb{E}(Y|X))$ は\rmfamily\mcfamily\bfseries{LIE（繰り返し期待値の法則）}\mdseries と呼ばれ, 更に $\mathbb{E}(Y|X)=\mathbb{E}(\mathbb{E}(Y|X, Z)|X)$ （中にある期待値ほど情報集合が小さいことも確認しよう）. 他の変形も確認しよう, 一般に, $X$と$W$を$X=f(W)$の関係性をもつ確率変数とすると, $\mathbb{E}(Y|X)=\mathbb{E}(\mathbb{E}(Y|W)|X)$ である. $X=f(W)=W$のときには, $\mathbb{E}(Y|X)=\mathbb{E}(\mathbb{E}(Y|X)|X)$であることにも注意しよう（回帰の性質を導く際に用いる）. また, $\mathbb{E}(g(X)Y|X)=g(X)\mathbb{E}(Y|X)$ や, 全分散の法則 $Var(Y|X)=\mathbb{E}(Var(Y|X))+Var(\mathbb{E}(Y|X))$ も成立する.\\
+
+\rmfamily\mcfamily\bfseries{Ex. 共分散}\mdseries　二つの確率変数$X,Y$が$P(Y=y|X=x)=P(Y=y)$, つまり独立であるときのことを考える. この場合$\mathbb{E}(Y|X)=\mathbb{E}(Y)=\mu_Y$. つまり, $Y$の条件付き期待値が$X$に依存しないので, 共分散$Cov(X, Y)=\mathbb{E}(XY)-\mathbb{E}(X)\mathbb{E}(Y)$ は, $\mathbb{E}(XY)=\mathbb{E}(\mathbb{E}(XY|X))=\mathbb{E}(X\mathbb{E}(Y|X))=\mathbb{E}(\mu_Y X)=\mu_Y\mathbb{E}(X)=\mathbb{E}(X)\mathbb{E}(Y)$ より $Cov(X, Y)=0$ となる. \rmfamily\mcfamily\bfseries{NOTE}\mdseries :LIEの派生形を利用した.\\
+
+\paragraph{確率論の諸定理}
+イェンセンの不等式(Jensen's Inequality):　$g(X)$が凸関数ならば, $g(\mathbb{E}[X]) \leq (\mathbb{E}[g(X)])$. 特に$g(X)=\left\lvert X \right\rvert $に関しこの公式はExpectation Inequalityと呼ばれる. コーシーシュワルツの不等式(Cauchy-Schwarz Inequality):　$ \left\lvert \mathbb{E}[XY] \right\rvert \leq \sqrt{\mathbb{E}{[X^2]}\mathbb{E}{[Y^2]}}$ チェビシェフの不等式(Chebychev's Inequality):　$Y$を確率変数, $c$を定数とすると, $P(|Y-c|\geq\epsilon)\leq\frac{\mathbb{E}[(Y-c)^2]}{\epsilon^2}$ $\forall\epsilon>0$. チェビシェフの不等式はLLNの証明に利用できることもよく知られている. \\
+
+\subsection{統計的推測}
+\paragraph{用語の定義}
+$n$個の確率変数 $\{\mathbf{X}_i\}_{i=1}^{n} : \Omega\rightarrow\mathbb{R}^d,  \overset{i.i.d.}{\sim}F$ を考える. このとき, $F$を\rmfamily\mcfamily\bfseries{母集団分布}\mdseries, $\{\mathbf{X}_i\}_{i=1}^{n}$をサイズ$n$の\rmfamily\mcfamily\bfseries{無作為標本}\mdseries とよぶ. $F$の平均, 分散は\rmfamily\mcfamily\bfseries{母平均, 母分散}\mdseries と今後表記する. 実際に我々が得られるデータ$\{\mathbf{x}_i\}_{i=1}^{n}=\{\mathbf{X}_i(\omega)\}_{i=1}^{n}$を\rmfamily\mcfamily\bfseries{実現値}\mdseries, または\rmfamily\mcfamily\bfseries{観測値}\mdseries と呼ぶ. $\{\mathbf{X}_i\}_{i=1}^{n}$ で構成される $\Omega$上のランダムな関数を\rmfamily\mcfamily\bfseries{推定量}\mdseries と呼び, その\rmfamily\mcfamily\bfseries{実現値}\mdseries を \rmfamily\mcfamily\bfseries{推定値}\mdseries という. 推定量 $\hat{\Theta}_n=\hat{\Theta}_n (\mathbf{X}_1, \dots, \mathbf{X}_n)$ が推定したい真のパラメータ $\Theta_n=\Theta_n (F)$ を\rmfamily\mcfamily\bfseries{被推定量}\mdseries という. \rmfamily\mcfamily\bfseries{統計量}\mdseries とは, 標本データから計算される任意の量(Ex. 標本最大値, 中央値)を指し, 必ずしも母集団パラメータを推定するもの（＝推定量）に\rmfamily\mcfamily\bfseries{限らない}\mdseries , ガウス統計量, $\chi^2$統計量, $t$統計量, $F$統計量などが知られている. その中でも\rmfamily\mcfamily\bfseries{検定統計量}\mdseries とは, 仮説検定において, \rmfamily\mcfamily\bfseries{帰無仮説のもとで}\mdseries 分布が特定され, 棄却域の構成に用いられる確率変数のことを指す. 仮説検定で犯しうる誤りは, 帰無仮説を誤って棄却する(タイプⅠエラー)ものと帰無仮説を誤って採択する(タイプⅡエラー)ものの二つである. 仮説検定に先立ち設定される, \rmfamily\mcfamily\bfseries{許容できるタイプⅠエラーの確率}\mdseries $\alpha =P(\text{rejecting } H_0|H_0 \text{ is ture})$こそが\rmfamily\mcfamily\bfseries{有意水準}\mdseries である. 慣習的に選ばれることが多いのは$\alpha=0.05$である. 母集団から同じ方法で100回ランダムに標本を抽出して信頼区間を構成した場合, 約$100(1-\alpha)$回(×確率○割合)信頼区間が真の平均を含むと期待される. 母平均は非確率的であり, 含むか含まないのどちらかのみであるため, 信頼区間については頻度論から議論を行う必要があることに注意せよ. 最後に, $p$値とは\rmfamily\mcfamily\bfseries{『帰無仮説の下で, 実際の実現値と同等かそれ以上に, その帰無仮説に不利な実現値を検定統計量が出す確率』}\mdseries を指す. \\
+
+\rmfamily\mcfamily\bfseries{Ex. 標本平均}\mdseries　$F:\mathbb{R}\rightarrow[0, 1], X, X_1, \dots, X_n \overset{i.i.d.}{\sim}F$ とする. $\mu=\mathbb{E} [X]$, $\sigma^2 = Var(X)$ とし, これを推定するため（被推定量としたとき）の\rmfamily\mcfamily\bfseries{推定量}\mdseries（確率変数、推定値ではない）を $\hat{\mu}=\hat{\mu}(X_1, \dots, X_n)=\frac{1}{n}\sum_{i = 1}^{n}X_i$ として, これを標本平均$\bar{X_n}$ と定義する. この実現値 $\hat{\mu}=\hat{\mu}(x_1, \dots, x_n)=\frac{1}{n}\sum_{i = 1}^{n}x_i$ が推定値で, これは非確率変数. また, $\mathbb{E}[\hat{\mu}]=\mu$で不偏推定量である. なお, 標本平均の分散は$Var(\bar{X}_n)=\frac{\sigma^2}{n}$であり, この平方根は標準誤差(Standard Error, SE)という. 標本平均のみならず, 他推定量の分散の平方根についても標準誤差と呼ぶ.\\
+
+\rmfamily\mcfamily\bfseries{Ex. $p$値の計算}\mdseries　ソムリエはワインの赤白をその鋭い味覚で感じ取れると言われている. 対して我々はソムリエは違いなど一切分かっていないと疑いの目を向ける. そこで, 彼/彼女に目隠しをつけ, 赤と白の二択でワインを10回区別してもらった. 実際に10回のうち9回は二択を当てることが出来たときの, 帰無仮説『彼/彼女はあてずっぽうで色を言っているだけ』の下での $p$ 値は？\\\rmfamily\mcfamily\bfseries{解答}\mdseries : "帰無仮説の下での分布"は二項分布である. 実現値は9回成功ゆえ, これがあてずっぽうで実現する確率は $10 C 1 \times (1/2)^{10}$. では, "実際と同等かそれ以上に帰無仮説に不利な実現値をだす確率" とは何だろうか? まず, 帰無仮説に不利な実現値はソムリエの成功回数が多い結果のことを指す. つまり今回求めたい確率(= $p$ 値)は9回以上 (＝実際の実現値以上に) 成功する確率. つまり:
+\begin{equation*}
+  p値 = 10 C 0 \times (1/2)^{10} + 10 C 1 \times (1/2)^{10} = 11/1024
+\end{equation*}
+
+\rmfamily\mcfamily\bfseries{Ex. 標本平均の信頼区間}\mdseries　帰無仮説の仮定下では, $P(-c\leq t_\mu\leq c)=1-\alpha$であり, 左辺を変形すると, $P(-c\leq t_\mu\leq c)=P(-c\leq \sqrt{n} \frac{\bar{X_n}-\mu_{X,0}}{\sigma_X} \leq c)=P(\bar{X_n} - c\frac{\sigma_X}{\sqrt{n}} \leq \mu_{X,0} \leq \bar{X_n} + c\frac{\sigma_X}{\sqrt{n}})$であるから, $[\bar{X_n} - c\frac{\sigma_X}{\sqrt{n}}, \bar{X_n} + c\frac{\sigma_X}{\sqrt{n}}]$が$100(1-\alpha)$パーセント信頼区間である. ここで臨界値である$c$や分散推定量である$\frac{\sigma_X}{\sqrt{n}}$は推定の(漸近)分布と状況によって変わることに注意せよ. 標本が十分に大きいときの標本平均について95パーセント信頼区間を構成するならば, $c \approx 1.96$である.\\
+
+\rmfamily\mcfamily\bfseries{Ex. t統計量を用いた両側検定}\mdseries　$X_1, \dots, X_n \overset{i.i.d.}{\sim}\mathcal{N}(\mu_X, \sigma_X^2) $ である. 先ず, $\sigma_X^2$が既知として, $H_0=\mu_{X,0}, \alpha=0.05$の両側検定を考える. ここで, \rmfamily\mcfamily\bfseries{実際に帰無仮説が正しければ}\mdseries , t検定統計量は$T=\sqrt{n} \frac{\bar{X_n}-\mu_{X,0}}{\sigma_X} \sim \mathcal{N}(0, 1)$で標準正規分布に従う. 次に, $\sigma_X^2$も未知として同様の両側検定を考える. ここで, t統計量は$T=\sqrt{n} \frac{\bar{X_n}-\mu_{X,0}}{s_X} = \frac{\sqrt{n} \frac{\bar{X_n}-\mu_{X,0}}{\sigma_X}}{\sqrt{\frac{(n-1)s_X^2 / \sigma_X^2}{n-1}}} \sim t(n-1)$で, 自由度$n-1$のt分布に従う.\\
+
+\paragraph{漸近理論}
+確率変数$X$の母集団分布が分かっていないこともしばしばである. その場合, 我々が標本平均などの推定量を構成する意味とは? ここで重要になるのが標本数$n$を無限大に大きくした際の統計量の近似的な性質を探る漸近理論, とくに大標本理論である. $\lim_{n \to \infty} P(\left\lvert z_n - c \right\rvert \geq \epsilon) = 0　\forall \epsilon>0$なら, 数列$\{z_n\}$は$c$に\rmfamily\mcfamily\bfseries{確率収束}\mdseries するという. $z_n \overset{p}{\to} c$かつ $y_n \overset{p}{\to} d$ならば, $z_n + y_n \overset{p}{\to} c+d$ かつ$z_n y_n \overset{p}{\to} c d$. $\{S_n\}$は確率変数列で, $F_n$はこのcdfとして, $F_n$が全ての$F$($S$のcdf)上の連続な点で$F$へ収束するなら, $\{S_n\}$は$S$に\rmfamily\mcfamily\bfseries{分布収束}\mdseries するという, この時の$F$が$S_n$の\rmfamily\mcfamily\bfseries{漸近分布}\mdseries である. 大数の法則(LLN)は確率収束を, 中心極限定理(CLT)は分布収束を用いて定義され, どちらも漸近理論の枠組みでの結果である.\\
+
+\paragraph{漸近理論の諸定理}
+スラツキーの定理(Slutsky's Theorem):　$z_n \overset{p}{\to} c$かつ $S_n \overset{d}{\to} S$ならば, $z_n + S_n \overset{d}{\to} c+S$, $z_n S_n \overset{d}{\to} c S$, かつ $S_n / z_n \overset{d}{\to} S / c \text{ if }c\neq0$. 連続写像定理(Continuous Mapping Theorem):　$g$が連続関数のとき, $z_n \overset{p}{\to} c$ならば, $g(z_n) \overset{p}{\to} g(c)$, $S_n \overset{d}{\to} S$ならば, $g(S_n) \overset{d}{\to} g(S)$. 大数の法則(Law of Large Numbers, LLN):　$X_1,\dots, X_n \overset{i.i.d}{\to} F(\mu_X, \sigma^2<\infty)$ ならば, $\bar{X}=\frac{1}{n}\sum_{i = 1}^{n} X_i \overset{p}{\to} \mu_X $. 中心極限定理(Central Limit Theorem, CLT):　$X_1,\dots, X_n \overset{i.i.d}{\to} F(\mu_X, \sigma_X^2<\infty)$ ならば, $\sqrt{n} \frac{\bar{X_n}-\mu_{X}}{\sigma_X} \overset{d}{\to} \mathcal{N}(0, 1)$ である. CLTについては, 標本平均の標準化が行われており, それ故に標本平均の分散$\frac{\sigma^2}{n}$が用いられてこの形になっていることに注意せよ. \\
+
+\rmfamily\mcfamily\bfseries{Ex. 標本分散・共分散}\mdseries　$F:\mathbb{R}\rightarrow[0, 1]　X, X_1, \dots, X_n \overset{i.i.d.}{\sim}F$. 母集団平均$\mu=\mathbb{E} [X]$, 母集団分散$Var(X)=\sigma^2$とし,\rmfamily\mcfamily\bfseries{推定量}\mdseries を $ s^2 = s^2(X_1, \dots, X_n)=\frac{1}{n-1}\sum_{i = 1}^{n}(X_i-\hat{\mu})^2$ として, これを標本分散$s^2$と定義. この実現値 $ s^2 = s^2(x_1, \dots, x_n)=\frac{1}{n-1}\sum_{i = 1}^{n}(x_i-\hat{\mu})^2$ が推定値である. $\mathbb{E}[s^2]=\sigma^2$で不偏推定量である. また, LLNと連続写像定理より$s^2 \overset{p}{\to} \sigma^2$で一致推定量であることも分かる(証明は他資料参照). 標本平均の標準誤差の推定量は, $SE(\bar{X}_n)=\frac{\sigma}{\sqrt{n}} \approx \frac{s}{\sqrt{n}}$と標本分散を利用している. 標本共分散も同様に, (二つの確率変数$(X,Y)$について)$\frac{1}{n-1}\sum_{i = 1}^{n}(X_i-\hat{\mu_X})(Y_i-\hat{\mu_Y})$と構成すれば$Cov(X,Y)$の不偏かつ一致推定量となる事が知られている. \\
+
+\rmfamily\mcfamily\bfseries{Ex. OLSEと標本対応}\mdseries　通常の単回帰モデルに従い生成された$n$組のi.i.d標本$(X_i, Y_i)_{i=1}^{n}$ を用いてOLS推定を行うと, 傾きの推定量$\hat{\beta_1}=\frac{Cov(X,Y)}{Var(X)}$を得られる(後述). この\rmfamily\mcfamily\bfseries{標本対応}\mdseries は$b_1=\frac{s_{X,Y}}{s^{2}_{X}}$だが, この$\beta_1$から$b_1$への変換に用いた標本対応に正統性はあるのだろうか? $X$の母集団分散$Var(X)=\sigma^2$, 母集団共分散$Cov(X,Y)=\sigma_{X,Y}$ に対する不偏・一致推定量として標本分散$s^2_X$, 標本共分散$s_{X,Y}$がある. ここで, 確率収束の性質と連続写像定理より, $\frac{s_{X,Y}}{s^{2}_{X}} \overset{p}{\to} \frac{\sigma_{X,Y}}{\sigma^2}$. 不偏性は期待値を取れば確認できる. 以上より, 標本対応の正統性を不偏性と一致性の観点から確認できた.\\
+
+\rmfamily\mcfamily\bfseries{Ex. t統計量を用いた両側検定(Cont.)}\mdseries　$X_1, \dots, X_n \overset{i.i.d.}{\sim}$, $\mathbb{E}[X_i^4]<\infty$だが分布が不明な場合の$t$統計量を考える. $T=\sqrt{n} \frac{\bar{X_n}-\mu_{X,0}}{s_X}$を先述のように分解すると, (分母)は$1$に確率収束し, (分子)は$\mathcal{N}(0,1)$に分布収束する(∵CLT). Slutsky's Theoremより, $T=\sqrt{n} \frac{\bar{X_n}-\mu_{X,0}}{s_X} \overset{d}{\to} \mathcal{N}(0, 1)$, つまり\rmfamily\mcfamily\bfseries{t統計量の漸近分布は標準正規分布}\mdseries . 標本サイズが大きい限り, t統計量の分布は標準正規分布で良く近似できることがわかった.\\
+
+\subsection{行列}
+\rmfamily\mcfamily\bfseries{NOTATION}\mdseries : 行列 $\mathbf{A}$ の転置行列を $\mathbf{A}^{\prime}$と, $k$次単位行列を$\mathbf{I}_k$と書く. $n$次対称行列 $\mathbf{A}$, $n$次ベクトル$\mathbf{x}$を考えたとき, $\mathbf{x}^\prime\mathbf{A}\mathbf{x}$を$\mathbf{x}$の\rmfamily\mcfamily\bfseries{2次形式（quadratic form）}\mdseries とよぶ. 全ての$\mathbf{x} \neq  \mathbf{0}$について$\mathbf{x}^\prime\mathbf{A}\mathbf{x}>0$ ($\mathbf{x}^\prime\mathbf{A}\mathbf{x}\geq 0$) なら, $\mathbf{A}$は \rmfamily\mcfamily\bfseries{正値定符号行列（非負値定）（positive (semi)definite）}\mdseries と呼び,  $\mathbf{x}^\prime\mathbf{A}\mathbf{x}<0$ ($\mathbf{x}^\prime\mathbf{A}\mathbf{x}\leq0$) なら, \rmfamily\mcfamily\bfseries{負値定符号行列（非正値定）（negative (semi)definite）}\mdseries と呼ぶ. \\
+
+\paragraph{階数に関する諸性質}
+正則行列$\mathbf{A}$には, $\mathbf{A}\mathbf{c}=\mathbf{0}$の解が $\mathbf{c}=\mathbf{0}$ しか存在せず, また逆行列$\mathbf{A}^{-1}$が存在する. どの$\mathbf{A}$にも, $rank(\mathbf{A})=rank(\mathbf{A}\mathbf{A}^\prime)=rank(\mathbf{A}^\prime\mathbf{A})$が成立する. $\mathbf{x}^\prime\mathbf{A}\mathbf{x}\lessgtr0$ならば$\mathbf{A}$は正則.\\
+
+\paragraph{多変量解析と行列}
+$n$次元確率ベクトル$\mathbf{X}^\prime=(X_1,\dots,X_n)$を考える. この確率ベクトルの期待値は期待値のベクトルであり, 以下のように表せる.
+
+\begin{equation*}
+  \mathbf{E[X]} = \begin{pmatrix} \mathbf{\mathbb{E}}[X_1] \\ \vdots \\ \mathbf{\mathbb{E}}[X_n] \end{pmatrix} = \begin{pmatrix} \mu_1 \\ \vdots \\ \mu_n \end{pmatrix} = \mathbf{M}
+\end{equation*}
+
+共分散行列は$\Sigma=\mathbf{Var(X)}=\mathbf{E((X-M)(X-M)^\prime)}$で与えられる. $Cov(X_i, X_j)=Cov(X_j, X_i)$から, 共分散行列は対称行列であり, また, $\Sigma=\mathbf{E(XX^\prime)}-\mathbf{MM^\prime}$ である. 次に, 平均ベクトル$\mathbf{M}$, 共分散行列$\Sigma$, そして定数ベクトル$\mathbf{a}^\prime=(a_1,\dots,a_n)$を持つ$n$次元確率ベクトル$\mathbf{X}^\prime=(X_1,\dots,X_n)$を考える. $z=\mathbf{a^\prime X}=a_1X_1+\dots+a_nX_n$ は確率変数（スカラー）で,  $z$の平均は$\mathbb{E}(z)=a_1\mathbb{E}(X_1)+\dots+a_n\mathbb{E}(X_n)=\mathbf{a^\prime E(X)}=\mathbf{a^\prime M}$で与えられる. 分散は, $Var(z)=Var(\mathbf{a^\prime X})=\mathbb{E}(\mathbf{(a^\prime X-a^\prime M)(a^\prime X-a^\prime M)^\prime})=\mathbb{E}(\mathbf{a^\prime (X-M)(X-M)^\prime a})=\mathbf{a^\prime}\mathbf{E}(\mathbf{(X-M)(X-M)^\prime })\mathbf{a}=\mathbf{a^\prime}\mathbf{Var(X)}\mathbf{a}=\mathbf{a^\prime} \Sigma \mathbf{a}$（$\Sigma$の2次形式）となる. $Var(z)\geq 0$ゆえ, この2次形式は非負値定符号行列. 更に, 線形結合の集合を考えてみよう. 平均ベクトル$\mathbf{M}$, 共分散行列$\Sigma$, そして$n\times K$定数行列$\mathbf{A}$を持つ$n$次元確率ベクトル$\mathbf{X}^\prime=(X_1,\dots,X_n)$を考える. $\mathbf{z}=\mathbf{A^\prime X}$ は確率ベクトル（×スカラー）で, 以下のようにも表記できる.
+
+\begin{equation*}
+  \mathbf{z}=\mathbf{A^\prime X} = \begin{pmatrix} a_{1, 1}X_1+\dots+a_{n, 1}X_n \\ \vdots \\ a_{1, K}X_1+\dots+a_{n, K}X_n \end{pmatrix}
+\end{equation*}
+
+先ほどと同様に, $z$の平均は$\mathbf{E(z)}=\mathbf{A^\prime M}$で, 分散は$\mathbf{Var(z)}=\mathbf{A^\prime} \Sigma \mathbf{A}$で与えられる. ベクトル, 行列での微分も可能である. $\frac{\partial g(\mathbf{x})}{\partial \mathbf{x}}$は, $n\times 1$ベクトルで各$x_i$成分での偏微分導関数が対応する. 特に, $n$次ベクトル$\mathbf{a}$と$n$次正方行列$A$について, $\frac{\partial}{\partial \mathbf{x}}\mathbf{a^\prime x}=\mathbf{a}$, $\frac{\partial}{\partial \mathbf{x^\prime}}\mathbf{A x}=\mathbf{A^\prime}$, $\frac{\partial}{\partial \mathbf{x}}\mathbf{x^\prime A x}=\mathbf{(A+A^\prime)x}$. 最後に行列の表記を用いて多変数でのCLTを挙げる. Multivariate Central Limit Theorem (CLT, Lindeberg-Levy):　$\{\mathbf{z}_i\}$はi.i.d, 平均$\mathbf{E}[\mathbf{z}_i]=\mu$で, 共分散行列$\mathbf{Var}(\mathbf{z}_i)=\Sigma$は正値定符号行列かつ有限とする. このとき, $\sqrt{n}(\bar{\mathbf{z}}_n-\mu) \overset{d}{\to}\mathcal{N}(\mathbf{0},\Sigma)$.\\
+
+\section{回帰分析の基礎}
+\subsection{回帰分析の必要性}
+前提として, 我々の関心は, ある施策によりもたらされた帰結＝\rmfamily\mcfamily\bfseries{因果効果の推定}\mdseries と, 現状のデータを用いた\rmfamily\mcfamily\bfseries{将来の予測}\mdseries の2つにある（予測のみが目標ならば, 因果効果を特定する必要はない）. 理想的な因果推論のための実験として, \rmfamily\mcfamily\bfseries{Randamized Controlled Trial（RCT）}\mdseries がある.\\
+
+\paragraph{ベンチマーク:RCT}
+我々が関心を持つ対象が, $X$が一単位変化したときの$Y$への\rmfamily\mcfamily\bfseries{因果効果}\mdseries だとする. RCTでは, $X=1$の処置群と$X=0$の処置群を\rmfamily\mcfamily\bfseries{ランダム}\mdseries に振り分け, グループ間での差異はその処置によるものだけである状況を作り出す. この場合, 処置による\rmfamily\mcfamily\bfseries{因果効果}\mdseries は$\mathbb{E}[Y|X=1]-\mathbb{E}[Y|X=0]$で与えられる. しかし, 我々が入手可能なデータには, 実験データと観測データがあり, 特に観測データにおける処置はランダムに割り当てられているとは限らず, 処置の因果効果を関連要素から切り離して見出すことは困難になる（後述）. ここからはランダムな割り当てが保証されない場合の予測と因果推論についての考察を進める. \\
+
+\paragraph{因果推論と条件付き期待値}
+適切な(疑似相関の問題等を考慮した)変数選択の下でコントロールを行い(\rightarrow コントロール変数), \rmfamily\mcfamily\bfseries{ceteris paribus・ほかの条件全て一定}\mdseries の状況を（仮想的に）作り出し, \rmfamily\mcfamily\bfseries{比較静学}\mdseries への導入を行うのが, 特に因果推論の文脈における計量経済学のツールの役割といえる. 平均, または期待される反応に焦点を当てるなら、比較静学は、$\mathbb{E}(Y|W, \mathbf{C})$, つまり条件付き期待値の推定を必要とする. ここで, ベクトル $\mathbf{C}$ は, $Y$ の期待値に対する $W$ の効果を調査するとき, 明示的に\rmfamily\mcfamily\bfseries{固定したいコントロール変数の集合}\mdseries を示す. $\mathbf{C}$ が上手くコントロールされていれば, $W$が連続のとき, \rmfamily\mcfamily\bfseries{部分効果}\mdseries $\frac{\partial \mathbb{E}(Y|W, \mathbf{C})}{\partial W}$ が直接的に因果効果といえよう. しかし$\mathbf{C}$は観測不可能なことや, 効果を測るための適切な尺度がないこともしばしばである. このような理由から欠落変数バイアスが生じ, 内生性が存在したり(\rightarrow IV法), そもそも因果関係を逆に取り違えたり, 因果関係が実際には見せかけだった, という問題が因果推論にはついて回ることに注意せよ.\\
+
+\rmfamily\mcfamily\bfseries{Ex. 教育の賃金への因果効果}\mdseries　
+賃金への影響を与える要因が, 教育年数, 就業年数, そして能力のみであると考えよう. このとき求めるべき部分効果は, $\frac{\partial \mathbb{E}(wage|edu, exper, abil)}{\partial edu}$ で, コントロール変数ベクトル$\mathbf{C}=(exper, abil)$だが能力は\rmfamily\mcfamily\bfseries{観測不可能}\mdseries . \\
+
+\paragraph{予測と条件付き期待値}
+一方で, 多くの応用計量経済学での目標は, 説明変数ベクトル $\mathbf{X}$ で条件付けた内生変数 $Y$ の期待値$\mathbb{E}(Y|\mathbf{X})$の\rmfamily\mcfamily\bfseries{推定, 予測, 仮説検定（×因果推論）}\mdseries にある. $Y$の期待値が発散しなければ, $\mathbb{E}(Y|\mathbf{X})=\mu(\mathbf{X})$を満たすような関数$\mu=\mu(\mathbf{X})$が存在して, これが$Y$の$\mathbf{X}$による平均変化をしめす. 経済学では, 条件付き期待値は通常, 有限個のパラメータに依存するように設定される(=\rmfamily\mcfamily\bfseries{パラメトリックモデル}\mdseries ), $\mu$の自由度が下がることに注目.\\
+
+\rmfamily\mcfamily\bfseries{Ex. $K=2$説明変数モデル}\mdseries　
+
+\begin{align}
+  \label{eq1}
+  \mathbb{E}(Y|\mathbf{X})&=\beta_1+\beta_2X_{2}+\beta_3X_{3}\\
+  \label{eq2}
+  \mathbb{E}(Y|\mathbf{X})&=\beta_1+\beta_2X_{2}+\beta_3X_{3}+\beta_4X_{3}^{2}\\
+  \label{eq3}
+  \mathbb{E}(Y|\mathbf{X})&=\beta_1+\beta_2X_{2}+\beta_3X_{3}+\beta_4X_{2}X_{3}\\
+  \label{eq4}
+  \mathbb{E}(Y|\mathbf{X})&=\exp[\beta_1+\beta_2\log X_{2}+\beta_3X_{3}], y ≥ 0, x_{2} > 0
+\end{align}
+
+上三つは\rmfamily\mcfamily\bfseries{パラメータに対して線形}\mdseries , 最後の一つは非線形（∵$\exists\exp$）. 違いは部分効果と弾力性を考慮することで明らかになる（後述）.\\
+
+$\mu$を微分可能な変数としてみなせば, $\Delta\mathbb{E}(Y|\mathbf{X})\approx \frac{\partial \mu(\mathbf{X})}{\partial X_i}\cdot \Delta X_i$ の関係が成立する. 実際に$X$が連続の時の部分効果は前回と同様$\frac{\partial \mathbb{E}(Y|\mathbf{X})}{\partial X_i}$ で, 離散の場合には差分で推定される. 弾力性は$\frac{\partial \log \mathbb{E}(Y|\mathbf{X})}{\partial \log X_i}$.\\
+
+\rmfamily\mcfamily\bfseries{Ex. $K=2$説明変数モデル（Cont.）}\mdseries　連続として考える. それぞれで部分効果を求めると, (\ref{eq1})式では, $(\beta_2, \beta_3)$, (\ref{eq2})式では, $(\beta_2, \beta_2+2\beta_3x_3)$, (\ref{eq3})式では, $(\beta_2, \beta_2+2\beta_3x_3)$, (\ref{eq4})式は複雑に. 関数形で部分効果に他説明変数が介在する状況を表現できると分かる. 一方で,  (\ref{eq4})式の$X_2$に対する弾力性は$\beta_2$で一定. 弾力性推定における両辺$\log$の変換の有効性, $\exp^{-1}(\cdot)=\log(\cdot)$による結果.\\
+
+\subsection{回帰モデルとは}
+回帰とは,  \rmfamily\mcfamily\bfseries{被説明変数を説明変数ベクトルによって予測}\mdseries することである. 条件付き期待値$\mathbb{E}[Y|X_{2}]$は\rmfamily\mcfamily\bfseries{$Y$の$X_{2}$への回帰}\mdseries と呼ばれ, 回帰モデルは以下のように表現できる. 
+
+\begin{equation*}
+  Y = \mathbb{E}[Y|X_{2}]+(Y-\mathbb{E}[Y|X_{2}])=\mathbb{E}[Y|X_{2}]+\epsilon
+\end{equation*}
+
+ここで導入した\rmfamily\mcfamily\bfseries{誤差項（error term）}\mdseries $\epsilon=Y-\mathbb{E}[Y|X_{2}]$は, 両辺に$X_{2}$での条件付き期待値をつけることで, $\mathbb{E}[\epsilon|X_{2}]=\mathbb{E}[Y|X_{2}]-\mathbb{E}[\mathbb{E}[Y|X_{2}]|X_{2}]=0$(∵LIEの変形). ゆえに, $\mathbb{E}[\epsilon|X_{2}]=0$の性質を満たすことが分かる. 以後LIEとその変形より, $\mathbb{E}[\epsilon]=0$, $\mathbb{E}[X_{2}\epsilon]=0$, $\mathbb{E}[h(X_{2})\epsilon]=0$を得る.\\
+
+\paragraph{最小二乗法}
+条件付き期待値の, $Y$の予測としての望ましさを確認したい. ここで用いるのは\rmfamily\mcfamily\bfseries{最小二乗法（OLS）}\mdseries である. 確率変数$X$の関数である, $Y$の推定量を$g(X)$とおく. このとき\rmfamily\mcfamily\bfseries{推定誤差}\mdseries は$e=Y-g(X)$で与えられ, 以下の平均二乗誤差（MSE）を最小化するような推定量を考える.
+
+\begin{equation*}
+  Loss=\mathbb{E}[(Y-g(X_2))^{2}]
+\end{equation*}
+
+これを最小化するのは, $g(X_2)=\mathbb{E}[Y|X_{2}]$であり, 最適な推定量が条件付き期待値と合致することが分かる. 尚, このときの予測誤差$e$は, $e=Y-g(X)=Y-\mathbb{E}[Y|X_{2}]$であることから, 誤差項$\epsilon$と一致することも分かる. ノンパラメトリック回帰は, それぞれの条件付期待値が被説明変数の推定量となる. しかし, この回帰について我々は, データ全体での傾向読み取りが困難であるなどの課題点を学んだ(Rによる実証分析 4章参照).\\
+
+\subsection{単回帰モデルの導入}
+先述の回帰モデルにおける条件付き期待値の特定化を図る. 線形単回帰モデルでは, 実際に条件付き期待値が$\mathbb{E}[Y|X_{2}]=\beta_1+\beta_2X_{2}$（＝標本が線形関係に従い生成される）と仮定する. \\
+
+\paragraph{$\beta$の推定}
+ここで, 無作為標本 $(X_{1,2}, Y_1), \dots, (X_{n,2}, Y_n)$ が得られたとして, 以下を考える.
+
+\begin{equation*}
+  Y_i = \beta_1+\beta_2X_{i,2}+\epsilon_i　i=1,\dots, n
+\end{equation*}
+
+ここで, $Y_i$は従属変数, 内生変数, $X_{i,2}$は独立変数, 外生変数, 説明変数などとよばれ, $\epsilon_i$はランダムで観測不可能な\rmfamily\mcfamily\bfseries{誤差項（error term）}\mdseries である. この場合にデータの予測を行いたければ, $(\beta_1, \beta_2)$ （未知）を推定すればよい. では考えうる推定方法は?　\rmfamily\mcfamily\bfseries{NOTE}\mdseries : 単回帰モデルの仮定下では, 誤差項は説明変数の変化を経由しない従属変数変動の要因を全て内包している.\\
+
+\paragraph{単回帰モデルにおける最小二乗法}
+一般の回帰モデルと同様に, 先述した最小二乗法を単回帰モデルに適応すれば良い. 上の議論より, $g(X_2)=\mathbb{E}[Y|X_{2}]$である. $\mathbb{E}[Y|X_{2}]=\beta_1+\beta_2X_{2}$, $Y_i = \beta_1+\beta_2X_{i,2}+\epsilon_i　i=1,\dots, n$の場合, 関数形を決定するパラメータとして選択できるのは $(\beta_1, \beta_2)$の2つ. $(\beta_1, \beta_2)$ のOLS推定量 $(\hat{\beta}_1, \hat{\beta}_2)$は, 以下のMSEのminimizerである.
+
+\begin{equation*}
+  Loss=\mathbb{E}[e^{2}]=\mathbb{E}[(Y-g(X_2))^{2}]=\mathbb{E}[(Y-\beta_1-\beta_2X_{2})^{2}]
+\end{equation*}
+
+FOCで得た正規方程式を用い, OLS推定量 $(\hat{\beta}_1, \hat{\beta}_2)=(\mathbb{E}(Y)-\hat{\beta}_2\mathbb{E}(X_2), \frac{Cov(X_2,Y)}{Var(X_2)})$を得る.\\
+
+\paragraph{$\beta$の推定値}
+今, $(X_{1,2}, Y_1), \dots, (X_{n,2}, Y_n)$ と$n$個の無作為標本が与えられ, その\rmfamily\mcfamily\bfseries{実現値}\mdseries $(x_{1,2}, y_1), \dots, (x_{n,2}, y_n)$が判明している下で, MSEを\rmfamily\mcfamily\bfseries{標本平均に置き換え}\mdseries , 以下の二乗誤差の標本平均（$\approx$標本二乗残差（後述））のminimizerとしてOLS推定値（×推定量）$(b_1, b_2)$を決定したい.
+
+\begin{equation*}
+  \bar{Loss}=\frac{1}{n}S(b_{1,0}, b_{2, 0})=\frac{1}{n}\sum_{i = 1}^{n} e_{i, 0}^{2}=\frac{1}{n}\sum_{i = 1}^{n} (Y_i-b_{1, 0}-b_{2, 0}X_{i, 2})^{2}
+\end{equation*}
+
+この結果, OLS推定量 $(b_1, b_2)=(\bar{Y}-b_2\bar{X}_2, \frac{s_{X_2,Y}}{s^{2}_{X_2}})$ を得る. さらに実データに置き換えれば, $(b_1, b_2)=(\bar{y}-b_2\bar{x}_2, \frac{s_{x_2,y}}{s^{2}_{x_2}})$のOLS推定値が得られる.\\
+
+\paragraph{$y_i$の予測値}
+次に, 無作為標本の実現値が与えられ, OLS推定値を用いて導かれる内生変数の予測値に関連する性質を考える. 予測値$\hat{y}_i=b_1+b_2x_{i, 2}$, 残差$e=y_i-\hat{y}_i$とする. このとき, $\bar{e}=0$, $s_{e, x_2}=0$, $\bar{\hat{y}}=\hat{y}$. $e$は$\epsilon$の実現値と見なせるため, $\mathbb{E}[\epsilon]=0$, $\mathbb{E}[X_{2}\epsilon]=0$, $\mathbb{E}[h(X_{2})\epsilon]=0$ に対応した結果であることも分かる. 残差の定義が, 決定係数の定義の解釈に有用であることも留意.\\
+
+\paragraph{標本外の$y_i$の予測}
+ここからは, 同様の線形単回帰モデルにおいて, $n$組の無作為標本の実現値が与えられ, ここから構成されたOLS推定値$(b_1, b_2)$を用いた, \rmfamily\mcfamily\bfseries{標本外}\mdseries の内生変数の予測を目標として議論を進める. $\{X_i\}_{i=1}^{n}=\{x_i\}_{i=1}^{n}$ で実現値が与えられており, 単回帰モデルに従って$\{Y_i\}_{i=1}^{n}=\{\beta_1+\beta_2x_{2,i}+\epsilon_i\}_{i=1}^{n}$が生成されるものの, 実現値は未だ与えられていない（∵$\exists\epsilon_i$）場合を考える. この時の$\beta$の推定量（×推定値）は$(b_1, b_2)=(\bar{Y}-b_2\bar{x}_2, \frac{s_{x_2,Y}}{s^{2}_{x_2}})$となり, $\epsilon$の関数なので確率関数として表せて, この期待値をとればOLS推定量の不偏性を示すことが出来る. 更に, 同一母集団同時分布に従う, 標本外の確率変数$(X_{i,2}^{OOS}, Y_i^{OOS})$を考える. 我々のここでの目標は$X_{i,2}^{OOS}=x_i^{OOS}$として実現値を与えられたときの$Y_i^{OOS}$を予測することにある. $\mathbb{E}[\hat{Y}_i^{OOS}|X_{i,2}^{OOS}=x_{i,2}^{OOS}]=\mathbb{E}[b_1+b_2x_i^{OOS}|X_{i,2}^{OOS}=x_{i,2}^{OOS}]=\beta_1+\beta_2x_i^{OOS}=\mathbb{E}[Y_i^{OOS}|X_{i,2}^{OOS}=x_{i,2}^{OOS}]$（∵OLSEの不偏性, $\mathbb{E}[\epsilon|X]=0$）なので, \rmfamily\mcfamily\bfseries{このOLS予測それ自体も不偏性を持つ}\mdseries と言える.\\
+
+\paragraph{線形射影}
+先ほど扱った期待値表記のOLS methodは, 線形射影係数の識別にも利用される. これはデータの最適な線形近似を与え, 実際に条件付き期待値が線形で無かったとしても成り立つ. OLSの理論を補強できるものとして考えられる. \\
+
+
+\paragraph{誘導型と構造型}
+回帰モデルにおいて, $\beta$ は必ずしも $\mathbf{X}$ の因果効果を意味する必要はない. まず, 因果効果として解釈できない場合, すなわち偶然変数同士が相関しており, $\mathbb{E}(Y|\mathbf{X})=\mu(\mathbf{X})$を満たすような関係を示す\rmfamily\mcfamily\bfseries{誘導型モデル}\mdseries を考える. この場合, 推定値$b$は, $\mathbf{X}$ の変化による$Y$への影響の程度を捉えるが, それは単なる統計的な共変動（×実際の因果関係）を意味するに過ぎない. したがって、$\mathbf{X}$ が他の変数と相関していても（Ex. 内生変数）\rmfamily\mcfamily\bfseries{モデル推定自体は可能}\mdseries , その結果をもとに\rmfamily\mcfamily\bfseries{予測も可能}\mdseries . 今までのモデルは予測に注目しており, 誘導型モデルだったと言える. 一方, \rmfamily\mcfamily\bfseries{構造型モデル}\mdseries として回帰モデルを捉える場合, $\beta$の解釈は異なる. ここでは, $\beta$は$\mathbf{X}$の$Y$に与える\rmfamily\mcfamily\bfseries{直接的因果効果}\mdseries の大きさ, 即ち『$X_{i}$ が$1$単位増加したとき, 他全て（の変数）を一定に$Y$がどれだけ変化するか』として解釈される. つまり, 因果効果を正確に捉えることが目的であるため, 因果推論を成立させるための前提条件（Ex. $\mathbf{X}$ の外生性）が重要となる（⇒IV法）.\\
+
+\paragraph{因果推論のための単回帰モデル・古典的仮定}
+では, 実際に$\beta_2$が因果効果として考えるための仮定とは何だろうか. これ即ち\rmfamily\mcfamily\bfseries{単回帰モデルの古典的仮定}\mdseries である. 
+\begin{align*}
+  &\mathbf{(A1)} \mathbb{E}(\epsilon_i|X_{i, 2})=0\\
+  &\mathbf{(A2)} (X_{i, 2}, Y_{i})　\text{for}　i=1, \dots, n　\text{はi.i.d.}\\
+  &\mathbf{(A3)} (X_{i, 2}, \epsilon_{i})\text{は無限ではない4次のモーメントを持つ}\\
+  &\mathbf{(A4)} \text{均一分散}: Var(\epsilon_i|X_{i, 2})=\sigma_\epsilon^{2}\\
+  &\mathbf{(A5)} 条件付き正規性: \epsilon_i|X_{i, 2} \sim \mathcal{N} (0, \sigma_\epsilon^{2})
+\end{align*}
+
+以上を満たすのが, 因果推論のための構造型単回帰モデルとして標準的なものである. このモデルでは, $\beta_2$は$X_{i,2}$の変化による\rmfamily\mcfamily\bfseries{因果効果}\mdseries として定義されることに留意せよ. 当然見せかけの因果関係や逆の因果関係は事前に排除されている. ここで, $X_{i,2}$ がランダムに割り当てられている（少なくともそのように見える）ならば, 構造モデルに必要な, 説明変数の誤差項との無相関, すなわち\textbf{外生性}を示唆する\rmfamily\mcfamily\bfseries{(A1)}\mdseries が満たされる. 数学的には, (A1)$\Rightarrow Cov(\epsilon_i, X_{i, 2})=0$であり, 対偶をとれば, $Cov(\epsilon_i, X_{i, 2})\neq 0\Rightarrow$ (A1) が崩れると表現可能. (A1)は, $b_2$が$\beta_2$の不偏推定量であることを確約している. 説明変数の漏れにより, $b_2$がもはや$\beta_2$の一致推定量でなくなる（不偏推定量でもない）, つまり\rmfamily\mcfamily\bfseries{欠落変数バイアス}\mdseries による(A1)の崩れは, まさしく操作変数法に繋がる議論である.\\
+
+\paragraph{$b_2$の検定}
+$b_2$の両側検定$H_0: \beta_2=\beta_{2,0}$について検討する. 先述の通り$b_2=\frac{s_{X,Y}}{s^{2}_{X}}$が$\beta_2$の推定量である. 説明変数$X$の母集団分布についての情報が未知な状況を考えると, $t$検定統計量は$T=\frac{b_2-\beta_{2,0}}{\sqrt{\hat{Var(b_2)}}}=\frac{b_2-\beta_{2,0}}{SE(b_2)}$である. $\epsilon|X \sim \mathcal{N}(0,\epsilon^2)$を仮定したfinite sampleのケースにおいては, $b_2$を分解してやり, $\sigma_X^2$が未知だったケースのように変形を行えば$T \sim t(n-2)$であることが分かる. 次に, 漸近理論から考察を行う. 今回は誤差項の正規性の仮定は置かず, $(X_i-\bar{X})\epsilon_i$にCLTが適応可能との仮定(と中級計量にはあるが\dots?), 言い換えればこの標準化標本平均に関する\rmfamily\mcfamily\bfseries{漸近正規性}\mdseries を仮定する. 仮定のもとで, 標本数が十分に大きければ, $T \overset{d}{\to} \mathcal{N}(0,1)$\rmfamily\mcfamily\bfseries{(未確認, 中級計量Ch3の後半参照)}\mdseries が成立し, ここでもt統計量の分布は標準正規分布で良く近似できることがわかった. 最後に信頼区間について考えよう. 再び誤差項に正規性の仮定をおけば, 分散が未知の場合でも$T \sim t(n-2)$であったことを利用して, $100(1-\alpha)$パーセント信頼区間$[b_2 - t_{1-\alpha / 2}(n-2) \hat{SE(b_2)}, b_2 + t_{1-\alpha / 2}(n-2) \hat{SE(b_2)}]$が構成できる.\\
+
+\subsection{重回帰モデルの導入}
+線形重回帰モデルも単回帰と同様に, 実際に条件付き期待値が$\mathbb{E}[Y|\mathbf{X}]=\mathbf{X}\beta$である（＝変数同士が実際に線形関係に従っている）と仮定する.議論の筋は単回帰のそれとおよそ同じであり, 違いは説明変数が複数ある事, それに伴い議論に行列を利用することである. \\
+
+\paragraph{重回帰モデルの古典的仮定}
+回帰係数ベクトル$\beta$が因果効果であることを以下が保証する. 
+\begin{align*}
+  &\mathbf{(A1)} \mathbb{E}(\epsilon_i|\mathbf{x}_{i})=0\\
+  &\mathbf{(A2)} (\mathbf{x}_{i}, Y_{i})　\text{for}　i=1, \dots, n　\text{はi.i.d.}\\
+  &\mathbf{(A3)} (\mathbf{x}_{i}, \epsilon_{i})\text{は無限ではない4次のモーメントを持つ}\\
+  &\mathbf{(A4)} \text{フルランク(識別)}: rank(\mathbf{X})=K\\
+  &\mathbf{(A5)} \text{均一分散}: Var(\epsilon_i|\mathbf{x}_{i})=\mathbb{E}(\epsilon_i^2|\mathbf{x}_{i})=\sigma^{2}\\
+  &\mathbf{(A6)} 条件付き正規性: \epsilon_i|\mathbf{x}_{i} \sim \mathcal{N} (0, \sigma^{2})
+\end{align*}
+
+(A1)はLIEより$\mathbb{E}[\epsilon_i]=0, Cov(\epsilon_i, x_{i,k})=0\forall k=1,\dots,K$であり, 説明変数の外生性を保証する. (A1),(A2)によって, 以下の関係が成立する.
+
+\begin{align*}
+  &\mathbf{E}[\epsilon | \mathbf{X}] = 
+  \begin{pmatrix} 
+    \mathbb{E}[\epsilon_1 |\mathbf{X}] \\ \vdots \\ \mathbb{E}[\epsilon_n |\mathbf{X}] 
+  \end{pmatrix} 
+  = 
+  \begin{pmatrix} 
+    \mathbb{E}[\epsilon_1 |\mathbf{x}_1] \\ \vdots \\ \mathbb{E}[\epsilon_n |\mathbf{x}_n] 
+  \end{pmatrix} 
+  = \mathbf{0}\\
+  &\mathbf{E[Y|X]}=\mathbf{X}\beta + \mathbf{E}[\epsilon | \mathbf{X}] = \mathbf{X}\beta\\
+  &Cov(\epsilon_i, \epsilon_j | \mathbf{X})=\mathbb{E}(\epsilon_i \epsilon_j | \mathbf{X})=\mathbb{E}(\epsilon_i \epsilon_j | \mathbf{x}_i, \mathbf{x}_j)=\mathbb{E}(\epsilon_i | \mathbf{x}_i) \mathbb{E}(\epsilon_j |\mathbf{x}_j)=0
+\end{align*}
+
+(A3)は漸近理論のために必要な仮定であり, (A4)は説明変数間に完全な線形関係（多重共線性）がないことを保証しており, $rank(\mathbf{X}^T\mathbf{X})=rank(\mathbf{X})=K$も成立する. (A4)が崩れた場合, 回帰係数は無限個解を持つ(不定)ため, 識別が不可能となる. (A1), (A2), (A5)より, $\mathbf{Var}(\epsilon | \mathbf{X})=\mathbf{E}[\epsilon\epsilon^T| \mathbf{X}]=\sigma^2\mathbf{I}$. さらに全分散の法則より, $\mathbf{Var}(\epsilon)=\mathbf{E}[\mathbf{Var}(\epsilon | \mathbf{X})]+\mathbf{Var}(\mathbf{E}[\epsilon | \mathbf{X}])=\sigma^2\mathbf{I}$, LIEより$\mathbf{E}[\epsilon]=\mathbf{0}$を得て直接計算しても確認可能である. (A1), (A2), (A5), (A6)から, $\epsilon|\mathbf{X} \sim \mathcal{N} (0, \sigma^{2}\mathbf{I})$.\\
+
+\paragraph{$\beta$の推定}
+今, $(\mathbf{x}_{1}, Y_1), \dots, (\mathbf{x}_{n}, Y_n)$ と$n$個の無作為標本が与えられ, その\rmfamily\mcfamily\bfseries{実現値}\mdseries$(\mathbb{x}_{1}, y_1), \dots, (\mathbb{x}_{n}, y_n)$が判明している下で, 以下の残差平方和のminimizerとしてOLS推定値$\mathbf{b}$を決定する.
+
+\begin{equation*}
+  S(\mathbf{b}_{0})=\sum_{i = 1}^{n} e_{i,0}^{2}=\mathbf{e}_{0}^{T}\mathbf{e}_{0}=(\mathbf{y}-\mathbb{X}\mathbf{b}_{0})^{T}(\mathbf{y}-\mathbb{X}\mathbf{b}_{0})
+\end{equation*}
+
+以上よりOLS推定値$\mathbf{b}=(\mathbb{X}^{T}\mathbb{X})^{-1}\mathbb{X}^{T}\mathbf{y}$を得られる. 一般に, $\hat{\mathbf{b}}=(\mathbf{X}^{T}\mathbf{X})^{-1}\mathbf{X}^{T}\mathbf{Y}$がOLS推定量.\\
+
+\rmfamily\mcfamily\bfseries{補足:OLSEの導出}\mdseries　行列計算の練習にOLS推定値の導出を確認しよう. $S(\mathbf{b}_{0})=\sum_{i = 1}^{n} e_{i,0}^{2}=\mathbf{e}_{0}^{T}\mathbf{e}_{0}=(\mathbf{y}-\mathbb{X}\mathbf{b}_{0})^{T}(\mathbf{y}-\mathbb{X}\mathbf{b}_{0})=(\mathbf{y}^{T}-\mathbf{b}_{0}^{T}\mathbb{X}^{T})(\mathbf{y}-\mathbb{X}\mathbf{b}_{0})=\mathbf{y}^{T}\mathbf{y}-\mathbf{b}_{0}^{T}\mathbb{X}^{T}\mathbf{y}-\mathbf{y}^{T}\mathbb{X}\mathbf{b}_{0}+\mathbf{b}_{0}^{T}\mathbb{X}^{T}\mathbb{X}\mathbf{b}_{0}=\mathbf{y}^{T}\mathbf{y}-2\mathbf{y}^{T}\mathbb{X}\mathbf{b}_{0}+\mathbf{b}_{0}^{T}\mathbb{X}^{T}\mathbb{X}\mathbf{b}_{0}$, 最後の変形は第$3,4$項がスカラーであることによる. 正規方程式は以下のように変形できる. $\mathbf{0}=\frac{\partial S(\mathbf{b}_{0})}{\partial\mathbf{b}_0}|_{\mathbf{b}_0=\hat{\mathbf{b}}_*}=-2\frac{\partial S(\mathbf{b}_{0})}{\partial\mathbf{b}_0}\mathbf{y}^{T}\mathbb{X}\mathbf{b}_{0}|_{\mathbf{b}_0=\hat{\mathbf{b}}_*}+\frac{\partial S(\mathbf{b}_{0})}{\partial\mathbf{b}_0}\mathbf{b}_{0}^{T}\mathbb{X}^{T}\mathbb{X}\mathbf{b}_{0}|_{\mathbf{b}_0=\hat{\mathbf{b}}_*}=-2(\mathbf{y}^{T}\mathbb{X})^{T}+(\mathbb{X}^{T}\mathbb{X}+(\mathbb{X}^{T}\mathbb{X})^{T})\hat{\mathbf{b}}_*=-2\mathbb{X}^{T}\mathbf{y}+2\mathbb{X}^{T}\mathbb{X}\hat{\mathbf{b}}_*$. $\mathbb{X}^{T}\mathbf{y}=\mathbb{X}^{T}\mathbb{X}\hat{\mathbf{b}}_*$から, $(\mathbb{X}^{T}\mathbb{X})^{-1}(\mathbb{X}^{T}\mathbb{X})\hat{\mathbf{b}}_*=\hat{\mathbf{b}}_*=(\mathbb{X}^{T}\mathbb{X})^{-1}\mathbb{X}^{T}\mathbf{y}$.\\
+
+\paragraph{$\mathbf{y}$の予測値}
+次に, 無作為標本の実現値が与えられ, OLS推定値を用いて導かれる内生変数の予測値に関連する性質を考える. 予測値$\hat{y}_i=\mathbb{x}_i^{T}\mathbf{b}$, 残差$e=\mathbf{y}-\hat{\mathbf{y}}$とする. このとき, 正規方程式$\mathbb{X}^T(\mathbb{y}-\mathbb{X}\mathbf{b})=\mathbf{0}$より$\mathbb{X}^T\mathbf{e}=\mathbf{0}$である. 特に, 一般的な重回帰モデルでは$\mathbf{X}$の一列目が$1$であることから, $\frac{1}{n}\sum_{i=1}^{n}e_i=\bar{e}=0$, $s_{e, x_k}=0　\forall k=2,\dots,K$, $\bar{y}=\bar{\mathbb{x}}^{T}\mathbf{b}$($\bar{\mathbb{x}}$は説明変数の標本平均ベクトル), $\bar{\hat{y}}=\hat{y}$が成り立つ. 決定係数についても単回帰と同様で, $R^2=\frac{ESS}{TSS}=1-\frac{SSR}{TSS}=1-\frac{\mathbf{e}^T\mathbf{e}}{\mathbf{y}^T\mathbf{y}-n\bar{y}^2}=(\hat{corr}(y_i,\hat{y_i}))^2$. 説明変数が増えれば$R^2$は必ず上昇する性質がある. この問題を解決する為に\rmfamily\mcfamily\bfseries{調整済み決定係数}\mdseries も存在し, 通常の$R^2$とは $\bar{R}^2=1-\frac{n-1}{n-K}(1-R^2)$の関係が成立する. ただ決定係数は予測のデータへの当てはまりを示しているに過ぎないため, この数値が低いからと言って, 特に因果推論に用いる場合には必ずしもモデルが悪いわけではないことに注意が必要である. また, 予測に関しても線形射影としてのOLSの有用性を考えれば, データが非線形に生成されるケースには決定係数は悪くなれど依然線形近似としての意義はある. このような問題からか, 末石計量ではもはや決定係数に関する記載は一切ない.\\
+
+\section{回帰モデルの性質}
+\subsection{Finite Sampleの性質}
+有限の標本について成立する性質を検討する. \\
+
+\paragraph{OLS推定量の性質}
+まず, 不偏性について考えよう. \\
+
+\paragraph{ガウスマルコフの定理}
+ガウスマルコフの定理(Gauss-Markov Theorem): 回帰モデルの古典的仮定のもとでは, OLS推定量$\mathbf{b}$は線形不偏推定量のうちで最も効率的である. ここでまず効率性の定義を確認しよう. 二つの不偏推定量$\hat{\theta}$と$\tilde{\theta}$を考えたとき, $Var(\mathbf{a}^T\tilde{\theta})-Var(\mathbf{a}^T\hat{\theta})=\mathbf{a}^T[Var(\tilde{\theta})-Var(\hat{\theta})]\mathbf{a} \geq  0　\forall\mathbf{a}\neq \mathbf{0}$ ならば, $\hat{\theta}$が効率的という. つまり共分散行列の差が非負値定符号行列である. 共分散行列の差は対称行列より, 効率的であることは, そのすべての主小行列式（Principal Minors, PM）が非負であることと同値. また, 全ての対角成分, 即ち各々の分散が他の推定量に比べ最低限大きくないことが必要条件である. 1次元の推定量の場合, 効率的であることは分散が大きくないことと同値で, 非負定符号行列を用いた上記の定義はその一般化である. ガウスマルコフの定理は, この効率性の定義を利用して, 全ての不偏推定量$\mathbf{b}_0$に関して, $\mathbf{Var}[\mathbf{b}_0|\mathbf{X}] - \mathbf{Var}[\mathbf{b}|\mathbf{X}]$が非負値定符号行列であることを主張していると言い換えられる.\\
+
+\section{コントロール変数}
+我々の関心は, ある変化によりもたらされた帰結＝\rmfamily\mcfamily\bfseries{因果効果の推定}\mdseries にあるとする. 先述の通り, 自然実験で得られたデータとは違い, 観測データには様々なノイズが介在しうる. 因果推論の文脈における回帰分析の主要な役割は, 観測データからノイズを除去して因果効果のみを取り出すことにあるのだ. その目的のためには, すべての変数を平等に扱う必要はない. ここで導入されるのが\rmfamily\mcfamily\bfseries{コントロール変数}\mdseries である. コントロール変数とは, 被説明変数に因果効果を及ぼす因果モデルにはいっていない要素と相関しているが, それ自体は因果効果を持たないものである. コントロール変数$W$を明示することによって欠落変数バイアスを及ぼす要素を固定して, バイアスの発生を防いでいる. コントロール変数の定義としては以下で挙げる3つもまた有効である. 1: 回帰に含まれたとき，誤差項を興味のある説明変数と無相関にするもの. 2: 値を一定に保つと，興味のある説明変数が「あたかも」無作為に割り当てられている状態を作り出せるもの. 3: 値が同じ個人間では，興味のある説明変数が, 省略された決定因子と相関しないようなもの.\\
+
+\rmfamily\mcfamily\bfseries{Ex. 説明変数追加}\mdseries　
+古典的仮定を満たす線形モデル$Y_i=\beta_1+\beta_2X_{i,2}+\beta_3X_{i,3}+\epsilon_i$に従って生成される観測データから, $X_2$による因果効果を測定することを目標として考える. $Y_i$を$1, X_{i,2}$に回帰すると, 欠落変数バイアスから正確に因果効果を測定できない. $1, X_{i,2}, X_{i,3}$に回帰すれば, $E[\epsilon_i | X_{i,2}, X_{i,3}]=0$で$b_2, b_3$は共に不偏推定量となり, 正しく因果効果を測定できる. ただし, この$X_3$は, 少なくとも最初に導入した定義に従えば, コントロール変数\rmfamily\mcfamily\bfseries{ではない}\mdseries.\\
+
+\rmfamily\mcfamily\bfseries{Ex. コントロール変数追加}\mdseries　前の例と同様の状況と目標を考える. ただし$X_{i,3}$は観測不能とする. $1, X_{i,2}$のみに回帰すると, 欠落変数バイアスから正確に因果効果を測定できないことは前の例でも述べた通り. ここで, $X_{i,3}$と相関する, しかし自身は因果効果を持つ必要のないコントロール変数$W_i$をモデルに入れ込めば, $Y_i=\beta_1+\beta_2X_{i,2}+\beta_3W_{i}+\epsilon_i$となる. この場合には(A1)を以下の\rmfamily\mcfamily\bfseries{条件付平均独立}\mdseries に置き換える: $E[\epsilon_i | X_{i,2}, W_i]=E[\epsilon_i | W_i]$. この仮定が$\beta_2$の因果推論の正確性を保証することを確かめる例として, $E[\epsilon_i|W_i]=\gamma_1+\gamma_2W_i, \gamma\neq0$と誤差項の$W_i$での条件付期待値との関係が一次関数で表現されると仮定しよう. ここで, 実際に, 条件付平均が$W_i$のみに依存することより, $E[\epsilon_i | X_{i,2}, W_i]=E[\epsilon_i | W_i]$が成立していることを確認せよ. 更に, $\epsilon_i$を$X_{i,2}, W_i$に回帰して, $\epsilon_i=E[\epsilon_i|X_{i,2}, W_i]+v_i$とすると, LIEより, $E[v_i|X_{i,2}, W_i]=0$である. モデルを明示的に示すと, $Y_i=\beta_1+\beta_2X_{i,2}+\beta_3W_{i}+\epsilon_i=\beta_1+\beta_2X_{i,2}+\beta_3W_{i}+\gamma_1+\gamma_2W_i+v_i=(\beta_1+\gamma_1)+\beta_2X_{i,2}+(\beta_3+\gamma_2)W_{i}+v_i$である. このとき, $\beta_2$は依然因果効果として解釈でき, $b_2$は不偏推定量であるので回帰分析の目標は果たされた. $\beta_3+\gamma_2$はバイアスがあっても, そもそも建付けの時点から, 回帰に入れていない変数から$W_i$を経由して被説明変数が変化していることを想定しているために問題ない.\\
+
+\section{プログラム評価}
+我々が関心を持つ対象が, $X$が一単位変化したときの$Y$への\rmfamily\mcfamily\bfseries{因果効果, 処置効果}\mdseries だとする. このセクションではこの効果を分析するプログラム評価の基礎的な概念をレビューする. 個人$i$が処置群に含まれるなら$X_i=1$, 対照群に含まれるならば$X_i=0$をとる確率変数を考える. 個人$i$の処置効果は, $te_i=Y_{i,1}-Y_{i,0}=Y_{i}(X_i=1)-Y_{i}(X_i=0)$だが, このうちどちらかは反実仮想であり, 従って観察不可能である. そこで処置の\rmfamily\mcfamily\bfseries{平均処置効果, ATE}\mdseries を考えると, これは$\mathbb{E}[Y_{i,1}]-\mathbb{E}[Y_{i,0}]$で与えられる. また, 処置群への平均処置効果(ATET)は$\mathbb{E}[Y_{i,1}|X_i=1]-\mathbb{E}[Y_{i,0}|X_i=1]$, 対照群への平均処置効果(ATENT)は$\mathbb{E}[Y_{i,1}|X_i=0]-\mathbb{E}[Y_{i,0}|X_i=0]$である. 現状ではどれも観察不可能な項が含まれることに注意せよ.  現実に観測でき, かつ一見因果効果を捉えているように思えるのは$\mathbb{E}[Y_{i,1}|X_i=1]-\mathbb{E}[Y_{i,0}|X_i=0]$だろう. しかし, 以下の式変形で問題点が明らかになる.
+
+\begin{equation*}
+  \mathbb{E}[Y_{i,1}|X_i=1]-\mathbb{E}[Y_{i,0}|X_i=0]=ATE+\underset{\text{selection bias}}{\underbrace{\mathbb{E}[Y_{i,0}|X_i=1]-\mathbb{E}[Y_{i,0}|X_i=0]}}+\underset{\text{heterogeneous selection bias}}{\underbrace{(1-\pi)(ATET-ATENT)}}
+\end{equation*}
+
+
+ここで, $\pi$は処置群に含まれる確率である. 因果効果を議論する際, 処置群と対照群がランダムに割り当てられていない限りは, セレクションバイアスに注意する必要性が明らかとなった. \\
+
+\paragraph{ランダム比較実験, RCT}
+では, どのような条件の下で$\mathbb{E}[Y_{i,1}|X_i=1]-\mathbb{E}[Y_{i,0}|X_i=0]=ATE$は保証されるだろうか? この十分条件を満たすのが既に幾度か言及している\rmfamily\mcfamily\bfseries{ランダム比較実験, RCT}\mdseries である. 処置群と対照群がランダムに割り当てられているこの状況下では, 上記の式が$\mathbb{E}[Y_{i,1}|X_i=1]=\mathbb{E}[Y_{i,1}|X_i=0]=\mathbb{E}[Y_{i,1}]$, $\mathbb{E}[Y_{i,0}|X_i=1]=\mathbb{E}[Y_{i,0}|X_i=0]=\mathbb{E}[Y_{i,0}]$となることで満たされる. また, 各人で同一の固定処置効果を仮定した場合, 単回帰の傾きのOLSEがATEに整合することも知られており, この結果を補強している. 詳細は次の通り. $Y_{i,1}=\tau + Y_{i,0}$より, $Y_i=Y_{i,0}+(Y_{i,0}-Y_{i,1})X_i=Y_{i,0}+\tau X_i$で, $Y_{i,0}=\mathbb{E}[Y_{i,0}]+\epsilon_{i,0}$とすれば$Y_i=\mathbb{E}[Y_{i,0}]+\tau X_i+\epsilon_{i,0}=\beta_1+\beta_2X_i+\epsilon_i$と単回帰モデルの形になる. (A1)が成立している, 即ち$\mathbb{E}[\epsilon_i|X_i]=\mathbb{E}[\epsilon_{i,0}|X_i]=0$が成り立つならば, すなわちRCTの仮定の下では, OLSの$\beta_2$への不偏性は保証されている. 特にこの場合$\tau$の推定値が単回帰モデルの形でも正確に因果効果を意味することが分かるだろう. 個人の処置効果が不均一でもこの議論は行える. $Y_{i,1}=\mathbb{E}[Y_{i,1}]+\epsilon_{i,1}$とすると, $te_i=\tau_{ATE}+[\epsilon_{i,1}-\epsilon_{i,0}]$. 同様に単回帰モデルの形にすると, $\beta_2=\tau_{ATE}$, $\epsilon_i=\epsilon_{i,0}+[\epsilon_{i,1}-\epsilon_{i,0}]X_i$となり, RCTの仮定の下では$\mathbb{E}[\epsilon_i|X_i]=0$が成立する. しかし不均一分散であることに注意. 他にも, 複数の処置を入れた場合や, 処置が連続的の線形モデル(限界効果が一定)などの拡張がある.\\
+
+\section{制約とF検定}
+制約が他の制約にもなる, つまり入れ子構造になっていて, かつモデルをより特定化するものを考える. \\
+
+\end{document}
