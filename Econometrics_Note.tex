@@ -7,6 +7,7 @@
 
 \usepackage{amsmath,amssymb}
 \usepackage{unicode-math}
+\usepackage{url}
 \setmathfont{LatinModernMath-Regular}
 
 
@@ -227,7 +228,7 @@ $b_2$の両側検定$H_0: \beta_2=\beta_{2,0}$について検討する. 先述�
   &Cov(\epsilon_i, \epsilon_j | \mathbf{X})=\mathbb{E}(\epsilon_i \epsilon_j | \mathbf{X})=\mathbb{E}(\epsilon_i \epsilon_j | \mathbf{x}_i, \mathbf{x}_j)=\mathbb{E}(\epsilon_i | \mathbf{x}_i) \mathbb{E}(\epsilon_j |\mathbf{x}_j)=0
 \end{align*}
 
-(A3)は漸近理論のために必要な仮定であり, (A4)は説明変数間に完全な線形関係（多重共線性）がないことを保証しており, $rank(\mathbf{X}^T\mathbf{X})=rank(\mathbf{X})=K$も成立する. (A4)が崩れた場合, 回帰係数は無限個解を持つ(不定)ため, 識別が不可能となる. ダミー変数について, この状況は\rmfamily\mcfamily\bfseries{ダミー変数の罠(dummy variable trap)}\mdseries と呼ばれる. (A1), (A2), (A5)より, $\mathbf{Var}(\epsilon | \mathbf{X})=\mathbf{E}[\epsilon\epsilon^T| \mathbf{X}]=\sigma^2\mathbf{I}$. さらに全分散の法則より, $\mathbf{Var}(\epsilon)=\mathbf{E}[\mathbf{Var}(\epsilon | \mathbf{X})]+\mathbf{Var}(\mathbf{E}[\epsilon | \mathbf{X}])=\sigma^2\mathbf{I}$, LIEより$\mathbf{E}[\epsilon]=\mathbf{0}$を得て直接計算しても確認可能である. (A1), (A2), (A5), (A6)から, $\epsilon|\mathbf{X} \sim \mathcal{N} (0, \sigma^{2}\mathbf{I})$.\\
+(A3)は漸近理論のために必要な仮定であり, (A4)は説明変数間に完全な線形関係（多重共線性）がないことを保証しており, $rank(\mathbf{X}^T\mathbf{X})=rank(\mathbf{X})=K$も成立する. (A4)が崩れた場合, 回帰係数は無限個解を持つ(不定)ため, 識別が不可能となる. 特にダミー変数について, この状況は\rmfamily\mcfamily\bfseries{ダミー変数の罠(dummy variable trap)}\mdseries と呼ばれる. (A1), (A2), (A5)より, $\mathbf{Var}(\epsilon | \mathbf{X})=\mathbf{E}[\epsilon\epsilon^T| \mathbf{X}]=\sigma^2\mathbf{I}$. さらに全分散の法則より, $\mathbf{Var}(\epsilon)=\mathbf{E}[\mathbf{Var}(\epsilon | \mathbf{X})]+\mathbf{Var}(\mathbf{E}[\epsilon | \mathbf{X}])=\sigma^2\mathbf{I}$, LIEより$\mathbf{E}[\epsilon]=\mathbf{0}$を得て直接計算しても確認可能である. (A1), (A2), (A5), (A6)から, $\epsilon|\mathbf{X} \sim \mathcal{N} (0, \sigma^{2}\mathbf{I})$.\\
 
 \paragraph{$\beta$の推定}
 今, $(\mathbf{x}_{1}, Y_1), \dots, (\mathbf{x}_{n}, Y_n)$ と$n$個の無作為標本が与えられ, その\rmfamily\mcfamily\bfseries{実現値}\mdseries$(\mathbb{x}_{1}, y_1), \dots, (\mathbb{x}_{n}, y_n)$が判明している下で, 以下の残差平方和のminimizerとしてOLS推定値$\mathbf{b}$を決定する.
@@ -267,27 +268,70 @@ $b_2$の両側検定$H_0: \beta_2=\beta_{2,0}$について検討する. 先述�
 では, どのような条件の下で$\mathbb{E}[Y_{i,1}|X_i=1]-\mathbb{E}[Y_{i,0}|X_i=0]=ATE$は保証されるだろうか? この十分条件を満たすのが既に幾度か言及している\rmfamily\mcfamily\bfseries{ランダム比較実験, RCT}\mdseries である. 処置群と対照群がランダムに割り当てられているこの状況下では, 上記の式が$\mathbb{E}[Y_{i,1}|X_i=1]=\mathbb{E}[Y_{i,1}|X_i=0]=\mathbb{E}[Y_{i,1}]$, $\mathbb{E}[Y_{i,0}|X_i=1]=\mathbb{E}[Y_{i,0}|X_i=0]=\mathbb{E}[Y_{i,0}]$となることで満たされる. また, 各人で同一の固定処置効果を仮定した場合, 単回帰の傾きのOLSEがATEに整合することも知られており, この結果を補強している. 詳細は次の通り. $Y_{i,1}=\tau + Y_{i,0}$より, $Y_i=Y_{i,0}+(Y_{i,0}-Y_{i,1})X_i=Y_{i,0}+\tau X_i$で, $Y_{i,0}=\mathbb{E}[Y_{i,0}]+\epsilon_{i,0}$とすれば$Y_i=\mathbb{E}[Y_{i,0}]+\tau X_i+\epsilon_{i,0}=\beta_1+\beta_2X_i+\epsilon_i$と単回帰モデルの形になる. (A1)が成立している, 即ち$\mathbb{E}[\epsilon_i|X_i]=\mathbb{E}[\epsilon_{i,0}|X_i]=0$が成り立つならば, すなわちRCTの仮定の下では, OLSの$\beta_2$への不偏性は保証されている. 特にこの場合$\tau$の推定値が単回帰モデルの形でも正確に因果効果を意味することが分かるだろう. 個人の処置効果が不均一でもこの議論は行える. $Y_{i,1}=\mathbb{E}[Y_{i,1}]+\epsilon_{i,1}$とすると, $te_i=\tau_{ATE}+[\epsilon_{i,1}-\epsilon_{i,0}]$. 同様に単回帰モデルの形にすると, $\beta_2=\tau_{ATE}$, $\epsilon_i=\epsilon_{i,0}+[\epsilon_{i,1}-\epsilon_{i,0}]X_i$となり, RCTの仮定の下では$\mathbb{E}[\epsilon_i|X_i]=0$が成立する. しかし不均一分散であることに注意. 他にも, 複数の処置を入れた場合や, 処置が連続的の線形モデル(限界効果が一定)などの拡張がある.\\
 
 \section{コントロール変数}
-我々の関心は, ある変化によりもたらされた帰結＝\rmfamily\mcfamily\bfseries{因果効果の推定}\mdseries にあるとする. 先述の通り, 自然実験で得られたデータとは違い, 観測データには様々なノイズが介在しうる. 因果推論の文脈における回帰分析の主要な役割は, 観測データからノイズを除去して因果効果のみを取り出すことにあるのだ. その目的のためには, すべての変数を平等に扱う必要はない. ここで導入されるのが\rmfamily\mcfamily\bfseries{コントロール変数}\mdseries である. コントロール変数とは, 被説明変数に因果効果を及ぼす因果モデルにはいっていない要素と相関しているが, それ自体は因果効果を持たないものである. コントロール変数$W$を明示することによって欠落変数バイアスを及ぼす要素を固定して, バイアスの発生を防いでいる. コントロール変数の定義としては以下で挙げる3つもまた有効である. 1: 回帰に含まれたとき，誤差項を興味のある説明変数と無相関にするもの. 2: 値を一定に保つと，興味のある説明変数が「あたかも」無作為に割り当てられている状態を作り出せるもの. 3: 値が同じ個人間では，興味のある説明変数が, 省略された決定因子と相関しないようなもの.\\
+我々の関心は, ある変化によりもたらされた帰結＝\rmfamily\mcfamily\bfseries{因果効果の推定}\mdseries にあるとする. 先述の通り, 自然実験で得られたデータとは違い, 観測データには様々なノイズが介在しうる. 因果推論の文脈における回帰分析の主要な役割は, 観測データからノイズを除去して因果効果のみを取り出すことにあるのだ. その目的のためには, すべての変数を平等に扱う必要はない. ここで導入されるのが\rmfamily\mcfamily\bfseries{コントロール変数}\mdseries と \rmfamily\mcfamily\bfseries{代理変数}\mdseries の概念である.  コントロール変数の定義としては以下で挙げるようなものがある. 1: 回帰に含まれたとき，誤差項を興味のある説明変数と無相関にするもの. 2: 値を一定に保つと，興味のある説明変数が「あたかも」無作為に割り当てられている状態を作り出せるもの. 3: 値が同じ個人間では，興味のある説明変数が, 省略された決定因子と相関しないようなもの. コントロール変数をモデルに導入することによって, 後述する欠落変数バイアスの発生を防ぎ, 興味のある説明変数のパラメータを正確に推定可能にしている. ある要素が観測不可能である時に利用されるのが, その要素と強相関がある\rmfamily\mcfamily\bfseries{代理変数(proxy variables)}\mdseries である. コントロール変数の文脈での代理変数は, 観測不可能なコントロール対象がある時に, 対象と相関するが, それ自体は因果効果を持たないもの, である.\\
+
+\paragraph{欠落変数と因果推論}
+古典的仮定を満たす線形モデル$Y=\beta_1+\beta_2X_{2}+\beta_3X_{3}+\tilde{\epsilon}$に従って生成される観測データから, $X_2$による因果効果$\beta_2$を測定することを目標として考える. $Y$を$1, X_{2}$に回帰してもその測定は可能なのだろうか? $\mathbb{E}[Y|X_{2}]=\beta_1+\beta_2X_{2}+\beta_3\mathbb{E}[X_{3}|X_{2}]+\mathbb{E}[\tilde{\epsilon}|X_{2}]$で, 真の回帰モデルにおける(A1)より$\mathbb{E}[\tilde{\epsilon}|X_{2}]=\mathbb{E}[\mathbb{E}[\tilde{\epsilon}|X_{2}, X_{3}]|X_{2}]=0$. ここで, $X_3=\delta_1+\delta_2 X_{2} + \eta $, $\mathbb{E}[\eta|X_2]=0$, $\delta_2 \neq 0$と仮定すれば, $\mathbb{E}[Y|X_{2}]=\beta_1+\beta_2X_{2}+\beta_3\mathbb{E}[\delta_1+\delta_2 X_{2} + \eta|X_{2}]=(\beta_1+\beta_3\delta_1)+(\beta_2+\beta_3\delta_2)X_{2}$である. $Y=\mathbb{E}[Y|X_{2}]+\epsilon=(\beta_1+\beta_3\delta_1)+(\beta_2+\beta_3\delta_2)X_{2}+\epsilon$から, $\mathbb{E}[\epsilon|X_2]=0$であるため, (A1)はこの仮定下では満たせている. しかしここで推定の対象である, $X_2$の切片である$\beta_2+\beta_3\delta_2$は真の$\beta_2$と異なるため, モデルは因果効果の測定には利用できない.\\
+
+\rmfamily\mcfamily\bfseries{Ex. 出生時体重の因果推論}\mdseries　幼児の健康状態を決定する重要な要素として出生児体重がある. 今回はこの数値$weight$に関する因果推論を行うことを目標として定めよう. $weight$を減少させる因果効果を持つ要素の一つとして, 母親の妊娠時喫煙が考えられる. 今回は, 喫煙していれば$1$を, してなければ$0$をとるダミー変数$smoke$を導入した, 単回帰モデル$weight = \beta_1 + \beta_2 smoke + \epsilon$について考える. このモデルは因果効果を正しく推定できるのだろうか?　\rmfamily\mcfamily\bfseries{解答}\mdseries　他に因果効果をもつ要素として, 所得などが考えられる. これらの効果をコントロールしていない限りは不可能. ただし体重の予測は依然可能. \\
 
 \paragraph{欠落変数バイアス}
-古典的仮定を満たす線形モデル$Y_i=\beta_1+\beta_2X_{i,2}+\beta_3X_{i,3}+\tilde{\epsilon}_i$に従って生成される観測データから, $X_2$による因果効果を測定することを目標として考える. $Y_i$を$1, X_{i,2}$に回帰したときでも, $Y_i=\beta_1+\beta_2X_{i,2}+\epsilon_i$ with $\epsilon_i=\beta_3X_{i,3}+\tilde{\epsilon}_i$で正確に因果効果を測れるような状況を作り出すために, 如何なる条件があるのかを考えてみよう. OLS推定量の公式を適用すると, $b_2^\prime =\frac{s_{X_2,Y}}{s_{X_2}^2}=\frac{\frac{1}{n-1}\sum{(X_{i,2}-\bar{X_{2}})(Y_{i}-\bar{Y})}}{\frac{1}{n-1}\sum{(X_{i,2}-\bar{X_{2}})^2}}=\beta_2+\frac{\frac{1}{n-1}\sum{(X_{i,2}-\bar{X_{2}})(\epsilon_i-\bar{\epsilon_i})}}{\frac{1}{n-1}\sum{(X_{i,2}-\bar{X_{2}})^2}}=\beta_2+\frac{\frac{1}{n-1}\sum{(X_{i,2}-\bar{X_{2}})\epsilon_i}}{\frac{1}{n-1}\sum{(X_{i,2}-\bar{X_{2}})^2}}$ $(\because Y_{i}-\bar{Y}=(\beta_1+\beta_2X_{i,2}+\epsilon_i)-(\beta_1+{\beta_2}\bar{X_{2}}+\frac{1}{n}\sum{\epsilon_i})={\beta_2}(X_{i,2}-\bar{X_{2}})+(\epsilon_i-\bar{\epsilon_i}), \sum{(X_{i,2}-\bar{X_{2}})\bar{\epsilon}}=\bar{\epsilon}\sum{(X_{i,2}-\bar{X_{2}})}=0)$. ここで, $n$が十分大きい場合, LLNより$\frac{1}{n-1}\sum{(X_{i,2}-\bar{X_{2}})^2} \overset{p}{\to} Var(X_2)$, $\frac{1}{n-1}\sum{(X_{i,2}-\bar{X_{2}})(\epsilon_i-\bar{\epsilon_i})} \overset{p}{\to} Cov(X_2, \epsilon)$が成立する. このため, $b_2^\prime \overset{p}{\to} \beta_2+\frac{Cov(X_2, \epsilon)}{Var(X_2)}$である. ここで, (A1)$\mathbb{E}[\epsilon | X_{2}]=0 \implies Cov(X_2, \epsilon) = 0$は一致性$b_2^\prime \overset{p}{\to} \beta_2$の十分条件である. また, 不偏性についても, (A1)を仮定するならば, $X_{2}$についての条件付期待値をとってLIEを利用すれば確認可能. $\epsilon_i=\beta_3X_{i,3}+\tilde{\epsilon}_i$を利用して更に考察を進めてみよう. $Cov(X_2, \epsilon)=Cov(X_2, \beta_3X_{3}+\tilde{\epsilon})=\beta_3Cov(X_2, X_{3})+Cov(X_2, \tilde{\epsilon})$. ここで真の構造型回帰モデルについての(A1)より$\mathbb{E}[\tilde{\epsilon} | X_{2}, X_{3}]=0$が成立しているため, LIEより$Cov(X_2, \tilde{\epsilon})=\mathbb{E}[(X_2-\bar{X_2})(\tilde{\epsilon}-\bar{\tilde{\epsilon}})]=\mathbb{E}[\mathbb{E}[(X_2-\bar{X_2})(\tilde{\epsilon}-\bar{\tilde{\epsilon}})]|X_{2}, X_{3}]=\mathbb{E}[(X_2-\bar{X_2})\mathbb{E}[\tilde{\epsilon}-\bar{\tilde{\epsilon}}|X_{2}, X_{3}]]=0$. ゆえに$Cov(X_2, \epsilon)=\beta_3Cov(X_2, X_{3})$であり, 以下のように書ける.
+再度, 古典的仮定を満たす線形モデルに従って生成される観測データ$Y_i=\beta_1+\beta_2X_{i,2}+\beta_3X_{i,3}+\tilde{\epsilon}_i$, $i=1,\dots,n$から, $X_2$による因果効果を測定することを目標として考える. $Y_i$を$1, X_{i,2}$に回帰したときでも, $Y_i=\beta_1+\beta_2X_{i,2}+\epsilon_i$ with $\epsilon_i=\beta_3X_{i,3}+\tilde{\epsilon}_i$で, 誤差項に欠落変数の影響を全て格納し, 正確に因果効果を測れるような状況を作り出すために, 如何なる条件があるのかをより一般的に考えてみよう. OLS推定量の公式を適用すると, $b_2^\prime =\frac{s_{X_2,Y}}{s_{X_2}^2}=\frac{\frac{1}{n-1}\sum{(X_{i,2}-\bar{X_{2}})(Y_{i}-\bar{Y})}}{\frac{1}{n-1}\sum{(X_{i,2}-\bar{X_{2}})^2}}=\beta_2+\frac{\frac{1}{n-1}\sum{(X_{i,2}-\bar{X_{2}})(\epsilon_i-\bar{\epsilon_i})}}{\frac{1}{n-1}\sum{(X_{i,2}-\bar{X_{2}})^2}}=\beta_2+\frac{\frac{1}{n-1}\sum{(X_{i,2}-\bar{X_{2}})\epsilon_i}}{\frac{1}{n-1}\sum{(X_{i,2}-\bar{X_{2}})^2}}$ $(\because Y_{i}-\bar{Y}=(\beta_1+\beta_2X_{i,2}+\epsilon_i)-(\beta_1+{\beta_2}\bar{X_{2}}+\frac{1}{n}\sum{\epsilon_i})={\beta_2}(X_{i,2}-\bar{X_{2}})+(\epsilon_i-\bar{\epsilon_i}), \sum{(X_{i,2}-\bar{X_{2}})\bar{\epsilon}}=\bar{\epsilon}\sum{(X_{i,2}-\bar{X_{2}})}=0)$. ここで, $n$が十分大きい場合, LLNより$\frac{1}{n-1}\sum{(X_{i,2}-\bar{X_{2}})^2} \overset{p}{\to} Var(X_2)$, $\frac{1}{n-1}\sum{(X_{i,2}-\bar{X_{2}})(\epsilon_i-\bar{\epsilon_i})} \overset{p}{\to} Cov(X_2, \epsilon)$が成立する. このため, $b_2^\prime \overset{p}{\to} \beta_2+\frac{Cov(X_2, \epsilon)}{Var(X_2)}$である. ここで, (A1)$\mathbb{E}[\epsilon | X_{2}]=0 \implies Cov(X_2, \epsilon) = 0$は一致性$b_2^\prime \overset{p}{\to} \beta_2$の十分条件である. また, 不偏性についても, (A1)を仮定するならば, $X_{2}$についての条件付期待値をとってLIEを利用すれば確認可能. $\epsilon_i=\beta_3X_{i,3}+\tilde{\epsilon}_i$を利用して更に考察を進めてみよう. $Cov(X_2, \epsilon)=Cov(X_2, \beta_3X_{3}+\tilde{\epsilon})=\beta_3Cov(X_2, X_{3})+Cov(X_2, \tilde{\epsilon})$. ここで真の構造型回帰モデルについての(A1)より$\mathbb{E}[\tilde{\epsilon} | X_{2}, X_{3}]=0$が成立しているため, LIEより$Cov(X_2, \tilde{\epsilon})=\mathbb{E}[(X_2-\bar{X_2})(\tilde{\epsilon}-\bar{\tilde{\epsilon}})]=\mathbb{E}[\mathbb{E}[(X_2-\bar{X_2})(\tilde{\epsilon}-\bar{\tilde{\epsilon}})]|X_{2}, X_{3}]=\mathbb{E}[(X_2-\bar{X_2})\mathbb{E}[\tilde{\epsilon}-\bar{\tilde{\epsilon}}|X_{2}, X_{3}]]=0$. ゆえに$Cov(X_2, \epsilon)=\beta_3Cov(X_2, X_{3})$であり, 以下のように書ける.
 
 \begin{equation*}
   b_2^\prime \overset{p}{\to} \beta_2+ \underset{\text{omitted variable bias}}{\underbrace{\beta_3\frac{Cov(X_2, X_3)}{\sigma_{X_2}^2}}}
 \end{equation*}
 
-RCTの仮定下では$X_2$はランダムに割り当てられているため, $b_1^\prime$は一致性と不偏性を満たすが, $\beta \neq 0 \text{ nor } Cov(X_2, X_{3})\neq 0$の時には一致性を持たず,このズレのことを欠落変数バイアス(omitted variable bias)と呼ぶ. この時, 先述の通り$ Cov(X_2, \epsilon) \neq 0 \implies \mathbb{E}[\epsilon | X_{2}] \neq 0$で(A1)が崩れていることを確認せよ.\\
+RCTの仮定下では$X_2$はランダムに割り当てられているため, $b_1^\prime$は一致性と不偏性を満たすが, $\beta_3 \neq 0 \text{ nor } Cov(X_2, X_{3})\neq 0$の時には一致性を持たず,このズレのことを欠落変数バイアス(omitted variable bias)と呼ぶ. 補足できていない欠落変数の因果効果が, 相関する変数$X_2$を経由して被説明変数に影響を与えており, 推定のズレの方向は相関に一致する. この時, 先述の通り$ Cov(X_2, \epsilon) \neq 0 \implies \mathbb{E}[\epsilon | X_{2}] \neq 0$で(A1)が崩れていることを確認せよ. この時, 説明変数に\rmfamily\mcfamily\bfseries{内生性}\mdseries があるという.\\
 
-\rmfamily\mcfamily\bfseries{Ex. 説明変数追加}\mdseries　
-古典的仮定を満たす線形モデル$Y_i=\beta_1+\beta_2X_{i,2}+\beta_3X_{i,3}+\epsilon_i$に従って生成される観測データから, $X_2$による因果効果を測定することを目標として考える. $Y_i$を$1, X_{i,2}$に回帰すると, 欠落変数バイアスから正確に因果効果を測定できない. $1, X_{i,2}, X_{i,3}$に回帰すれば, $E[\epsilon_i | X_{i,2}, X_{i,3}]=0$で$b_2, b_3$は共に不偏推定量となり, 正しく因果効果を測定できる. ただし, この$X_3$は, 少なくとも最初に導入した定義に従えば, コントロール変数\rmfamily\mcfamily\bfseries{ではない}\mdseries.\\
+\paragraph{コントロール変数}
+古典的仮定を満たす線形モデル$Y_i=\beta_1+\beta_2X_{i,2}+\beta_3X_{i,3}+\epsilon_i$に従って生成される観測データから, $X_2$による因果効果を測定することを目標として考える. $Y_i$を$1, X_{i,2}$に回帰すると, $\beta_3 \neq 0 \text{ nor } Cov(X_2, X_{3})\neq 0$の場合は, 欠落変数バイアスから正確に因果効果を測定できない. コントロール変数として$X_{i,3}$を入れてやり, $1, X_{i,2}, X_{i,3}$に回帰すれば, $E[\epsilon_i | X_{i,2}, X_{i,3}]=0$で$b_2, b_3$は共に一致推定量となり, 正しく因果効果を測定できる.\\
 
-\rmfamily\mcfamily\bfseries{Ex. コントロール変数追加}\mdseries　前の例と同様の状況と目標を考える. ただし$X_{i,3}$は観測不能とする. $1, X_{i,2}$のみに回帰すると, 欠落変数バイアスから正確に因果効果を測定できないことは前の例でも述べた通り. ここで, $X_{i,3}$と相関する, しかし自身は因果効果を持つ必要のないコントロール変数$W_i$をモデルに入れ込めば, $Y_i=\beta_1+\beta_2X_{i,2}+\beta_3W_{i}+\epsilon_i$となる. この場合には(A1)を以下の\rmfamily\mcfamily\bfseries{条件付平均独立}\mdseries に置き換える: $E[\epsilon_i | X_{i,2}, W_i]=E[\epsilon_i | W_i]$. この仮定が$\beta_2$の因果推論の正確性を保証することを確かめる例として, $E[\epsilon_i|W_i]=\gamma_1+\gamma_2W_i, \gamma\neq0$と誤差項の$W_i$での条件付期待値との関係が一次関数で表現されると仮定しよう. ここで, 実際に, 条件付平均が$W_i$のみに依存することより, $E[\epsilon_i | X_{i,2}, W_i]=E[\epsilon_i | W_i]$が成立していることを確認せよ. 更に, $\epsilon_i$を$X_{i,2}, W_i$に回帰して, $\epsilon_i=E[\epsilon_i|X_{i,2}, W_i]+v_i$とすると, LIEより, $E[v_i|X_{i,2}, W_i]=0$である. モデルを明示的に示すと, $Y_i=\beta_1+\beta_2X_{i,2}+\beta_3W_{i}+\epsilon_i=\beta_1+\beta_2X_{i,2}+\beta_3W_{i}+\gamma_1+\gamma_2W_i+v_i=(\beta_1+\gamma_1)+\beta_2X_{i,2}+(\beta_3+\gamma_2)W_{i}+v_i$である. このとき, $\beta_2$は依然因果効果として解釈でき, $b_2$は不偏推定量であるので回帰分析の目標は果たされた. $\beta_3+\gamma_2$はバイアスがあっても, そもそも建付けの時点から, 回帰に入れていない変数から$W_i$を経由して被説明変数が変化していることを想定しているために問題ない.\\
+\paragraph{冗長なコントロール変数}
+コントロール変数を不用意に追加することは, 不偏性には影響を及ぼさずとも, 推定量の分散を大きくし, 精度を悪化させることが知られている. これを詳しく見てみよう. $Y=\beta_1+\beta_2X_{2}+\tilde{\epsilon}$ を, 余分に説明変数を付け加えた$Y=\beta_1+\beta_2X_{2}+\beta_3X_{3}+\epsilon$で誤って推定する場合を考える. $\beta_3=0$とすると, 欠落変数バイアスは発生せず, ${E}[\epsilon | X_{2}, X_{3}]=0$が成立していれば誤ったモデルでも真のパラメータとの一致性が保たれる. 大標本においては, $b_2 \overset{a}{\sim} \mathcal{N}(\beta_2, \sigma_{b_2}^2)$, where $\sigma_{b_2}^2=\frac{1}{n}(\frac{1}{1-\rho_{X_{2}, X_{3}}^2})\frac{\sigma_\epsilon^2}{\sigma_{X_{2}}^2}$であることが知られている. この結果より, 冗長な変数ともとの説明変数との間に強い相関$\rho_{X_{2}, X_{3}}$があればあるほど分散が大きくなり, 推定は悪化することが分かった.\\
+
+\paragraph{変数選択}
+一方でRCTの仮定下で議論をすすめれば, $\rho_{X_{2}, X_{3}}=0$, $Var({\epsilon})>Var(\tilde{{\epsilon}})$より, 適切な変数追加ならば, 予測精度を向上させることも確認できる. 変数追加について慎重になるべきケースはまだ存在する. 現在の説明変数の因果効果を媒介する新たな説明変数は, 因果効果を推定できなくなるため入れるべきではない. このようなコントロール変数を\rmfamily\mcfamily\bfseries{悪いコントロール(bad control)}\mdseries とよぶ.\\
+
+\paragraph{議論の一般化}
+欠落変数の因果推論への影響を一般化して考えよう. 類似の議論は北村の応用ミクロ計量(2002)-第二講(\url{https://www.ier.hit-u.ac.jp/~kitamura/index_j.html})にて展開されている, さらに言えば元文献はWooldridge (2002, Ch.4) らしいが. 構造モデルが$\mathbb{E}[y|x_2, \dots, x_k, q]=\beta_1+\beta_2x_2+\dots+\beta_Kx_K+\gamma q$ with $\gamma \neq 0$で与えられるとしよう. これを書き直せば, $y=\beta_1+\beta_2x_2+\dots+\beta_Kx_K+\gamma q+\tilde{\epsilon}$で, $\mathbb{E}[\tilde{\epsilon}|x_2, \dots, x_k, q]=0$より(A1)を満たす. ここで, 観測できない\rmfamily\mcfamily\bfseries{潜在変数}\mdseries $q$をモデルに直接入れ込むことは不可能であるため, 実際に推定する際のモデルは$y=\beta_1+\beta_2x_2+\dots+\beta_Kx_K+\epsilon$ where $\epsilon = \gamma q+\tilde{\epsilon}$. このモデルでの因果推論が可能, つまり欠落変数バイアスがないのは, $q$が$\mathbf{x}$それぞれと無相関である場合に限られる. 仮定のもとで$q$を$\mathbf{x}$に回帰すると$q=\delta_1+\delta_2x_2+\dots+\delta_Kx_K+r$となり, $Cov(x_j, r)=0 \forall j$. 代入すると, $y=(\beta_1+\gamma \delta_1)+(\beta_2+\gamma \delta_2)x_2+\dots+(\beta_K+\gamma \delta_K)x_K+\tilde{\epsilon}+\gamma r$, with $Cov(x_j,\tilde{\epsilon}+\gamma r)=0 \forall j$を得た. 欠落変数バイアスの部分と同様の議論によって, $b_k \overset{p}{\to} \beta_k +\gamma \delta_k$ で一致性の崩れを確認できる. この場合の欠落変数バイアスを防ぐ方法が\rmfamily\mcfamily\bfseries{代理変数}\mdseries の利用だ. この際代理変数が満たすべき条件は以下.\\
+\rmfamily\mcfamily\bfseries{1.}\mdseries　代理変数が構造モデルの中で重複している: $z$を$q$の代理変数として, $\mathbb{E}[Y|\mathbf{x},q,z]=\mathbb{E}[Y|\mathbf{x},q]$が成立する. つまり$Y$の説明に$z$が無関係であること. \\
+\rmfamily\mcfamily\bfseries{2.}\mdseries　$q$と$x_j$の相関は$z$の影響をコントロールするとゼロになる: つまり$q=L[q|1, \mathbf{x}, z]=L[q|1, z]=\delta_1 + \delta_2z+r$, where $\delta_2\neq 0, \mathbb{E}[r]=0, Cov(z, r)=0$. 同値の表現として$Cov(x_j, r)=0 \forall j$も.\\
+上記の条件のもと, 構造モデルは$Y=(\beta_1+\gamma\delta_1)+\beta_2x_2+\beta_3x_3+\dots+\beta_Kx_K+\gamma\delta_2z+(\gamma r + v)$となり$\mathbf{x}$でのOLS推定は一致性を保っている.\\
+
+\paragraph{コントロール変数の文脈における代理変数}
+再び構造モデル$Y=\beta_1+\beta_2X_{2}+\beta_3X_{3}+\tilde{\epsilon}$にもどり, 代理変数の活用法を考える. 古典的仮定を満たす上記の線形モデルに従って生成される観測データから, $X_2$による因果効果を測定することを目標として考える. ただし$X_{3}$は観測不能とする. $1, X_{2}$のみに回帰すると, 欠落変数バイアスから正確に因果効果を測定できないことは先述の通り. ここで, $X_{3}$と相関する, しかし自身は因果効果を持つ必要のない\rmfamily\mcfamily\bfseries{代理変数}\mdseries $W$をモデルに入れ込み, $Y=\beta_1+\beta_2X_{2}+\beta_3W+\epsilon$と書き換え, 以下代理変数の条件付けを言い換えながらこのコントロールの正統性を主張してみよう.\\
+
+\rmfamily\mcfamily\bfseries{その1. 代理変数の条件利用}\mdseries　先述の代理変数の$2$条件を適応させて考えてみよう. 条件1の言い換えとして, $Cov(W, \tilde{\epsilon})=0$を, 条件2を利用して, $X_3=L[X_3|1, X_2, W]=L[X_3|1, W]=\delta_1 + \delta_2W+r$, $\delta_2\neq0$と仮定を課しておく. LIEより$\mathbb{E}[r|X_2, W]=0$. 代入すると$Y=(\beta_1+\beta_3\delta_1)+\beta_2X_{2}+\beta_3\delta_2W+\tilde{\epsilon}+\beta_3r$, $\mathbb{E}[\tilde{\epsilon}+\beta_3r|X_2, W]=0$を得る. この時$b_2 \overset{p}{\to}\beta_2$で因果効果を一致推定できた.\\
+
+\rmfamily\mcfamily\bfseries{その2. 条件付平均独立の仮定}\mdseries　(A1)を以下の\rmfamily\mcfamily\bfseries{条件付平均独立}\mdseries に置き換えてもよい: $E[\epsilon | X_{2}, W]=E[\epsilon| W]$. この仮定が$\beta_2$の因果推論の正確性を保証することを確かめるため, $Y=\beta_1+\beta_2X_{2}+\beta_3W+\epsilon$において$E[\epsilon | X_{2}, W]=E[\epsilon|W]=\gamma_1+\gamma_2W, \gamma_2\neq0$と線形関係で条件付平均独立の仮定を満たすよう表現しよう. 更に, $\epsilon$を$X_{2}, W$に回帰して, $\epsilon=E[\epsilon|X_{2}, W]+v$とすると, LIEより, $E[v|X_{2}, W]=0$である. モデルを明示的に示すと, $Y=\beta_1+\beta_2X_{2}+\beta_3W+\epsilon=\beta_1+\beta_2X_{2}+\beta_3W+\gamma_1+\gamma_2W+v=(\beta_1+\gamma_1)+\beta_2X_{2}+(\beta_3+\gamma_2)W+v$である. このとき, $\beta_2$は依然因果効果として解釈でき, $b_2$は一致推定量であるので回帰分析の目標は果たされた. $\beta_3+\gamma_2$はバイアスがあっても, そもそも建付けの時点から, 回帰に入れていない変数から$W$を経由して被説明変数が変化していることを想定しているために問題ない.\\
+
+\rmfamily\mcfamily\bfseries{Ex. 教育の賃金への因果効果}\mdseries　
+賃金への影響を与える要因が, 教育年数, 就業年数, そして能力のみであると考えよう. このとき求めたいのは, $\frac{\partial \mathbb{E}(wage|edu, exper, abil)}{\partial edu}$ で, コントロール変数ベクトル$\mathbf{C}=(exper, abil)$だが能力は\rmfamily\mcfamily\bfseries{観測不可能}\mdseries . 回帰モデルを考えると, 就業年数はコントロール変数としてモデルに入れられる他, 能力$abil$に相関する代理変数として$IQ$もコントロール変数に採用できる. すなわち$\mathbb{E}(wage|edu, exper, IQ)$を考えればよい.\\
+
+\section{内部妥当性} 
+統計的推測の妥当性は, 内部妥当性と外部妥当性の二つに大別される. 内部妥当性とは, 因果効果に関する統計的推測が調査された母集団と設定に対して有効であることを言う. 一方で外部妥当性は, 推論と結論が, 他の集団や設定にも一般化可能であることを意味する. 今回は内部妥当性に焦点を当てて議論を進めよう. 回帰モデルの古典的が外れた時に内部妥当性が崩れる恐れがあるわけだが, さらに, 推定量の不偏性や一致性への影響と, 標準誤差への影響とそれに伴う予測精度の悪化の二つにグループ分けが可能である. 前者の例としては先述の欠落変数バイアスを始めとして, モデルの誤った関数特定化, 測定誤差, セレクションバイアス, 同時性がある. 後者の例としては, 不均一分散や誤差項の内生性などが挙げられる.\\
+
+\paragraph{測定誤差}
+説明変数に測定誤差が生じている場合, (A1)が崩れ因果推論が行えなくなる. 例えば誤差$w$が分散$\sigma_w^2$でi.i.dで$K=2$のケースをかんがえれば, $b_2 \overset{p}{\to} \beta_2 - \beta_2\frac{\sigma_w^2}{Var(\tilde{X_2})}$ で過少推定となる. この解決法には操作変数法が用いられる. \\
+
+\paragraph{セレクションバイアス}
+データの可用性が従属変数の値に関連する選択プロセスによって影響を受ける場合に発生する. 誤差項と回帰変数が相関し(A1)が崩れ, OLS推定の不偏性が崩れる.\\
+
+\rmfamily\mcfamily\bfseries{Ex. 教育の賃金への因果効果}\mdseries　研究者が, 就職している大学卒業生のランダム標本を調査し, 教育の収益を推定するため賃金と教育年数の回帰をおこなうことを考える. しかし, ここでのサンプルは仕事についている人に限定されている. 就業するか否かを決定する, 教育, 経験, 能力, 運などは, 稼得能力の決定要因に似通っているため, セレクションバイアスが発生していると疑う必要がある.\\
+
+\paragraph{同時性}
+変数が相互に因果効果を与えあう場合に起こる問題で, (A1)が崩れる. 
+たとえば, 生徒と教師の比率はテストのスコアに影響するが, 同時に, 政府の取り組みによりテストスコアが低い学区で教師の雇用が補助されるため, テストスコアも生徒と教師の比率に影響する. なお, この問題も操作変数法で解決可能である.\\
+
+\paragraph{系列相関, 誤差項の内生性}
+誤差が観測値全体にわたって相関している場合, 仮定 (A2) は破られる. 通常パネルデータまたは時系列データで発生する現象である. 観測値全体にわたる誤差の相関によって, OLSEの不偏性や一致性が崩れることはないが, 標準誤差が\rmfamily\mcfamily\bfseries{望ましい有意水準の信頼区間を生成しない}\mdseries という意味で不正確. \\
 
 \section{制約とF検定}
 先ず(A6)条件付き正規性を仮定した下での議論を行う. F値の導出には$2$つの手法がある. 一つ目は制約式が成立する場合を帰無仮説と置いたとき制約からどれほどずれがあるのかを調べる方法, 二つ目は決定係数を制約ありモデルと制約なしモデルで比較する方法である. RやStataで表示される$F$値は帰無仮説として定数のみ回帰を考えた際の値で, $F(K-1, n-K)$に従うことに注意せよ. 次に, 正規性を外した場合の漸近分布を探ろう. この時, $\mathbf{b}$の漸近正規性を利用することで$W=F J\overset{d}{\to}\chi ^2(J)$であることが知られており, この結果は不均一分散のもとでも成立する.\\
 
 \section{構造推定}
-経済理論から推定された関数形と, 通常の線形モデルを比較しどちらが適切であるかを考察しよう. 通常の回帰モデルから外れた概念として, ダミー変数と対数変換, そして多項回帰モデルを本節では導入する. ダミー変数とは, $0, 1$のどちらか二値を取る変数である. 先述の季節ダミーはコントロール変数かつダミー変数である. 序数的な意味のみを持つ量的変数に関して気を付けなければいけないのは, それぞれの水準を個別にダミー変数として設定しなければならないことである. というのも, 一つの説明変数で表現を行うことは, 暗黙に一貫した基数的な被説明変数への影響を仮定することだからである. 今までは説明変数に関して線形なモデルを考えてきたが, 最初に述べた通り, 我々はパラメータに関して線形であるモデルのヴァリエーションを考慮したい. 例としては以下のような変形が挙げられる.
+経済理論から推定された関数形と, 通常の線形モデルを比較しどちらが適切であるかを考察しよう. 通常の回帰モデルから外れた概念として, ダミー変数と対数変換, そして多項回帰モデルを本節では導入する. ダミー変数とは, $0, 1$のどちらか二値を取る変数である. 例えば季節ダミーはコントロール変数かつダミー変数である. 序数的な意味のみを持つ量的変数に関して気を付けなければいけないのは, それぞれの水準を個別にダミー変数として設定しなければならないことである. というのも, 一つの説明変数で表現を行うことは, 暗黙に一貫した基数的な被説明変数への影響を仮定することだからである. 今までは説明変数に関して線形なモデルを考えてきたが, 最初に述べた通り, 我々はパラメータに関して線形であるモデルのヴァリエーションを考慮したい. 例としては以下のような変形が挙げられる.
 
 \begin{align}
   \mathbf{Loglinear Model　}&\ln(Y)=\beta_1+\beta_2X_{2}+\epsilon\\
@@ -303,8 +347,80 @@ $(5) \sim (7)$式については良く知られた通り, 対数を取ってい�
   \mathbf{Dummy+Interaction　}&Y=\beta_1+\beta_2X_{2}+\beta_3D+\beta_4X_{2}D+\epsilon
 \end{align}
 
-(8)は切片に, (9)は傾きにダミーの影響を加えるモデルで, 両者を合わせたのが(10)である. 次に\rmfamily\mcfamily\bfseries{多項回帰モデル (polynomial regression model)}\mdseries $y_i = \beta_1 + \beta_2 x_{i,2} + \beta_3 x_{i,2}^2 + \dots + \beta_r x_{i,2}^{r-1} + \epsilon_i$ を考えてみよう. $t$検定で$r$の値を決定し, その後に帰無仮説$H_0 : \beta_3 = 0, \dots, \beta_r = 0$に基づく$F$検定で関数形を決定する. これは逐次仮説検定 (sequential hypothesis testing)と呼ばれる.\\
+(8)は切片に, (9)は傾きにダミーの影響を加えるモデルで, 両者を合わせたのが(10)である. 次に\rmfamily\mcfamily\bfseries{多項回帰モデル (polynomial regression model)}\mdseries  $ y_i = \beta_1 + \beta_2 x_{i,2} + \beta_3 x_{i,2}^2 + \dots + \beta_r x_{i,2}^{r-1} + \epsilon_i$ を考えてみよう. $t$検定で$r$の値を決定し, その後に帰無仮説$H_0 : \beta_3 = 0, \dots, \beta_r = 0$に基づく$F$検定で関数形を決定する. これは逐次仮説検定 (sequential hypothesis testing)と呼ばれる.\\
 
+\section{不均一分散}
+\rmfamily\mcfamily\bfseries{一般化回帰モデル}\mdseries について考える. 先述の通り, この場合推定量の不偏性は保たれるが, 標準誤差が\rmfamily\mcfamily\bfseries{望ましい有意水準の信頼区間を生成しない}\mdseries 点で内的妥当性に打撃が与えられる. 解決法としてはGLSEによる推定と, 頑健標準誤差の利用がある. 一般化回帰モデルの仮定は以下の通り.
 
+\begin{align*}
+  &\mathbf{(GLS1)} \mathbb{E}(\epsilon|\mathbf{X})=\mathbf{0}\\
+  &\mathbf{(GLS2)} \mathbf{Var}(\epsilon | \mathbf{X})=\mathbf{E}[\epsilon\epsilon^T| \mathbf{X}]=\sigma^2\Omega(\mathbf{X})=\sigma^2\Omega\\
+  &\mathbf{(GLS3)} (\mathbf{x}_{i}, \epsilon_{i})\text{は無限ではない4次のモーメントを持つ}\\
+  &\mathbf{(GLS4)} \text{フルランク(識別)}: rank(\mathbf{X})=K
+\end{align*}
+
+(GLS1)が(A1), (A2)のもとでも成り立つことは\rmfamily\mcfamily\bfseries{2.4}\mdseries で確認済み. 均一分散と正規性の仮定が外れていることを確認しよう. i.i.d.だが条件付不均一分散をもつデータと, 均一分散だが系列相関を持つデータにGLSは適応できるが, 今回は前者のケースに照準を合わせる. 先ず不偏性を確認しておこう. $\mathbf{b}=(\mathbf{X}^{T}\mathbf{X})^{-1}\mathbf{X}^{T}\mathbf{Y}=\beta+(\mathbf{X}^{T}\mathbf{X})^{-1}\mathbf{X}^{T}\epsilon$で, (GLS1)より$\mathbf{E}[\mathbf{b}|\mathbf{X}]=\beta+(\mathbf{X}^{T}\mathbf{X})^{-1}\mathbf{X}^{T}\mathbf{E}[\epsilon|\mathbf{X}]=\beta$でLIEにより$\mathbf{E}[b]=\beta$を得た. また, $\Omega$以下のようにかけ, 対称行列である.
+
+\begin{equation*}
+  Var(\epsilon|\mathbf{X})
+  =\sigma^2
+  \underset{\Omega}{\underbrace{
+  \begin{pmatrix}
+    \omega_{1}&\omega_{1,2}&\dots&\omega_{1,n}\\
+    \omega_{2,1}&\omega_{2}\\
+    &&\ddots\\
+    &&&\omega_{n}
+ \end{pmatrix}
+  }}
+ 　with　\omega_{i,j}=\omega_{j,i}=\frac{Cov(\epsilon_i,\epsilon_j|\mathbf{X})}{\sigma^2}, \omega_i=\frac{Var(\epsilon_i|\mathbf{X})}{\sigma^2}
+\end{equation*}
+
+i.i.d.データでは, (A2)を満たすため, $\Omega$は対角行列となる.また, 均一分散の場合は対角成分が全て$1$となる. では問題の分散を考えてみよう. $\mathbf{Var}[\mathbf{b}|\mathbf{X}]=\mathbf{E}[(\mathbf{b}-\beta)(\mathbf{b}-\beta)^T|\mathbf{X}]=\mathbf{E}[(\mathbf{X}^{T}\mathbf{X})^{-1}\mathbf{X}^{T}\epsilon\epsilon^T\mathbf{X}(\mathbf{X}^{T}\mathbf{X})^{-1}|\mathbf{X}]=(\mathbf{X}^{T}\mathbf{X})^{-1}\mathbf{X}^{T}\mathbf{E}[\epsilon\epsilon^T|\mathbf{X}]\mathbf{X}(\mathbf{X}^{T}\mathbf{X})^{-1}=\sigma^2(\mathbf{X}^{T}\mathbf{X})^{-1}(\mathbf{X}^{T}\Omega\mathbf{X})(\mathbf{X}^{T}\mathbf{X})^{-1}$. 誤差項の正規性を仮定するならば, $\mathbf{b}|\mathbf{X} \sim \mathcal{N}(\beta, \sigma^2(\mathbf{X}^{T}\mathbf{X})^{-1}(\mathbf{X}^{T}\Omega\mathbf{X})(\mathbf{X}^{T}\mathbf{X})^{-1})$. もはや今までの$s^2(\mathbf{X}^{T}\mathbf{X})^{-1}$に基づく議論は無意味である. さらに, 古典的仮定に基づいたガウスマルコフの定理は成り立たず, BULEでももはやない. 再度推定量をBULEにすることを目指すアプローチが一般最小二乗法(Generalized Least Squares)であり, 再び正確に標準誤差を求めることを目指すアプローチが頑健標準誤差(Robust standard errors)である.\\
+
+\subsection{一般最小二乗法}
+一般化回帰モデルの問題は, 不均一分散(A5)に違反しているために発生する. (A5)が再び満たされるようにデータを変換しよう. $\Omega$が既知とする. すると, $\Omega^{-1}=P^{T}P$となる正則行列$P$が存在することが示せる. 次に, 回帰方程式に$P$を掛け, $P\mathbf{Y} = P\mathbf{X}β + P\epsilon$を得る. これを$\mathbf{Y}_\star = \mathbf{X}_\starβ + \epsilon_\star$に書き換える. $\epsilon_\star$の条件付き分散は次のように表される. $\mathbf{Var}[\epsilon_\star|\mathbf{X}_\star] = \mathbf{E}[\epsilon_\star\epsilon_\star^{T}|\mathbf{X}_\star] = \mathbf{E}[P\epsilon \epsilon^{T}P^{T}|\mathbf{X}_\star] = P\mathbf{E}[\epsilon \epsilon^{T}|\mathbf{X}_\star]P^{T} =\sigma^2P\Omega P^{T} = \sigma^2\mathbf{I}$. (A5)が変換後のモデルに再び適用される. 変換後のモデルに従って計算した以下が一般最小二乗推定量である.
+\begin{equation*}
+  \mathbf{b}_\star=(\mathbf{X}_\star^{T}\mathbf{X}_\star)^{-1}\mathbf{X}_\star^{T}\mathbf{Y}_\star=(\mathbf{X}^{T}\Omega^{-1}\mathbf{X})^{-1}\mathbf{X}^{T}\Omega^{-1}\mathbf{Y}
+\end{equation*}
+(A5)を満たすため, GLSEの$\mathbf{b}_\star$は再度BULEとなった. 条件付分布は, $\mathbf{b}_\star|\mathbf{X}_\star \sim \mathcal{N}(\beta, \sigma^2(\mathbf{X}_\star^{T}\mathbf{X}_\star)^{-1})$. ここで, $\mathbf{Var}[\mathbf{b}_\star|\mathbf{X}_\star] = \sigma^2(\mathbf{X}_\star^{T}\mathbf{X}_\star)^{-1} = \sigma^2(\mathbf{X}^{T}\Omega^{-1}\mathbf{X})^{-1}$. GLSEは$\Omega^{-1}$で重み付けした, OLSEのような推定量である. しかし, $\Omega$は一般的には\rmfamily\mcfamily\bfseries{観測不能}\mdseries . 不均一分散だが系列相関のない特別な場合を考えよう. この結果得られるのが加重最小二乗(Weighted Least Squares)推定量である. このとき, 
+\begin{align*}
+  &\Omega = diag(\omega_1, \omega_2, \ldots, \omega_n),
+  　\Omega^{-1} = P^{T}P = diag(\frac{1}{\omega_1}, \frac{1}{\omega_2}, \ldots, \frac{1}{\omega_n}), 
+  　P = diag(\frac{1}{\sqrt{\omega_1}}, \frac{1}{\sqrt{\omega_2}}, \ldots, \frac{1}{\sqrt{\omega_n}})\\
+  &\because　\mathbf{y}_\star = P\cdot \mathbf{y} = 
+  \begin{pmatrix}
+    \frac{y_1}{\sqrt{\omega_1}}\\
+    \frac{y_2}{\sqrt{\omega_2}}\\
+    \vdots\\
+    \frac{y_n}{\sqrt{\omega_n}}
+ \end{pmatrix},
+ 　\mathbf{X}_\star = P \mathbf{X} = 
+  \begin{pmatrix}
+    \frac{\mathbf{x}_1^T}{\sqrt{\omega_1}}\\
+    \frac{\mathbf{x}_2^T}{\sqrt{\omega_2}}\\
+    \vdots\\
+    \frac{\mathbf{x}_n^T}{\sqrt{\omega_n}}
+ \end{pmatrix},
+ 　\mathbf{b}_\star= (\sum_{i=1}^{n} \frac{1}{\omega_i}\mathbf{x}_i\mathbf{x}_i^T)^{-1} (\sum_{i=1}^{n}\frac{1}{\omega_i}\mathbf{x}_iy_i^T)
+\end{align*}
+
+WLSEを適用すると, 観測値への加重が大きくなるほど, 観測値の分散は小さくなる.\\
+
+\rmfamily\mcfamily\bfseries{Ex. 時給に関する性差}\mdseries　時給を女性ダミーに回帰して$H_i = \beta_1 + \beta_2 F_i + \epsilon_i$を考える. $Var[\epsilon_i|F_i= 0] = E[(H_i - \beta_1)^2|F_i= 0] = Var[H_i |F_i= 0], Var[\epsilon_i|F_i= 1] = E[(H_i - \beta_1 - \beta_2)^2|F_i= 1] = Var[H_i |F_i = 1]$. ここで, 不均一分散$Var[\epsilon_i|F_i= 1] \neq Var[\epsilon_i|F_i= 0]$が認められたとしよう. この場合の適切な推定方法は?　\rmfamily\mcfamily\bfseries{解答}\mdseries　系列相関を考えなくて良いとして, WLSを利用する. $\omega_i$は$\frac{Var(\epsilon_i|F_i=0)}{\sigma^2}$か$\frac{Var(\epsilon_i|F_i=1)}{\sigma^2}$どちらかをとる. ここで, 観測不能な分散を推定量に置き換える必要があり, スカラー$\sigma^2$はすべての重みに共通するため比例関係に影響を与えず取り除く事が出来る. 結果, $\frac{H_i}{\sqrt{\hat{Var}(\epsilon_i|F_i)}}$を$\frac{1}{\sqrt{\hat{Var}(\epsilon_i|F_i)}}, \frac{F_i}{\sqrt{\hat{Var}(\epsilon_i|F_i)}}$に回帰することでWLSE$b_\star$を得る.\\
+
+\subsection{頑健標準誤差}
+標準誤差に問題があることが分かっているので, これを不均一分散のもとでも使える, すなわち頑健なものに置き換えることは自然な解決策の一つだろう. 簡単のため, ここでも系列相関のない不均一分散を考える. また, 大標本理論に基づく議論であるため, \rmfamily\mcfamily\bfseries{3.2}\mdseries での議論と同様(予定)にデータはi.i.d.かつ(A4a) $\mathbf{E}[\mathbf{x}_i\mathbf{x}_i^T] = Q$ はpositive definite, と仮定する. これは正則行列であることの十分条件であり, 正則行列であることは逆行列の存在を保証している. ここで, $\sqrt{n}(\mathbf{b}-\beta)=(\sum_{i=1}^{n} \frac{1}{n}\mathbf{x}_i\mathbf{x}_i^T)^{-1}\sqrt{n}(\sum_{i=1}^{n} \frac{1}{n}\mathbf{x}_i\epsilon_i)\overset{d}{\to} \mathcal{N}(\mathbf{0}, Q^{-1}\Sigma Q^{-1})$だった(?). 均一分散の下では, $\Sigma=\sigma^2\mathbf{E}[\mathbf{x}_i\mathbf{x}_i^T] = \sigma^2Q$(?). それゆえ, $\mathbf{ \text{AVar}[b]}=\frac{\sigma^2}{n}Q^{-1}$, $\hat{\mathbf{\text{AVar}}[\mathbf{b}]}=s^2(\mathbf{X}^T\mathbf{X})^{-1}$. 一方不均一分散の下では, $\Sigma=\mathbf{E}[\epsilon_i^2\mathbf{x}_i\mathbf{x}_i^T]$であり, $\mathbf{ \text{AVar}[b]}=\frac{1}{n}Q^{-1}\Sigma Q^{-1}$. 以前のように$Q$を$\frac{1}{n}\sum_{i=1}^{n} \mathbf{x}_i\mathbf{x}_i^T$で推定し, 同様に$\frac{1}{n-K}\sum_{i=1}^{n} e_i^2\mathbf{x}_i\mathbf{x}_i^T \overset{p}{\to} \Sigma$の(左辺)を一致推定量とする, ここで$e_i$は残差. $\hat{\mathbf{\text{AVar}}[\mathbf{b}]}=\frac{1}{n} (\frac{1}{n}\sum_{i=1}^{n} \mathbf{x}_i\mathbf{x}_i^T)^{-1} (\frac{1}{n-K}\sum_{i=1}^{n} e_i^2\mathbf{x}_i\mathbf{x}_i^T) (\frac{1}{n}\sum_{i=1}^{n} \mathbf{x}_i\mathbf{x}_i^T)^{-1}$. この頑健推定量は White (1980) によって提案されたもので, 不均一分散の状況に一般的に適応可能. 頑健標準誤差（White standard errors）とホワイトの不均一分散検定は以下の通り.
+
+\begin{align*}
+  &\mathbf{（White Standard Errors）}　se(b_k)=\sqrt{\hat{\mathbf{\text{AVar}}[\mathbf{b}]}_{k,k}}\\
+  &\mathbf{（White'sTestforHeteroskedasticity）}　H_0: \sigma_i^2=\sigma^2 \forall i　vs.　H_1: not　H_0
+\end{align*}
+
+\rmfamily\mcfamily\bfseries{ホワイト検定の手順}\mdseries :　二乗残差$e_i^2$を$X^T X$の全ての上三角部分の成分に回帰する. この時検定統計量$nR^2$は漸近的に自由度$J-1$の$\chi^2$に従う. ここで$J$は定数を含む回帰変数の数.\\
+
+頑健な標準誤差と検定統計量を計算できる場合, 通常の標準誤差を気にする必要はないのだろうか? 答えは標本サイズに左右される. 頑健検定統計量と信頼区間は, 漸近的な正当性しか持たない. そのため, 標本サイズが小さい場合, 頑健統計量は適切に動作するとは限らず, むしろ通常の統計量よりもバイアスが大きいこともある. ただ, 標本サイズが大きい場合には頑健統計量のみの報告で十分とする見方もある.\\
+
+\section{操作変数法}
+操作変数法について考える.\\
 
 \end{document}
