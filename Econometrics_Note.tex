@@ -421,6 +421,46 @@ WLSEを適用すると, 観測値への加重が大きくなるほど, 観測値
 頑健な標準誤差と検定統計量を計算できる場合, 通常の標準誤差を気にする必要はないのだろうか? 答えは標本サイズに左右される. 頑健検定統計量と信頼区間は, 漸近的な正当性しか持たない. そのため, 標本サイズが小さい場合, 頑健統計量は適切に動作するとは限らず, むしろ通常の統計量よりもバイアスが大きいこともある. ただ, 標本サイズが大きい場合には頑健統計量のみの報告で十分とする見方もある. 最後に, $K=2$のケースでの公式を求めてみよう. $\sqrt{n}({b}-\beta) \overset{d}{\to} \mathcal{N}({0}, Q^{-1}\Sigma Q^{-1}) = \mathcal{N}({0}, \frac{Var((X_{i,2}-\mu_{X_2})\epsilon_i)}{(Var(X_{i,2}))^2})$, $Var((X_{i,2}-\mu_{X_2})\epsilon_i)=\mathbb{E}[\epsilon_i^2(X_{i,2}-\mu_{X_2})^2]$. 均一分散の時は, $Var((X_{i,2}-\mu_{X_2})\epsilon_i)=\sigma^2 Var(X_2)$. 各部分の一致推定量を利用すれば, 不均一分散の時は$\hat{\mathbf{\text{AVar}}[b_2]}=\frac{1}{n}\frac{\frac{1}{n-2}\sum(X_{i,2}-\bar{X_2})^2\cdot e_i^2}{(\frac{1}{n}\sum(X_{i,2}-\bar{X_2})^2)^2} = \frac{1}{n}\frac{\frac{1}{n-2}\sum(X_{i,2}-\bar{X_2})^2\cdot e_i^2}{(s_{X_2}^2)^2}$, 均一分散の時は$\hat{\mathbf{\text{AVar}}[b_2]} = \frac{1}{n}\frac{s^2\cdot s_{X_2}^2}{(s_{X_2}^2)^2} = \frac{1}{n}\frac{s^2}{s_{X_2}^2}$である. これはもとのOLSで得られるものと同一.\\
 
 \section{操作変数法}
-操作変数法について考える.\\
+説明変数が誤差項と相関する内生性の存在のもとでは(A1)が崩れ, 正確な因果推論を行えなくなる. 内生性を発生する要因としては, 先述の通り, 欠落変数, 測定誤差, 同時性などがあった. では, 一般に内生性がOLS推定に引き起こす影響とは? また, コントロール変数, 代理変数のデータ等が入手不可能な場合の解決策とは? ここで我々が導入するのが\rmfamily\mcfamily\bfseries{操作変数法（Instrumental Variable Method, IV Method）}\mdseries である. ここでは価格弾力性の推定を例に考えて, その後に一般的な操作変数の定義を行うこととする.\\
+
+\rmfamily\mcfamily\bfseries{Ex. 需要の価格弾力性と部分均衡}\mdseries　喫煙による病気や死亡を減らすため, タバコに課税したい. タバコの消費量を$20$パーセント削減するには, タバコの販売価格をどのくらい引き上げる必要があるだろうか? これを知るためにタバコの需要の弾力性, つまり\rmfamily\mcfamily\bfseries{需要方程式}\mdseries の係数$\beta_1$を推定する:
+
+\begin{equation*}
+  \underset{q_i}{\underbrace{ln(Q_i)}} = \beta_0 + \beta_1 \underset{p_i}{\underbrace{ln(P_i)}} + \epsilon_i
+\end{equation*}
+
+今, 観測値 $(Q_i, P_i), i = 1,\dots,n$が得られたとする. OLS 推定は一致性を持つだろうか? 結論としては否, その理由を以下で追っていこう. 部分均衡理論に基づく構造方程式は以下のとおり.
+
+\begin{align*}
+  &\mathbf{Demand}:　q_i^D = \beta_0 + \underset{theoretically <0}{\underbrace{\beta_1}} p_i + \underset{Demand Slide}{\underbrace{\epsilon_i}}\\
+  &\mathbf{Supply}:　　q_i^S = \alpha_0 + \underset{theoretically >0}{\underbrace{\alpha_1}} p_i + \underset{Supply Slide}{\underbrace{\nu_i}}
+\end{align*}
+
+各関数(構造方程式)の誤差項は独立$Cov(\epsilon_i, \nu_i)=0$と仮定する. 均衡価格は市場一掃条件を満たす価格水準として定義されるため, $q_i^S=q_i^D=q_i$であり, この均衡水準での数量と価格のデータ$(q_i, p_i)$が$n$個与えられていると考えられる. $q_i$を$p_i$に回帰したときのOLSEは$b_1^{OLS}=\frac{\hat{Cov}(p_i, q_i)}{\hat{Var}(p_i)} \overset{p}{\to} \beta_1 + \frac{{Cov}(p_i, \epsilon_i)}{{Var}(p_i)}$. 均衡点では$\beta_0 + \beta_1 p_i + \epsilon_i = \alpha_0 + \alpha_1 p_i + \nu_i$. 変形して, $p_i = \frac{\alpha_0 - \beta_0 + \nu_i}{\beta_1 - \alpha_1} - \frac{1}{\beta_1 - \alpha_1}\epsilon_i$ with $\beta_1 - \alpha_1 <0$. 今までの関係式を利用して, $Cov(p_i, \epsilon_i) = -\frac{1}{\beta_1 - \alpha_1}Var(\epsilon_i) > 0$を得る. $b_1^{OLS}$の確率極限が$\beta_1 + \frac{{Cov}(p_i, \epsilon_i)}{{Var}(p_i)} > \beta_1$となるため, OLSEは\rmfamily\mcfamily\bfseries{もはや一致推定量でない}\mdseries . ここで一致推定量を得る方法として挙がってくるのが\rmfamily\mcfamily\bfseries{操作変数}\mdseries の利用だ. 供給関数を以下のように書き換えよう.
+
+\begin{equation*}
+  \mathbf{SupplyModified}:　　q_i^S = \alpha_0 + \alpha_1 p_i + \underset{\nu_i}{\underbrace{\alpha_2 z_i + u_i}}
+\end{equation*}
+
+ここで, $z_i$は観測可能で$Cov(z_i, \epsilon_i) = 0$. つまり\rmfamily\mcfamily\bfseries{供給には影響を与えるが需要には影響を与えない変数}\mdseries である. $Cov(z_i, u_i) = 0, Cov(\epsilon_i, u_i) = 0$. 均衡では$p_i = \frac{\alpha_0 - \beta_0}{\beta_1 - \alpha_1} + \frac{\alpha_2}{\beta_1 - \alpha_1} z_i + \frac{u_i - \epsilon_i}{\beta_1 - \alpha_1}$から, $Cov(z_i, p_i) = \frac{\alpha_2}{\beta_1 - \alpha_1}Var(z_i) \neq 0$. 今までの関係式を利用して, $Cov(q_i, z_i) = Cov(\beta_0 + \beta_1 p_i + \epsilon_i, z_i) = \beta_1 Cov(p_i, z_i)$より, 変形して$\beta_1 = \frac{Cov(q_i, z_i)}{Cov(p_i, z_i)}$を得る. これを標本対応した $b_1^{IV} = \frac{s_{q,z}}{s_{p,z}}$が\rmfamily\mcfamily\bfseries{IV推定量}\mdseries である. この推定量は明らかに\rmfamily\mcfamily\bfseries{一致性を持つ}\mdseries . 均衡水準は需要, 供給関数両者の位置によって決定するもので, そのスライドを意味する各関数の誤差項の処理が十分でないことに起因する推定のズレが問題である. そのため, \rmfamily\mcfamily\bfseries{片方の関数の位置を固定し, もう片方の振る舞いを観測データ（均衡水準）から特定できるようにしたい}\mdseries 訳だが, 操作変数法はそれを実現するための手法なのだ.\\
+
+\subsection{単回帰での操作変数}
+では一般の操作変数法を議論しよう. 構造モデルが以下で与えられるとする.
+
+\begin{equation*}
+  y_i = \beta_0 + \beta_1 x_i + \epsilon_i　with　Cov(x_i, \epsilon_i) \neq 0
+\end{equation*}
+
+このとき, $b_1 \overset{p}{\to} \beta_1 + \frac{Cov(x_i, \epsilon_i)}{Var(x_i)}$で, $x_i$が誤差項と相関している, つまり\rmfamily\mcfamily\bfseries{内生変数}\mdseries だとする. このとき, (A1)が崩れるため一致推定量でなくなる. 操作変数法は$x_i$を$\epsilon_i$と相関する部分と無相関の部分に分解する. $\beta_1$を推定するために利用するのは\rmfamily\mcfamily\bfseries{無相関の部分のみ}\mdseries . では$x_i$を分解する方法は? $x_i$と相関するが誤差項とは無相関の操作変数を見つければよい. 纏めると以下の通り.
+
+\begin{align*}
+  &1. 操作変数の関連性:　Corr(x_i , z_i ) \neq 0\\
+  &2. 操作変数の外生性:　Corr(\epsilon_i , z_i ) = 0
+\end{align*}
+
+$x_i$は$z_i$に回帰することで, $x_i = \pi_0 + \pi_1 z_i + \nu_i ⇒ \hat{x_i} = \hat{\pi_0} + \hat{\pi_1} z_i$ と分解される（第1段階）. 次に$y_i$を$\hat{x_i}$に回帰する（第2段階）. これが\rmfamily\mcfamily\bfseries{二段階最小二乗法（TSLS）}\mdseries . TSLS推定量を$b_1^{TSLS}$で表す. この確率極限は$b_1^{TSLS} = \frac{s_{z,y}}{s_{z,x}} \overset{p}{\to} \frac{Cov(z_i, y_i)}{Cov(z_i, x_i)} = \beta_1$ で, 先述の例の通り一致性を持つ. 漸近分布は$b_1^{TSLS} \overset{a}{\sim} \mathcal{N}({\beta_1}, \sigma_{b_1^{TSLS}}^2)$ where $\sigma_{b_1^{TSLS}}^2 = \frac{1}{n}\frac{Var((z_i - \mu_z)\epsilon_i)}{[Cov(z_i, x_i)]^2}$. なお, 不均一分散のもとでも頑健である. この推定量の正統性を, 種々の仮定を置きながら確認してみよう.\\
+
+\subsection{一般操作変数モデル}
+より一般的な回帰モデルについて操作変数法を使おう.\\
 
 \end{document}
