@@ -375,13 +375,15 @@ $(5) \sim (7)$式については良く知られた通り, 対数を取ってい�
  　with　\omega_{i,j}=\omega_{j,i}=\frac{Cov(\epsilon_i,\epsilon_j|\mathbf{X})}{\sigma^2}, \omega_i=\frac{Var(\epsilon_i|\mathbf{X})}{\sigma^2}
 \end{equation*}
 
-i.i.d.データでは, (A2)を満たすため, $\Omega$は対角行列となる.また, 均一分散の場合は対角成分が全て$1$となる. では問題の分散を考えてみよう. $\mathbf{Var}[\mathbf{b}|\mathbf{X}]=\mathbf{E}[(\mathbf{b}-\beta)(\mathbf{b}-\beta)^T|\mathbf{X}]=\mathbf{E}[(\mathbf{X}^{T}\mathbf{X})^{-1}\mathbf{X}^{T}\epsilon\epsilon^T\mathbf{X}(\mathbf{X}^{T}\mathbf{X})^{-1}|\mathbf{X}]=(\mathbf{X}^{T}\mathbf{X})^{-1}\mathbf{X}^{T}\mathbf{E}[\epsilon\epsilon^T|\mathbf{X}]\mathbf{X}(\mathbf{X}^{T}\mathbf{X})^{-1}=\sigma^2(\mathbf{X}^{T}\mathbf{X})^{-1}(\mathbf{X}^{T}\Omega\mathbf{X})(\mathbf{X}^{T}\mathbf{X})^{-1}$. 誤差項の正規性を仮定するならば, $\mathbf{b}|\mathbf{X} \sim \mathcal{N}(\beta, \sigma^2(\mathbf{X}^{T}\mathbf{X})^{-1}(\mathbf{X}^{T}\Omega\mathbf{X})(\mathbf{X}^{T}\mathbf{X})^{-1})$. もはや今までの$s^2(\mathbf{X}^{T}\mathbf{X})^{-1}$に基づく議論は無意味である. さらに, 古典的仮定に基づいたガウスマルコフの定理は成り立たず, BULEでももはやない. 再度推定量をBULEにすることを目指すアプローチが一般最小二乗法(Generalized Least Squares)であり, 再び正確に標準誤差を求めることを目指すアプローチが頑健標準誤差(Robust standard errors)である.\\
+i.i.d.仮定の下では(A2)を満たすため, $\Omega$は対角行列となる.また, 均一分散の場合は対角成分が全て$1$となる. では問題の分散を考えてみよう. $\mathbf{Var}[\mathbf{b}|\mathbf{X}]=\mathbf{E}[(\mathbf{b}-\beta)(\mathbf{b}-\beta)^T|\mathbf{X}]=\mathbf{E}[(\mathbf{X}^{T}\mathbf{X})^{-1}\mathbf{X}^{T}\epsilon\epsilon^T\mathbf{X}(\mathbf{X}^{T}\mathbf{X})^{-1}|\mathbf{X}]=(\mathbf{X}^{T}\mathbf{X})^{-1}\mathbf{X}^{T}\mathbf{E}[\epsilon\epsilon^T|\mathbf{X}]\mathbf{X}(\mathbf{X}^{T}\mathbf{X})^{-1}=\sigma^2(\mathbf{X}^{T}\mathbf{X})^{-1}(\mathbf{X}^{T}\Omega\mathbf{X})(\mathbf{X}^{T}\mathbf{X})^{-1}$. $\epsilon$の正規性を仮定すれば, $\mathbf{b}|\mathbf{X} \sim \mathcal{N}(\beta, \sigma^2(\mathbf{X}^{T}\mathbf{X})^{-1}(\mathbf{X}^{T}\Omega\mathbf{X})(\mathbf{X}^{T}\mathbf{X})^{-1})$. 最早今までの$s^2(\mathbf{X}^{T}\mathbf{X})^{-1}$に基づく議論は無意味. 更に古典的仮定に基づくガウスマルコフの定理は不成立でBULEでもない. 再度推定量をBULEにすることを目指すアプローチが一般最小二乗法(Generalized Least Squares)で, 再び正確に標準誤差を求めることを目指すアプローチが頑健標準誤差(Robust standard errors).\\
 
 \subsection{一般最小二乗法}
 一般化回帰モデルの問題は, 不均一分散(A5)に違反しているために発生する. (A5)が再び満たされるようにデータを変換しよう. $\Omega$が既知とする. すると, $\Omega^{-1}=P^{T}P$となる正則行列$P$が存在することが示せる. 次に, 回帰方程式に$P$を掛け, $P\mathbf{Y} = P\mathbf{X}β + P\epsilon$を得る. これを$\mathbf{Y}_\star = \mathbf{X}_\starβ + \epsilon_\star$に書き換える. $\epsilon_\star$の条件付き分散は次のように表される. $\mathbf{Var}[\epsilon_\star|\mathbf{X}_\star] = \mathbf{E}[\epsilon_\star\epsilon_\star^{T}|\mathbf{X}_\star] = \mathbf{E}[P\epsilon \epsilon^{T}P^{T}|\mathbf{X}_\star] = P\mathbf{E}[\epsilon \epsilon^{T}|\mathbf{X}_\star]P^{T} =\sigma^2P\Omega P^{T} = \sigma^2\mathbf{I}$. (A5)が変換後のモデルに再び適用される. 変換後のモデルに従って計算した以下が一般最小二乗推定量である.
+
 \begin{equation*}
   \mathbf{b}_\star=(\mathbf{X}_\star^{T}\mathbf{X}_\star)^{-1}\mathbf{X}_\star^{T}\mathbf{Y}_\star=(\mathbf{X}^{T}\Omega^{-1}\mathbf{X})^{-1}\mathbf{X}^{T}\Omega^{-1}\mathbf{Y}
 \end{equation*}
+
 (A5)を満たすため, GLSEの$\mathbf{b}_\star$は再度BULEとなった. 条件付分布は, $\mathbf{b}_\star|\mathbf{X}_\star \sim \mathcal{N}(\beta, \sigma^2(\mathbf{X}_\star^{T}\mathbf{X}_\star)^{-1})$. ここで, $\mathbf{Var}[\mathbf{b}_\star|\mathbf{X}_\star] = \sigma^2(\mathbf{X}_\star^{T}\mathbf{X}_\star)^{-1} = \sigma^2(\mathbf{X}^{T}\Omega^{-1}\mathbf{X})^{-1}$. GLSEは$\Omega^{-1}$で重み付けした, OLSEのような推定量である. しかし, $\Omega$は一般的には\rmfamily\mcfamily\bfseries{観測不能}\mdseries . 不均一分散だが系列相関のない特別な場合を考えよう. この結果得られるのが加重最小二乗(Weighted Least Squares)推定量である. このとき, 
 \begin{align*}
   &\Omega = diag(\omega_1, \omega_2, \ldots, \omega_n),
@@ -459,6 +461,32 @@ WLSEを適用すると, 観測値への加重が大きくなるほど, 観測値
 \end{align*}
 
 $x_i$は$z_i$に回帰することで, $x_i = \pi_0 + \pi_1 z_i + \nu_i ⇒ \hat{x_i} = \hat{\pi_0} + \hat{\pi_1} z_i$ と分解される（第1段階）. 次に$y_i$を$\hat{x_i}$に回帰する（第2段階）. これが\rmfamily\mcfamily\bfseries{二段階最小二乗法（TSLS）}\mdseries . TSLS推定量を$b_1^{TSLS}$で表す. この確率極限は$b_1^{TSLS} = \frac{s_{z,y}}{s_{z,x}} \overset{p}{\to} \frac{Cov(z_i, y_i)}{Cov(z_i, x_i)} = \beta_1$ で, 先述の例の通り一致性を持つ. 漸近分布は$b_1^{TSLS} \overset{a}{\sim} \mathcal{N}({\beta_1}, \sigma_{b_1^{TSLS}}^2)$ where $\sigma_{b_1^{TSLS}}^2 = \frac{1}{n}\frac{Var((z_i - \mu_z)\epsilon_i)}{[Cov(z_i, x_i)]^2}$. なお, 不均一分散のもとでも頑健である. この推定量の正統性を, 種々の仮定を置きながら確認してみよう.\\
+
+\rmfamily\mcfamily\bfseries{Ex. $x$が外生変数（A1）, 均一分散（A5）}\mdseries　まず$x$が外生変数（A1）とする. つまり, OLSEは一致推定量. $z$が適切な操作変数ならばOLSEとIVEは整合する筈. $x$自体を操作変数として利用しよう. $b_1^{TSLS} = \frac{s_{z,y}}{s_{z,x}} = \frac{s_{x,y}}{s^{2}_{x}} = b_1^{OLS}$. $\sigma_{b_1^{TSLS}}^2 = \frac{1}{n}\frac{Var((z_i - \mu_z)\epsilon_i)}{[Cov(z_i, x_i)]^2} = \frac{1}{n}\frac{Var((z_i - \mu_z)\epsilon_i)}{[Var(x_i)]^2} = \sigma_{b_1^{OLS}}^2$. これは不均一分散（A5）のもとでのOLSEの漸近分散であり, この推定量の平方根がホワイトの頑健標準誤差である. さらに, もし$\mathbb{E}[\epsilon_i^2 | x_i] = \sigma^2$ならば, $Var((x_i - \mu_x)\epsilon_i) = \mathbb{E}[(x_i - \mu_x)^2\epsilon_i^2] \overset{LIE}{=} \mathbb{E}[(x_i - \mu_x)^2\mathbb{E}[\epsilon_i^2 | x_i]] = \sigma^2 Var(x_i)$であるので, $\sigma_{b_1^{OLS}}^2 = \frac{1}{n}\frac{\sigma^2}{Var(x_i)}$. この推定量は均一分散におけるOLSの標準誤差と整合.\\
+
+\rmfamily\mcfamily\bfseries{Ex. 均一分散（A5）}\mdseries　$x$が内生変数とする. このとき一致性が崩れる. $z_i$が適切な操作変数とする. かつ均一分散を仮定しよう. 前の例と同様にして, TSLS推定量は以下のように計算できる.
+
+\begin{equation*}
+  \sigma_{b_1^{TSLS}}^2 = \frac{1}{n}\frac{\sigma^2Var(z_i)}{[Cov(z_i, x_i)]^2} = \underset{\sigma_{b_1^{OLS}}^2}{\underbrace{\frac{1}{n}\frac{\sigma^2}{Var(x)}}} \cdot \underset{\geq 1}{\underbrace{\frac{1}{\rho_{x, z}^2}}}
+\end{equation*}
+
+以上より(A5)では$\sigma_{b_1^{TSLS}}^2 = \frac{\sigma_{\epsilon}^2}{n \sigma_{x}^2}\frac{1}{\rho_{x, z}^2}$. 一方OLSは$\sigma_{b_1^{OLS}}^2 = \frac{\sigma_{\epsilon}^2}{n \sigma_{x}^2}$. 故に目安として, TSLSでの標準誤差はOLS標準誤差より約$\frac{1}{r_{x, z}^2}$大きくなる. ここで$r_{x,z}$は標本相関. この要因は, OLSを実行できる場合に\rmfamily\mcfamily\bfseries{TSLSを実行するコスト}\mdseries と解釈可能. なおOLSが使えない場合比較は無為. また, 操作変数が内生変数である可能性も考慮する必要がある. 確認のため確率極限を見てみよう.
+
+\begin{align*}
+  &b_1^{OLS} \overset{p}{\to} \beta_1 + \frac{\sigma_{\epsilon}}{\sigma_{x}} \cdot Corr(x, \epsilon)\\
+  &b_1^{TSLS} = \beta_1 + \frac{s_{z,y}}{s_{z,x}} \overset{p}{\to} \beta_1 + \frac{\sigma_{\epsilon}}{\sigma_{x}} \cdot \frac{Corr(z, \epsilon)}{Corr(z, x)}
+\end{align*}
+
+この時, TSLSのバイアスは$Corr(z, x)$で大幅に増幅される. 実際この値が$.10$のオーダーに乗らないことすらしばしばである.\\
+
+\rmfamily\mcfamily\bfseries{Ex. タバコ需要の価格弾力性}\mdseries　1995年の米国本土48州のクロスセクションデータを使用する. $Q_i$: 州内で1人あたりに販売されたタバコの箱数, $P_i$: すべての税金を含むタバコ1箱あたりの平均実質価格, である. 価格の操作変数として一般消費税を使用する. TSLS推定の結果は以下.
+
+\begin{align*}
+  \hat{ln(Price_i)} &= \underset{(0.03)}{4.63}  + \underset{(0.005)}{0.031}  SalesTax_i\\
+  \hat{ln(Q_i)} &= \underset{(1.53)}{9.72} - \underset{(0.32)}{1.08}  ln(P_i)
+\end{align*}
+
+つまり, 価格を$1$パーセント上げると消費が$1.08$パーセント減少する. 果たしてこれは有効な結果だろうか?　\rmfamily\mcfamily\bfseries{解答}\mdseries　一段階目の$t$値は約$6$でおおよその水準で統計的有意. 二段階目にも有意性を認められるため, 有効であると見てよさそうだ.\\
 
 \subsection{一般操作変数モデル}
 より一般的な回帰モデルについて操作変数法を使おう.\\
