@@ -453,7 +453,7 @@ WLSEを適用すると, 観測値への加重が大きくなるほど, 観測値
   y_i = \beta_0 + \beta_1 x_i + \epsilon_i　with　Cov(x_i, \epsilon_i) \neq 0
 \end{equation*}
 
-このとき, $b_1 \overset{p}{\to} \beta_1 + \frac{Cov(x_i, \epsilon_i)}{Var(x_i)}$で, $x_i$が誤差項と相関している, つまり\rmfamily\mcfamily\bfseries{内生変数}\mdseries だとする. このとき, (A1)が崩れるため一致推定量でなくなる. 操作変数法は$x_i$を$\epsilon_i$と相関する部分と無相関の部分に分解する. $\beta_1$を推定するために利用するのは\rmfamily\mcfamily\bfseries{無相関の部分のみ}\mdseries . では$x_i$を分解する方法は? $x_i$と相関するが誤差項とは無相関の操作変数を見つければよい. 纏めると以下の通り.
+このとき, $b_1 \overset{p}{\to} \beta_1 + \frac{Cov(x_i, \epsilon_i)}{Var(x_i)}$で, $x_i$が誤差項と相関している, つまり\rmfamily\mcfamily\bfseries{内生変数}\mdseries だとする. このとき, (A1)が崩れるため一致推定量でなくなる. 操作変数法は$x_i$を$\epsilon_i$と相関する部分と無相関の部分に分解する. $\beta_1$を推定するために利用するのは\rmfamily\mcfamily\bfseries{無相関の部分のみ}\mdseries . では$x_i$を分解する方法は? $x_i$と相関するが誤差項とは無相関の操作変数を見つければよい. 先ほどの例からも分かる通り, 操作変数は直接的な因果効果を被説明変数に対して持っておらず(外生性), あくまで相関により, 構造モデルに入っている他説明変数の因果関係を媒介している(関連性)に過ぎないことを留意せよ. まとめると, 以下の性質が操作変数には望ましい.
 
 \begin{align*}
   &1. 操作変数の関連性:　Corr(x_i , z_i ) \neq 0\\
@@ -505,15 +505,15 @@ $x_i$は$z_i$に回帰することで, $x_i = \pi_0 + \pi_1 z_i + \nu_i ⇒ \hat
 
 結果, 予測値 $\hat{x_{1,k}}, \dots, \hat{x_{n,k}}$ が各内生回帰変数に対して得られる.\\
 
-\rmfamily\mcfamily\bfseries{第二段階}\mdseries :　$y_i$を予測値$\hat{x_{i,1}}, \dots, \hat{x_{i,K}}$と外生変数に回帰し$\mathbf{b}^{TSLS} = (b_0^{TSLS}, \dots, b_{K+r}^{TSLS})^T$を得る.\\
+\rmfamily\mcfamily\bfseries{第二段階}\mdseries :　$y_i$を$\hat{x_{i,1}}, \dots, \hat{x_{i,K}}, w_{i,1}, \dots, w_{i,r}$に回帰し$\mathbf{b}^{TSLS} = (b_0^{TSLS}, \dots, b_{K+r}^{TSLS})^T$を得る.\\
 
-操作変数の\rmfamily\mcfamily\bfseries{関連性と外生性}\mdseries を, 一般の場合にはどのように定義すべきだろうか. $m$個の操作変数集合$z_{i,1}, \dots, z_{i,m}$は, 有効であるため, 次の$2$条件を満たす必要がある:\\
+操作変数の\rmfamily\mcfamily\bfseries{関連性と外生性}\mdseries を, 一般の場合にはどのように定義すべきだろうか. $m$個の操作変数集合$z_{i,1}, \dots, z_{i,m}$が有効であるためには, 次の$2$条件を満たす必要がある:\\
 
-\rmfamily\mcfamily\bfseries{1. 関連性}\mdseries :　$(1, \hat{x_{i,1}}, \dots, \hat{x_{i,K}}, w_{i,1}, \dots, w_{i,r})$は完全な多重共線性を持たない (操作変数は, $x_{i,k}$の外生的部分$\hat{x}_{i,k}$に関する十分な情報を, これらの$y_i$に対する個別の影響を整理するために, 提供する必要がある. $K = 1$の場合, これは少なくとも$1$つの操作変数が第一段階回帰で関連している必要があることを意味する. 単回帰の例に一致していることを確認せよ. これは$m \geq K$の条件による.)
+\rmfamily\mcfamily\bfseries{1. 関連性}\mdseries :　$(1, \hat{x_{i,1}}, \dots, \hat{x_{i,K}}, w_{i,1}, \dots, w_{i,r})$は完全な多重共線性を持たない (操作変数は, $x_{i,k}$の外生的部分$\hat{x}_{i,k}$に関する十分な情報を, これらの$y_i$に対する個別の影響を整理するために, 提供する必要がある. $K = 1$の場合, これは少なくとも$1$つの操作変数が第一段階回帰で関連している必要があることを意味する. 単回帰の例に一致していることを確認せよ.(要検討))
 
 \rmfamily\mcfamily\bfseries{2. 外生性}\mdseries :　$Corr(z_{i,1}, \epsilon_i) = 0, \dots, Corr(z_{i,m}, \epsilon_i) = 0$ (各説明変数は誤差項と無相関)\\
 
-次のIV回帰仮定が満たされれば, TSLSEは大標本において一致性があり, 正規分布に従う:
+更に, 次のIV回帰仮定が満たされれば, TSLS推定量は大標本で一致性があり, 正規分布に従う:
 
 \begin{align*}
   &\mathbf{(IV1)}　\mathbb{E}(\epsilon_i|w_{i,1}, \dots, w_{i,r})=0　\mathbf{or}　\mathbb{E}(\epsilon_i|z_{i,1}, \dots, z_{i,m}, w_{i,1}, \dots, w_{i,r}) = \mathbb{E}(\epsilon_i|w_{i,1}, \dots, w_{i,r})\\
@@ -538,7 +538,7 @@ $1$内生説明変数, $1$コントロール変数, $1 \sim 2$操作変数を有
 
 \subsection{操作変数の正統性に関する検定}
 \subsubsection{関連性}
-直感として, $x_{i,k}$の変動が操作変数で説明できるほど, TSLS推定量はより正確になる. 関連性は標本サイズのように, 大きいほど推定の精度を高めることが分かる. 単回帰の推定量の分散公式にも整合的な解釈だろう. $Corr(z_i , x_i)$が低すぎる場合, TSLS推定量にはバイアスがあり, 正規分布に従わなくなる. 極端な場合, $Corr(z_i , x_i) = 0$で, 操作変数は無関連と呼ばれる. ではどの程度の関連性が操作変数には必要なのだろうか? $(\mathbb{E}[b_1^{TSLS}] - \beta_1)/(\beta_1^{OLS} - \beta_1) \approx 1/(\mathbb{E}[F] - 1)$ ここで, $\beta_1^{OLS}$はOLS推定量の確率極限であり, $E(F)$ は, 第一段階の回帰で操作変数$z_{i,1}, \dots, z_{i,m}$の係数がゼロになるという帰無仮説の$F$統計量の期待値. この近似式より次の経験則を得る.\\
+直感として, $x_{i,k}$の変動が操作変数で説明できるほど, TSLS推定量はより正確になる. 関連性は標本サイズと同様に, 大きいほど推定の精度を高めることが分かる. 単回帰の推定量の分散公式にも整合的な解釈である. $Corr(z_i , x_i)$が低すぎる場合, TSLS推定量にはバイアスがあり, 正規分布に従わなくなる. 極端な場合, $Corr(z_i , x_i) = 0$で, 操作変数は無関連と呼ばれる. ではどの程度の関連性が操作変数には必要なのだろうか? $(\mathbb{E}[b_1^{TSLS}] - \beta_1)/(\beta_1^{OLS} - \beta_1) \approx 1/(\mathbb{E}[F] - 1)$ ここで, $\beta_1^{OLS}$はOLS推定量の確率極限であり, $E(F)$ は, 第一段階の回帰で操作変数$z_{i,1}, \dots, z_{i,m}$の係数がゼロになるという帰無仮説の$F$統計量の期待値. この近似式より次の経験則を得る.\\
 
 \rmfamily\mcfamily\bfseries{単一の内生的回帰変数の場合の経験則}\mdseries :　$F = 10$の場合, OLSのバイアスに対するTSLSのバイアスは約$1/9$. つまり$10$パーセントを僅かに超える. これを踏まえ, $F \geq 10$の時TSLSのバイアスは十分小さいとして慣習的に許容する. 逆に$F$統計量が$10$未満の場合は\rmfamily\mcfamily\bfseries{弱操作変数}\mdseries と呼ばれる.\\
 
@@ -549,6 +549,39 @@ $1$内生説明変数, $1$コントロール変数, $1 \sim 2$操作変数を有
 次に, 操作変数と外生回帰変数へ, $\hat{\epsilon}_i^{TSLS}$ を回帰する. ここで, \rmfamily\mcfamily\bfseries{均一分散用の}\mdseries $F$統計量を使用して, 操作変数の係数がゼロであるという仮説の検定を行う. 大標本の場合 $J = mF \sim \chi^2(m - K)$. 制約と$F$検定の章を参照. 正規性を外した場合の値の漸近分布が$\chi^2$だったことを利用している(不正確, 確認の必要あり).\\
 
 \rmfamily\mcfamily\bfseries{Ex. タバコ需要の価格弾力性（Cont.）}\mdseries　所得に加えて, タバコの消費に影響を与える他の変数を考える. これらの変数が州によって異なるが, 時間の経過とともに変化しない場合, \rmfamily\mcfamily\bfseries{パネルデータ}\mdseries を使用してDifference Estimationを実行可能. ここでは$1985$年と$1995$年のデータを使用し, 長期的な弾力性を推定.　\rmfamily\mcfamily\bfseries{結果の要約}\mdseries　 : 各回帰で $F$ 統計量が $10$ を超えており, 関連性は満たされている. ただし, 推定弾力性は操作変数の選択によって異なる. $J$検定: 両操作変数が外生的との仮説を棄却する. タバコ税はその外部性より, 内生的である可能性がある.\\
+
+\subsection{一般TSLS推定量}
+最後に, 一般の重回帰モデルでの操作変数法における, TSLS推定量の行列表記やその性質について考えよう. 記法:　$\mathbf{X}$は内生, 外生回帰変数を全てまとめた$n \times (K + r + 1)$行列. $i$行は$\mathbf{x}_i^T = (1, x_{i,1}, \dots, x_{i,K}, w_{i,1}, \dots, w_{i,r})$である. $\mathbf{Z}$は操作変数とモデルに含まれる外生変数を合わせた外生変数行列$n \times (m + r + 1)$行列. $i$行は$\mathbf{z}_i^T = (1, z_{i,1}, \dots, z_{i,m}, w_{i,1}, \dots, w_{i,r})$である. 以上の記法を用いて, IV回帰モデルは以下のように表記可能である.
+
+\begin{equation*}
+  \mathbf{y} = \mathbf{X}\beta + \epsilon　\mathbf{with}　\mathbf{E}[\mathbf{z}_i\epsilon_i] = \mathbf{0}
+\end{equation*}
+
+TSLS推定の一段階目では, 予測値行列$\hat{\mathbf{X}}$を求める. ここで, $\hat{\mathbf{x}}_i^T = (1, \hat{x}_{i,1}, \dots, \hat{x}_{i,K}, w_{i,1}, \dots, w_{i,r})$. 予測値は\rmfamily\mcfamily\bfseries{射影行列}\mdseries $\mathbf{P_Z}$を利用して次のように表記できる(=線形射影としてのOLS). 
+
+\begin{equation*}
+  \hat{\mathbf{X}} = \mathbf{P_Z}{\mathbf{X}} = \mathbf{Z}(\mathbf{Z}^T\mathbf{Z})^{-1}\mathbf{Z}^T\mathbf{X}
+\end{equation*}
+
+これらの記法を用いて, 二段階目は以下のように表記可能である.
+
+\begin{equation*}
+  \mathbf{b}^{TSLS} = (\hat{\mathbf{X}}^T\hat{\mathbf{X}})^{-1}\hat{\mathbf{X}}^T\mathbf{y} = (\mathbf{X}^T\mathbf{P_Z}{\mathbf{X}})^{-1}\mathbf{X}^T\mathbf{P_Z}\mathbf{y} = (\mathbf{X}^T\mathbf{Z}(\mathbf{Z}^T\mathbf{Z})^{-1}\mathbf{Z}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{Z}(\mathbf{Z}^T\mathbf{Z})^{-1}\mathbf{Z}^T\mathbf{y}
+\end{equation*}
+
+計算では$\mathbf{P_Z}$が対称行列であることを利用. 次に漸近分布を考える. モデルの定義と推定量より, 
+
+\begin{equation*}
+  \sqrt{n}(\mathbf{b}^{TSLS} - \beta) = (\frac{\mathbf{X}^T\mathbf{Z}}{n} (\frac{\mathbf{Z}^T\mathbf{Z}}{n})^{-1} \frac{\mathbf{Z}^T\mathbf{X}}{n})^{-1} \frac{\mathbf{X}^T\mathbf{Z}}{n} (\frac{\mathbf{Z}^T\mathbf{Z}}{n})^{-1} \frac{\mathbf{Z}^T\epsilon}{\sqrt{n}}
+\end{equation*}
+
+と書き換えが可能. 更にLLNとCLNより以下を得る.
+
+\begin{equation*}
+  \sqrt{n}(\mathbf{b}^{TSLS} - \beta) \overset{d}{\to} \mathcal{N}(\mathbf{0}, \Sigma^{TSLS})
+\end{equation*}
+
+条件付均一分散$\mathbf{E}[\epsilon_i^2|\mathbf{z}_i] = \sigma^2$の場合, 共分散行列は$\Sigma^{TSLS} = \sigma^2(\mathbf{E}[\mathbf{x}_i\mathbf{z}_i^T] (\mathbf{E}[\mathbf{z}_i\mathbf{z}_i^T])^{-1} \mathbf{E}[\mathbf{z}_i\mathbf{x}_i^T])^{-1}$. この場合TSLS推定量は, $\mathbf{Z}$の線形結合である操作変数を用いた推定量の中では漸近的に最良となる. 不均一分散の下では頑健標準誤差を利用して漸近分布を得ることが出来る.\\
 
 \section{時系列データ分析}
 パネルデータについて考える. Pooled Regression Modelは地点と個人を全て平等に扱い, 各被説明変数を$nT$個の説明変数に回帰するモデルである. プール回帰モデルの定数項は個人間で同じだが, この仮定は時に非現実的. 時間には依存しない, しかし属性ごとの, 例えば都市ごとの固有の要因を考えるべきだ. $L$個の要因があるとすると, これを全て観察できないことがしばしばなので, 固定効果を足し合わせて一つに纏める. これをプール回帰モデルの定数項に纏めてやれば, 個人ごとに異なる定数項を持つ固定効果モデル(FE model)が作れる. 説明変数と固定効果は相関していると一般に仮定して議論が行われる. First Difference Estimation: 二期間しかない場合は, 同一個人の回帰式を辺々引くことで, この内生性を解消できる. 差を差で回帰すればよい. FE推定量: 二期間以上を考えると, FEモデルから時間平均FEモデルを辺々引いて回帰すればこれがFE推定量. $n$個のダミーを追加したモデルと同じ推定量をだすことから, 最小二乗ダミー推定量とも呼ぶ.プール回帰とFEは通常の$F$検定の枠組みで$F(n - 1, nT - n - K)$で区別可能. ランダム効果モデル(RE): 一方, 回帰変数と個別効果が無相関の場合がREモデル. REモデルの誤差項は系列相関するため, GLSで推定される. プール回帰との検定は, 帰無仮説$\sigma_z^2=0$のラグランジュ乗数検定で行う. FEとREの検定は, 帰無仮説$Cov(z_i, x_{i,t}=0)$のハウスマン検定で行う.\\
