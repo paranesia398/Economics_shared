@@ -186,11 +186,11 @@ FOCで得た正規方程式を用い, OLS推定量 $(\hat{\beta}_1, \hat{\beta}_
 \paragraph{因果推論のための単回帰モデル・古典的仮定}
 では, 実際に$\beta_2$が因果効果として考えるための仮定とは何だろうか. これ即ち\rmfamily\mcfamily\bfseries{単回帰モデルの古典的仮定}\mdseries である. 
 \begin{align*}
-  &\mathbf{(A1)} \mathbb{E}(\epsilon_i|X_{i, 2})=0\\
-  &\mathbf{(A2)} (X_{i, 2}, Y_{i})　\text{for}　i=1, \dots, n　\text{はi.i.d.}\\
-  &\mathbf{(A3)} (X_{i, 2}, \epsilon_{i})\text{は無限ではない4次のモーメントを持つ}\\
-  &\mathbf{(A4)} \text{均一分散}: Var(\epsilon_i|X_{i, 2})=\sigma_\epsilon^{2}\\
-  &\mathbf{(A5)} 条件付き正規性: \epsilon_i|X_{i, 2} \sim \mathcal{N} (0, \sigma_\epsilon^{2})
+  &\mathbf{(A1)}　 \mathbb{E}(\epsilon_i|X_{i, 2})=0\\
+  &\mathbf{(A2)}　 (X_{i, 2}, Y_{i})　\text{for}　i=1, \dots, n　\text{はi.i.d.}\\
+  &\mathbf{(A3)}　 (X_{i, 2}, \epsilon_{i})\text{は無限ではない4次のモーメントを持つ}\\
+  &\mathbf{(A4)}　 \text{均一分散}: Var(\epsilon_i|X_{i, 2})=\sigma_\epsilon^{2}\\
+  &\mathbf{(A5)}　 条件付き正規性: \epsilon_i|X_{i, 2} \sim \mathcal{N} (0, \sigma_\epsilon^{2})
 \end{align*}
 
 以上を満たすのが, 因果推論のための構造型単回帰モデルとして標準的なものである. このモデルでは, $\beta_2$は$X_{i,2}$の変化による\rmfamily\mcfamily\bfseries{因果効果}\mdseries として定義されることに留意せよ. 当然見せかけの因果関係や逆の因果関係は事前に排除されている. ここで, $X_{i,2}$ がランダムに割り当てられている（少なくともそのように見える）ならば, 構造モデルに必要な, 説明変数の誤差項との無相関, すなわち\textbf{外生性}を示唆する\rmfamily\mcfamily\bfseries{(A1)}\mdseries が満たされる. 数学的には, (A1)$\Rightarrow Cov(\epsilon_i, X_{i, 2})=0$であり, 対偶をとれば, $Cov(\epsilon_i, X_{i, 2})\neq 0\Rightarrow$ (A1) が崩れると表現可能. (A1)は, $b_2$が$\beta_2$の不偏推定量であることを確約している. 説明変数の漏れにより, $b_2$がもはや$\beta_2$の一致推定量でなくなる（不偏推定量でもない）, つまり\rmfamily\mcfamily\bfseries{欠落変数バイアス}\mdseries (後述)による(A1)の崩れは, まさしく操作変数法に繋がる議論である.\\
@@ -204,12 +204,12 @@ $b_2$の両側検定$H_0: \beta_2=\beta_{2,0}$について検討する. 先述�
 \paragraph{重回帰モデルの古典的仮定}
 回帰係数ベクトル$\beta$が因果効果であることを以下が保証する. 
 \begin{align*}
-  &\mathbf{(A1)} \mathbb{E}(\epsilon_i|\mathbf{x}_{i})=0\\
-  &\mathbf{(A2)} (\mathbf{x}_{i}, Y_{i})　\text{for}　i=1, \dots, n　\text{はi.i.d.}\\
-  &\mathbf{(A3)} (\mathbf{x}_{i}, \epsilon_{i})\text{は無限ではない4次のモーメントを持つ}\\
-  &\mathbf{(A4)} \text{フルランク(識別)}: rank(\mathbf{X})=K\\
-  &\mathbf{(A5)} \text{均一分散}: Var(\epsilon_i|\mathbf{x}_{i})=\mathbb{E}(\epsilon_i^2|\mathbf{x}_{i})=\sigma^{2}\\
-  &\mathbf{(A6)} 条件付き正規性: \epsilon_i|\mathbf{x}_{i} \sim \mathcal{N} (0, \sigma^{2})
+  &\mathbf{(A1)}　 \mathbb{E}(\epsilon_i|\mathbf{x}_{i})=0\\
+  &\mathbf{(A2)}　 (\mathbf{x}_{i}, Y_{i})　\text{for}　i=1, \dots, n　\text{はi.i.d.}\\
+  &\mathbf{(A3)}　 (\mathbf{x}_{i}, \epsilon_{i})\text{は無限ではない4次のモーメントを持つ}\\
+  &\mathbf{(A4)}　 \text{フルランク(識別)}: rank(\mathbf{X})=K\\
+  &\mathbf{(A5)}　 \text{均一分散}: Var(\epsilon_i|\mathbf{x}_{i})=\mathbb{E}(\epsilon_i^2|\mathbf{x}_{i})=\sigma^{2}\\
+  &\mathbf{(A6)}　 条件付き正規性: \epsilon_i|\mathbf{x}_{i} \sim \mathcal{N} (0, \sigma^{2})
 \end{align*}
 
 (A1)はLIEより$\mathbb{E}[\epsilon_i]=0, Cov(\epsilon_i, x_{i,k})=0\forall k=1,\dots,K$であり, 説明変数の外生性を保証する. (A1),(A2)によって, 以下の関係が成立する.
@@ -353,10 +353,10 @@ $(5) \sim (7)$式については良く知られた通り, 対数を取ってい�
 \rmfamily\mcfamily\bfseries{一般化回帰モデル}\mdseries について考える. 先述の通り, この場合推定量の不偏性は保たれるが, 標準誤差が\rmfamily\mcfamily\bfseries{望ましい有意水準の信頼区間を生成しない}\mdseries 点で内的妥当性に打撃が与えられる. 解決法としてはGLSEによる推定と, 頑健標準誤差の利用がある. 一般化回帰モデルの仮定は以下の通り.
 
 \begin{align*}
-  &\mathbf{(GLS1)} \mathbb{E}(\epsilon|\mathbf{X})=\mathbf{0}\\
-  &\mathbf{(GLS2)} \mathbf{Var}(\epsilon | \mathbf{X})=\mathbf{E}[\epsilon\epsilon^T| \mathbf{X}]=\sigma^2\Omega(\mathbf{X})=\sigma^2\Omega\\
-  &\mathbf{(GLS3)} (\mathbf{x}_{i}, \epsilon_{i})\text{は無限ではない4次のモーメントを持つ}\\
-  &\mathbf{(GLS4)} \text{フルランク(識別)}: rank(\mathbf{X})=K
+  &\mathbf{(GLS1)}　\mathbb{E}(\epsilon|\mathbf{X})=\mathbf{0}\\
+  &\mathbf{(GLS2)}　\mathbf{Var}(\epsilon | \mathbf{X})=\mathbf{E}[\epsilon\epsilon^T| \mathbf{X}]=\sigma^2\Omega(\mathbf{X})=\sigma^2\Omega\\
+  &\mathbf{(GLS3)}　(\mathbf{x}_{i}, \epsilon_{i})\text{は無限ではない4次のモーメントを持つ}\\
+  &\mathbf{(GLS4)}　\text{フルランク(識別)}: rank(\mathbf{X})=K
 \end{align*}
 
 (GLS1)が(A1), (A2)のもとでも成り立つことは\rmfamily\mcfamily\bfseries{2.4}\mdseries で確認済み. 均一分散と正規性の仮定が外れていることを確認しよう. i.i.d.だが条件付不均一分散をもつデータと, 均一分散だが系列相関を持つデータにGLSは適応できるが, 今回は前者のケースに照準を合わせる. 先ず不偏性を確認しておこう. $\mathbf{b}=(\mathbf{X}^{T}\mathbf{X})^{-1}\mathbf{X}^{T}\mathbf{Y}=\beta+(\mathbf{X}^{T}\mathbf{X})^{-1}\mathbf{X}^{T}\epsilon$で, (GLS1)より$\mathbf{E}[\mathbf{b}|\mathbf{X}]=\beta+(\mathbf{X}^{T}\mathbf{X})^{-1}\mathbf{X}^{T}\mathbf{E}[\epsilon|\mathbf{X}]=\beta$でLIEにより$\mathbf{E}[b]=\beta$を得た. また, $\Omega$以下のようにかけ, 対称行列である.
@@ -477,7 +477,7 @@ $x_i$は$z_i$に回帰することで, $x_i = \pi_0 + \pi_1 z_i + \nu_i ⇒ \hat
   &b_1^{TSLS} = \beta_1 + \frac{s_{z,y}}{s_{z,x}} \overset{p}{\to} \beta_1 + \frac{\sigma_{\epsilon}}{\sigma_{x}} \cdot \frac{Corr(z, \epsilon)}{Corr(z, x)}
 \end{align*}
 
-この時, TSLSのバイアスは$Corr(z, x)$で大幅に増幅される. 実際この値が$.10$のオーダーに乗らないことすらしばしばである.\\
+ここでTSLSのバイアスは$Corr(z, x)$で大幅に増幅される. 実際$.10$以下になる事もままある.\\
 
 \rmfamily\mcfamily\bfseries{Ex. タバコ需要の価格弾力性}\mdseries　1995年の米国本土48州のクロスセクションデータを使用する. $Q_i$: 州内で1人あたりに販売されたタバコの箱数, $P_i$: すべての税金を含むタバコ1箱あたりの平均実質価格, である. 価格の操作変数として一般消費税を使用する. TSLS推定の結果は以下.
 
@@ -486,9 +486,72 @@ $x_i$は$z_i$に回帰することで, $x_i = \pi_0 + \pi_1 z_i + \nu_i ⇒ \hat
   \hat{ln(Q_i)} &= \underset{(1.53)}{9.72} - \underset{(0.32)}{1.08}  ln(P_i)
 \end{align*}
 
-つまり, 価格を$1$パーセント上げると消費が$1.08$パーセント減少する. 果たしてこれは有効な結果だろうか?　\rmfamily\mcfamily\bfseries{解答}\mdseries　一段階目の$t$値は約$6$でおおよその水準で統計的有意. 二段階目にも有意性を認められるため, 有効であると見てよさそうだ.\\
+以上より需要の価格弾力性が$-1.08$と推定された. この結果の有効性は?　\rmfamily\mcfamily\bfseries{解答}\mdseries　一段階目の$t$値は約$6$で凡その水準で統計的有意. 二段階目にも有意性を認められるため, 有効であろう.\\
 
 \subsection{一般操作変数モデル}
-より一般的な回帰モデルについて操作変数法を使おう.\\
+より一般的な回帰モデルについて操作変数法を使おう. 以下の回帰モデルを考える.
+
+\begin{equation*}
+  y_i = \beta_0 + \beta_1 x_{i,1} + \dots + \beta_K x_{i,K} + \beta_{K+1} w_{i,1} + \dots + \beta_{K+r} w_{i,r} + \epsilon_i
+\end{equation*}
+
+ここで, $x_{i,1}, \dots, x_{i,K}$ : $K$個の内生回帰変数 ($\epsilon_i$と相関) , $w_{i,1}, \dots, w_{i,r}$ : $r$個の外生回帰変数 ($\epsilon_i$と無相関)若しくはコントロール変数. $z_{i,1}, \dots, z_{i,m}$ : $m$個の操作変数. 内生回帰変数よりも操作変数の数が多い場合 $(m > K)$, 係数は\rmfamily\mcfamily\bfseries{過剰識別（overidentification）}\mdseries される. $m < K$の場合は\rmfamily\mcfamily\bfseries{過少識別（underidentification）}\mdseries され, $m = K$の場合は\rmfamily\mcfamily\bfseries{丁度識別（just identification）}\mdseries される. IV回帰モデルの推定には, \rmfamily\mcfamily\bfseries{丁度識別または過剰識別}\mdseries が必要. さもなければ解は無限個存在する, 連立方程式の解についての性質からも分かるだろう. ではTSLSについて考えよう.\\
+
+\rmfamily\mcfamily\bfseries{第一段階}\mdseries :　$K$個の各内生回帰変数を$m$個の操作変数と$r$個の外生回帰変数に回帰する.
+
+\begin{equation*}
+  x_{i,k} = \pi_{0,k} + \pi_{1,k}z_{i,1} + \dots + \pi_{m,k}z_{i,m} + \pi_{m+1,k}w_{i,1} + \dots + \pi_{m+r,k}w_{i,r} + \nu_{i,k}
+\end{equation*}
+
+結果, 予測値 $\hat{x_{1,k}}, \dots, \hat{x_{n,k}}$ が各内生回帰変数に対して得られる.\\
+
+\rmfamily\mcfamily\bfseries{第二段階}\mdseries :　$y_i$を予測値$\hat{x_{i,1}}, \dots, \hat{x_{i,K}}$と外生変数に回帰し$\mathbf{b}^{TSLS} = (b_0^{TSLS}, \dots, b_{K+r}^{TSLS})^T$を得る.\\
+
+操作変数の\rmfamily\mcfamily\bfseries{関連性と外生性}\mdseries を, 一般の場合にはどのように定義すべきだろうか. $m$個の操作変数集合$z_{i,1}, \dots, z_{i,m}$は, 有効であるため, 次の$2$条件を満たす必要がある:\\
+
+\rmfamily\mcfamily\bfseries{1. 関連性}\mdseries :　$(1, \hat{x_{i,1}}, \dots, \hat{x_{i,K}}, w_{i,1}, \dots, w_{i,r})$は完全な多重共線性を持たない (操作変数は, $x_{i,k}$の外生的部分$\hat{x}_{i,k}$に関する十分な情報を, これらの$y_i$に対する個別の影響を整理するために, 提供する必要がある. $K = 1$の場合, これは少なくとも$1$つの操作変数が第一段階回帰で関連している必要があることを意味する. 単回帰の例に一致していることを確認せよ. これは$m \geq K$の条件による.)
+
+\rmfamily\mcfamily\bfseries{2. 外生性}\mdseries :　$Corr(z_{i,1}, \epsilon_i) = 0, \dots, Corr(z_{i,m}, \epsilon_i) = 0$ (各説明変数は誤差項と無相関)\\
+
+次のIV回帰仮定が満たされれば, TSLSEは大標本において一致性があり, 正規分布に従う:
+
+\begin{align*}
+  &\mathbf{(IV1)}　\mathbb{E}(\epsilon_i|w_{i,1}, \dots, w_{i,r})=0　\mathbf{or}　\mathbb{E}(\epsilon_i|z_{i,1}, \dots, z_{i,m}, w_{i,1}, \dots, w_{i,r}) = \mathbb{E}(\epsilon_i|w_{i,1}, \dots, w_{i,r})\\
+  &\mathbf{(IV2)}　(x_{i,1}, \dots, x_{i,K}, w_{i,1}, \dots, w_{i,r}, z_{i,1}, \dots, z_{i,m}, y_i) \text{はそれらの同時分布からi.i.d.抽出される}\\
+  &\mathbf{(IV3)}　\text{全ての変数は無限ではない4次のモーメントを持つ(外れ値が少ない)}\\
+  &\mathbf{(IV4)}　\text{関連性と外生性が満たされる}
+\end{align*}
+
+\rmfamily\mcfamily\bfseries{Ex. タバコ需要の価格弾力性（Cont.）}\mdseries　先ほど操作変数として用いた消費税は外生的でない可能性がある. 例えば, 所得はタバコ需要に影響を与える可能性があり, 州の売上税と州の所得は相関している可能性がある. これは, 価格と数量の図上での需要供給曲線の動きを考えれば直感的だろう. 供給曲線が課税により上シフトする. ここで課税が適切な操作変数ならば需要曲線には影響を与えないはずだが, 内生性を持つならば需要曲線も同時に所得効果を通じて変動する筈だ. このため, 需要弾力性は所得をコントロールしなければ正確に予測できない筈である. 所得を外生コントロール変数として含め, 消費税を操作変数に使用した結果は次の通り.
+
+\begin{equation*}
+  \hat{ln(Q_i)} = \underset{(1.26)}{9.43} - \underset{(0.37)}{1.14}  ln(P_i) + \underset{(0.31)}{0.21}  ln(income_i)
+\end{equation*}
+
+タバコ税も操作変数として考えられる. 両変数を使用したTSLSでは次の通り.
+
+\begin{equation*}
+  \hat{ln(Q_i)} = \underset{(0.96)}{9.89} - \underset{(0.25)}{1.28}  ln(P_i) + \underset{(0.25)}{0.28}  ln(income_i)
+\end{equation*}
+
+$1$内生説明変数, $1$コントロール変数, $1 \sim 2$操作変数を有するモデル. $\rho_{tax, income} \approx .17 > 0$から, 税金が高い州程所得が高く, 所得をコントロールしなければ, 需要曲線は税率が上がる程上方に位置して, 正の所得効果が弾力性を相殺することが分かる（図を書けば分かる）. 所得をコントロールしない場合の価格弾力性の推定値$1.08 (< 1.14, 1.28)$は, 上記の過少推定の議論に整合的.\\
+
+\subsection{操作変数の正統性に関する検定}
+\subsubsection{関連性}
+直感として, $x_{i,k}$の変動が操作変数で説明できるほど, TSLS推定量はより正確になる. 関連性は標本サイズのように, 大きいほど推定の精度を高めることが分かる. 単回帰の推定量の分散公式にも整合的な解釈だろう. $Corr(z_i , x_i)$が低すぎる場合, TSLS推定量にはバイアスがあり, 正規分布に従わなくなる. 極端な場合, $Corr(z_i , x_i) = 0$で, 操作変数は無関連と呼ばれる. ではどの程度の関連性が操作変数には必要なのだろうか? $(\mathbb{E}[b_1^{TSLS}] - \beta_1)/(\beta_1^{OLS} - \beta_1) \approx 1/(\mathbb{E}[F] - 1)$ ここで, $\beta_1^{OLS}$はOLS推定量の確率極限であり, $E(F)$ は, 第一段階の回帰で操作変数$z_{i,1}, \dots, z_{i,m}$の係数がゼロになるという帰無仮説の$F$統計量の期待値. この近似式より次の経験則を得る.\\
+
+\rmfamily\mcfamily\bfseries{単一の内生的回帰変数の場合の経験則}\mdseries :　$F = 10$の場合, OLSのバイアスに対するTSLSのバイアスは約$1/9$. つまり$10$パーセントを僅かに超える. これを踏まえ, $F \geq 10$の時TSLSのバイアスは十分小さいとして慣習的に許容する. 逆に$F$統計量が$10$未満の場合は\rmfamily\mcfamily\bfseries{弱操作変数}\mdseries と呼ばれる.\\
+
+\subsubsection{外生性}
+操作変数の外生性がTSLS推定量の\rmfamily\mcfamily\bfseries{一致性}\mdseries を保証するのを想起せよ. 外生性は係数が過剰識別の場合にのみ検定可能である. 直感としては, 過剰識別の場合, 変数の選び取り方によって, 複数の係数推定値を作成できることによる. さらに, 全操作変数が外生の場合, 推定量は操作変数集合の取り方によるブレは少ない筈だ.\\
+
+\rmfamily\mcfamily\bfseries{過剰識別制約テスト ($J$ 統計量)}\mdseries :　真の$x_{i,k}$を使用して, 二段階目回帰から残差を計算しする: $\hat{\epsilon}_i^{TSLS} = y_i - (b_0^{TSLS} + b_1^{TSLS} x_{i,1} + \dots + b_{K+r}^{TSLS} w_{i,r})$
+次に, 操作変数と外生回帰変数へ, $\hat{\epsilon}_i^{TSLS}$ を回帰する. ここで, \rmfamily\mcfamily\bfseries{均一分散用の}\mdseries $F$統計量を使用して, 操作変数の係数がゼロであるという仮説の検定を行う. 大標本の場合 $J = mF \sim \chi^2(m - K)$. 制約と$F$検定の章を参照. 正規性を外した場合の値の漸近分布が$\chi^2$だったことを利用している(不正確, 確認の必要あり).\\
+
+\rmfamily\mcfamily\bfseries{Ex. タバコ需要の価格弾力性（Cont.）}\mdseries　所得に加えて, タバコの消費に影響を与える他の変数を考える. これらの変数が州によって異なるが, 時間の経過とともに変化しない場合, \rmfamily\mcfamily\bfseries{パネルデータ}\mdseries を使用してDifference Estimationを実行可能. ここでは$1985$年と$1995$年のデータを使用し, 長期的な弾力性を推定.　\rmfamily\mcfamily\bfseries{結果の要約}\mdseries　 : 各回帰で $F$ 統計量が $10$ を超えており, 関連性は満たされている. ただし, 推定弾力性は操作変数の選択によって異なる. $J$検定: 両操作変数が外生的との仮説を棄却する. タバコ税はその外部性より, 内生的である可能性がある.\\
+
+\section{時系列データ分析}
+パネルデータについて考える. Pooled Regression Modelは地点と個人を全て平等に扱い, 各被説明変数を$nT$個の説明変数に回帰するモデルである. プール回帰モデルの定数項は個人間で同じだが, この仮定は時に非現実的. 時間には依存しない, しかし属性ごとの, 例えば都市ごとの固有の要因を考えるべきだ. $L$個の要因があるとすると, これを全て観察できないことがしばしばなので, 固定効果を足し合わせて一つに纏める. これをプール回帰モデルの定数項に纏めてやれば, 個人ごとに異なる定数項を持つ固定効果モデル(FE model)が作れる. 説明変数と固定効果は相関していると一般に仮定して議論が行われる. First Difference Estimation: 二期間しかない場合は, 同一個人の回帰式を辺々引くことで, この内生性を解消できる. 差を差で回帰すればよい. FE推定量: 二期間以上を考えると, FEモデルから時間平均FEモデルを辺々引いて回帰すればこれがFE推定量. $n$個のダミーを追加したモデルと同じ推定量をだすことから, 最小二乗ダミー推定量とも呼ぶ.プール回帰とFEは通常の$F$検定の枠組みで$F(n - 1, nT - n - K)$で区別可能. ランダム効果モデル(RE): 一方, 回帰変数と個別効果が無相関の場合がREモデル. REモデルの誤差項は系列相関するため, GLSで推定される. プール回帰との検定は, 帰無仮説$\sigma_z^2=0$のラグランジュ乗数検定で行う. FEとREの検定は, 帰無仮説$Cov(z_i, x_{i,t}=0)$のハウスマン検定で行う.\\
+
 
 \end{document}
