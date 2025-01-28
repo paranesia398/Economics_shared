@@ -583,8 +583,78 @@ TSLS推定の一段階目では, 予測値行列$\hat{\mathbf{X}}$を求める. 
 
 条件付均一分散$\mathbf{E}[\epsilon_i^2|\mathbf{z}_i] = \sigma^2$の場合, 共分散行列は$\Sigma^{TSLS} = \sigma^2(\mathbf{E}[\mathbf{x}_i\mathbf{z}_i^T] (\mathbf{E}[\mathbf{z}_i\mathbf{z}_i^T])^{-1} \mathbf{E}[\mathbf{z}_i\mathbf{x}_i^T])^{-1}$. この場合TSLS推定量は, $\mathbf{Z}$の線形結合である操作変数を用いた推定量の中では漸近的に最良となる. 不均一分散の下では頑健標準誤差を利用して漸近分布を得ることが出来る.\\
 
-\section{時系列データ分析}
-パネルデータについて考える. Pooled Regression Modelは地点と個人を全て平等に扱い, 各被説明変数を$nT$個の説明変数に回帰するモデルである. プール回帰モデルの定数項は個人間で同じだが, この仮定は時に非現実的. 時間には依存しない, しかし属性ごとの, 例えば都市ごとの固有の要因を考えるべきだ. $L$個の要因があるとすると, これを全て観察できないことがしばしばなので, 固定効果を足し合わせて一つに纏める. これをプール回帰モデルの定数項に纏めてやれば, 個人ごとに異なる定数項を持つ固定効果モデル(FE model)が作れる. 説明変数と固定効果は相関していると一般に仮定して議論が行われる. First Difference Estimation: 二期間しかない場合は, 同一個人の回帰式を辺々引くことで, この内生性を解消できる. 差を差で回帰すればよい. FE推定量: 二期間以上を考えると, FEモデルから時間平均FEモデルを辺々引いて回帰すればこれがFE推定量. $n$個のダミーを追加したモデルと同じ推定量をだすことから, 最小二乗ダミー推定量とも呼ぶ.プール回帰とFEは通常の$F$検定の枠組みで$F(n - 1, nT - n - K)$で区別可能. ランダム効果モデル(RE): 一方, 回帰変数と個別効果が無相関の場合がREモデル. REモデルの誤差項は系列相関するため, GLSで推定される. プール回帰との検定は, 帰無仮説$\sigma_z^2=0$のラグランジュ乗数検定で行う. FEとREの検定は, 帰無仮説$Cov(z_i, x_{i,t}=0)$のハウスマン検定で行う.\\
+\section{パネルデータ分析}
+$n$エンティティを一度だけ観測する(=横断面データ)のではなく, $T$期間にわたってそれぞれの観測を繰り返すのがパネルデータである. ここで, 観測データは$(\mathbf{x}_{i,t}, y_{i,t}) = ((x_{i,t,1}, \dots, x_{i,t,K})^T, y_{i,t})$, $i=1,\dots,n$ and $t=1,\dots,T$のように与えられる. パネルデータ分析は, 幾つかの種類の欠落変数に対する有効なコントロールの手法として機能する. 例えば, $y_{i,t} = \mathbf{x}_{i,t}^T \beta + \mathbf{z}_{i}^T \alpha + \epsilon_{i,t}$のモデルを考えてみよう. ここで, $\mathbf{x}_{i,t}$は$K$個の時間で変動する回帰変数ベクトル, $\mathbf{z}_{i}$は定数項と, データ個別の時間不変の属性を表す変数を合わせた$2\times1$ベクトルである. この$\beta$の推定を目標に議論を進めよう.\\
+
+\rmfamily\mcfamily\bfseries{Ex. 飲酒と交通事故死}\mdseries　横断面データにおける欠落変数バイアスの問題についての復習と, 如何にしてパネルデータ分析がその問題を解決するのかについて見るために, 一つの具体例を中心として話を進めよう. 交通事故死割合, ビール税, 飲酒運転の法制に関連する変数を, 米国の$n = 48$州に対して$1982 \sim 1988$ 年の$T = 7$年間に渡って調査した, 漏れの無い, つまり\rmfamily\mcfamily\bfseries{バランスした}\mdseries パネルデータを持っているとする. ここで, 総観測データ数は$nT = 336$. 飲酒運転を厳罰化する法制度設計は, 交通事故死を減少するのにどれほど効果的だろうか? 手始めに横断面データ分析の手法を取ってみよう. ビール税を説明変数とすればモデルは以下のように具体化される.
+
+\begin{equation*}
+  FatalityRate_{i,t} = \alpha_1 + \beta_1 BeerTax_{i,t} + \underset{Cross-sectional Error}{\underbrace{\alpha_2z_{i,2} + \epsilon_{i,t}}}
+\end{equation*}
+
+今までと同様に, $\alpha_2 \neq 0$ and $Cov(X_{i,t,1}, z_{i,2}) \neq 0$の時に欠落変数バイアスが存在し, OLS推定量は一致性を失う. たとえば, 欠落変数として交通量などが考えられる. 交通量が多ければ交通事故死は増え($\alpha_2 > 0$), 交通量が少ない州ではアルコール税が低い傾向にある($Cov(X_{i,t,1}, z_{i,2}) > 0$)と仮定すれば, 正の方向に欠落変数バイアスが働くだろう. 欠落変数をコントロールの為直接モデルに追加可能ならば問題は解決するが, 先述の通りしばしばこれは観測不可能である. ここで効力を発揮するのがパネルデータ分析である. 簡単のために, $1982, 1988$年の$T = 2$期間の場合から考えよう. モデルにおいて, $\mathbf{z}_{i} = (1, z_{i,2})^T$は定数項と, 州個別の時間不変の属性を表す変数を合わせた$2\times1$ベクトルである. $z_{i,2}$が時間を通じ一定との仮定より, 以下を得る.
+
+\begin{equation*}
+  FatalityRate_{i,1988} - FatalityRate_{i,1982} = \beta_1 (BeerTax_{i,1988} - BeerTax_{i,1982}) + \epsilon_{i,1988} - \epsilon_{i,1982}
+\end{equation*}
+
+差分同士での回帰を行うことで, 欠落変数バイアスを取り除いた推定が可能であることが分かった. この方法での推定を一般には, \rmfamily\mcfamily\bfseries{First Difference Estimation}\mdseries と呼ぶ.\\
+
+\subsection{固定効果モデル}
+First Difference Estimationは一般$T$期間には適応不可. そこで我々が次に検討するのが\rmfamily\mcfamily\bfseries{固定効果回帰(Fixed Effects Regression)}\mdseries . 再度$K = 1$で欠落変数が存在すると考え変形する.
+
+\begin{equation*}
+  y_{i,t} = \beta_1 {x}_{i,t,1} + \alpha_1 + \alpha_2 z_{i,2} + \epsilon_{i,t} = \beta_1 {x}_{i,t,1} + c_i + \epsilon_{i,t}
+\end{equation*} 
+
+全てのエンティティが同じ傾きを持つが, $\mathbf{z}_i$を纏めた切片が異なることが分かるだろう. ここでの$c_i$が固定効果(fixed effect)であり, 欠落変数, それに起因する個体間での時間不変の観測不能な異質性をコントロールする役割をはたしている. $\beta$の推定方法としては, \rmfamily\mcfamily\bfseries{1. ダミー変数の利用}\mdseries , \rmfamily\mcfamily\bfseries{2. 固定効果推定量(FE推定量)の利用}\mdseries , が考えられる. 先ず前者を検討しよう. 
+
+\begin{equation*}
+  y_{i,t} = \beta_1 x_{i,t,1} + c_1 + \gamma_2 D_{2,i} + \gamma_3 D_{3,i} + \dots + \gamma_n D_{n,i} + \epsilon_{i,t},　(D_{m,i} = 1　if　i=m,　0　else)
+\end{equation*}
+
+ゆえに, $c_i = c_1 + \gamma_i$ for $i \geq 2$. ダミー変数の罠を回避するため, この変数は$n-1$個. これで, モデルをOLSで推定できるようになった. 統計的推測は頑健標準誤差を用いた一般的なものを利用可能(不均一分散に頑健). しかし, $K + n$の係数を推定する必要があるため, これは$n$が非常に大きい場合は非現実的. 我々は$\beta$の推定にのみ興味があり, $c_i$を正確に推定する必要はない. このことを念頭において後者の\rmfamily\mcfamily\bfseries{FE推定量}\mdseries について考える. 簡単のため, 依然$K = 1$を考える. 時系列に標本平均をとって, $\bar{y}_i = \beta_1 \bar{x}_{i,1} + c_i + \bar{\epsilon}_i$. 辺々引いて以下を得る. 
+
+\begin{equation*}
+  y_{i,t} - \bar{y}_i = \beta_1 ({x}_{i,t,1} - \bar{x}_{i,1}) + (\epsilon_{i,t} - \bar{\epsilon}_i)
+\end{equation*}
+
+以上の式より, 偏差同士で回帰することでFE推定量(グループ内推定量, within estimator)とwithin R squaredを得る. $c_i$の項が相殺されている, 即ち固定効果がコントロールされていることに注目しよう. 標本平均でOLSを行った場合はbetween estimator(BE推定法)と呼ばれる. FE推定法での固定効果の推定量は$\hat{c}_i = \bar{y}_i - \bar{\mathbf{x}}_{i}^T \mathbf{b}_1^{FE}$で一般に得られる. 次に, \rmfamily\mcfamily\bfseries{時間固定効果回帰}\mdseries を見てみよう. 時間によって変化するが, 個人間で同一の効果をもたらす欠落変数も存在するだろう. 自動車事故死の例に当てはめるならば国家での法改正や, 車の安全性の向上などが例として挙げられる. 一般に, $n - 1$のエンティティダミーと, $T - 1$の期間ダミーを利用することで, $y_{i,t} = \beta_1 x_{i,t,1} + c_1 + \gamma_2 D_{2,i} + \gamma_3 D_{3,i} + \dots + \gamma_n D_{n,i} + \delta_2 B_{2,t} + \delta_3 B_{3,t} + \dots + \delta_T D_{T,t}+ \epsilon_{i,t}$のようにモデルを書き換えられる. OLSは$K + (n - 1) + (T - 1) + 1$個の係数を, FE推定量と同じく偏差同士で回帰することで推定可能.\\
+
+\subsection{固定効果モデルの仮定}
+簡単のため$K = 1$のケースを考える.
+
+\begin{equation*}
+  y_{i,t} = \beta_1 {x}_{i,t,1} + c_i + \epsilon_{i,t}
+\end{equation*}
+
+この固定効果モデルの条件は以下の通り.
+
+\begin{align*}
+  &\mathbf{(AP1)}　\mathbb{E}(\epsilon_{i,t}|x_{i,1,1}, x_{i,2,1}, \dots, x_{i,T,1}, c_i)=0\\
+  &\mathbf{(AP2)}　(x_{i,1,1}, \dots, x_{i,T,1}, \epsilon_{i,1}, \dots, \epsilon_{i,T}) \text{はそれらの同時分布からi.i.d.抽出される}\\
+  &\mathbf{(AP3)}　(x_{i,t,1}, \epsilon_{i,t})\text{は無限ではない4次のモーメントを持つ}\\
+  &\mathbf{(AP4)}　\text{それぞれの説明変数は時間によって変動し, 完全な多重共線性はない} (K > 1の場合)
+\end{align*}
+
+(AP1)は強い外生性を意味しており, FE推定量が不偏性を持つことを保証している. 実際, この仮定から$Cov(\epsilon_{i,t}, x_{i,\tau,1}) = 0, \forall\tau\in\{1,\dots,T\}$も確認できる. (AP2)は誤差項の\rmfamily\mcfamily\bfseries{均一分散性}\mdseries と, \rmfamily\mcfamily\bfseries{系列相関がない}\mdseries こと, この二つを保証する. この仮定が崩れた場合にはこの二つが崩れうることに注意しよう. (AP1)\sim(AP4)の下で, $b_1^{FE}$の漸近分布は以下のように与えられる.
+
+\begin{align*}
+  &\sqrt{nT}(b_1^{FE} - \beta_1) \overset{a}{\sim} \mathcal{N}({0}, \frac{\sigma_\eta^2}{Q_{\tilde{x}}^2})\\
+  &where　\eta_i = \frac{1}{\sqrt{T}}\sum_{t=1}^{T}\tilde{v}_{i,t},　\sigma_\eta^2 = Var[\eta]　and　Q_{\tilde{x}} = \mathbb{E}[\frac{1}{T}\sum_{t=1}^{T}\tilde{x}_{i,t,1}^2]\\
+  &with　\tilde{v}_{i,t} = \tilde{x}_{i,t,1} \epsilon_{i,t}　and　\tilde{x}_{i,t,1} = {x}_{i,t,1} - \bar{x}_{i,t,1}
+\end{align*}
+
+$\sigma_\eta^2$の推定量として, 以下のクラスター化標準誤差(Clustered standard errors)が与えられる.
+
+\begin{equation*}
+  \hat{\sigma}_{\eta, cluster}^2 = \frac{1}{nT} \sum_{i=1}^{n} (\sum_{t=1}^{T}\hat{\tilde{v}}_{i,t})^2　where　\hat{\tilde{v}}_{i,t} = \tilde{x}_{i,t,1} e_{i,t}
+\end{equation*}
+
+$e_{i,t}$はFE推定におけるOLSの残差である. この推定量は$\epsilon_{i,t}$のエンティティ間における, 条件付不均一分散と条件付系列相関を制御している.\\
+
+\subsection{一般のパネルデータ分析モデル}
+Pooled Regression Modelは地点と個人を全て平等に扱い, 各被説明変数を$nT$個の説明変数に回帰するモデルである. プール回帰モデルの定数項は個人間で同じだが, この仮定は時に非現実的. 時間には依存しない, しかし属性ごとの, 例えば都市ごとの固有の要因を考えるべきだ. $L$個の要因があるとすると, これを全て観察できないことがしばしばなので, 固定効果を足し合わせて一つに纏める. これをプール回帰モデルの定数項に纏めてやれば, 個人ごとに異なる定数項を持つ固定効果モデル(FE model)が作れる. 説明変数と固定効果は相関していると一般に仮定して議論が行われる. First Difference Estimation: 二期間しかない場合は, 同一個人の回帰式を辺々引くことで, この内生性を解消できる. 差を差で回帰すればよい. FE推定量: 二期間以上を考えると, FEモデルから時間平均FEモデルを辺々引いて回帰すればこれがFE推定量. $n$個のダミーを追加したモデルと同じ推定量をだすことから, 最小二乗ダミー推定量とも呼ぶ.プール回帰とFEは通常の$F$検定の枠組みで$F(n - 1, nT - n - K)$で区別可能. ランダム効果モデル(RE): 一方, 回帰変数と個別効果が無相関の場合がREモデル. REモデルの誤差項は系列相関するため, GLSで推定される. プール回帰との検定は, 帰無仮説$\sigma_z^2=0$のラグランジュ乗数検定で行う. FEとREの検定は, 帰無仮説$Cov(z_i, x_{i,t}=0)$のハウスマン検定で行う.\\
 
 
 \end{document}
