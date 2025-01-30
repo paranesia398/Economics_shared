@@ -637,7 +637,7 @@ First Difference Estimationは一般$T$期間には適応不可. そこで我々
   &\mathbf{(AP4)}　\text{それぞれの説明変数は時間によって変動し, 完全な多重共線性はない} (K > 1の場合)
 \end{align*}
 
-(AP1)は強い外生性を意味しており, FE推定量が不偏性を持つことを保証している. 実際, この仮定から$Cov(\epsilon_{i,t}, x_{i,\tau,1}) = 0, \forall\tau\in\{1,\dots,T\}$も確認できる. (AP2)は誤差項の\rmfamily\mcfamily\bfseries{均一分散性}\mdseries と, \rmfamily\mcfamily\bfseries{系列相関がない}\mdseries こと, この二つを保証する. この仮定が崩れた場合にはこの二つが崩れうることに注意しよう. (AP1)\sim(AP4)の下で, $b_1^{FE}$の漸近分布は以下のように与えられる.
+(AP1)は強い外生性を意味しており, FE推定量が不偏性を持つことを保証している. 実際, この仮定から$Cov(\epsilon_{i,t}, x_{i,\tau,1}) = 0, \forall\tau\in\{1,\dots,T\}$も確認できる. (AP2)は誤差項の異なるエンティティ間での独立性を意味するものの, 同一エンティティ内では相関することがあり, この場合系列相関が存在しうる. また, 条件付の不均一分散も否定されていない. (AP1)\sim(AP4)の下で, $b_1^{FE}$の漸近分布は以下のように与えられる.
 
 \begin{align*}
   &\sqrt{nT}(b_1^{FE} - \beta_1) \overset{a}{\sim} \mathcal{N}({0}, \frac{\sigma_\eta^2}{Q_{\tilde{x}}^2})\\
@@ -654,7 +654,80 @@ $\sigma_\eta^2$の推定量として, 以下のクラスター化標準誤差(Cl
 $e_{i,t}$はFE推定におけるOLSの残差である. この推定量は$\epsilon_{i,t}$のエンティティ間における, 条件付不均一分散と条件付系列相関を制御している.\\
 
 \subsection{一般のパネルデータ分析モデル}
-Pooled Regression Modelは地点と個人を全て平等に扱い, 各被説明変数を$nT$個の説明変数に回帰するモデルである. プール回帰モデルの定数項は個人間で同じだが, この仮定は時に非現実的. 時間には依存しない, しかし属性ごとの, 例えば都市ごとの固有の要因を考えるべきだ. $L$個の要因があるとすると, これを全て観察できないことがしばしばなので, 固定効果を足し合わせて一つに纏める. これをプール回帰モデルの定数項に纏めてやれば, 個人ごとに異なる定数項を持つ固定効果モデル(FE model)が作れる. 説明変数と固定効果は相関していると一般に仮定して議論が行われる. First Difference Estimation: 二期間しかない場合は, 同一個人の回帰式を辺々引くことで, この内生性を解消できる. 差を差で回帰すればよい. FE推定量: 二期間以上を考えると, FEモデルから時間平均FEモデルを辺々引いて回帰すればこれがFE推定量. $n$個のダミーを追加したモデルと同じ推定量をだすことから, 最小二乗ダミー推定量とも呼ぶ.プール回帰とFEは通常の$F$検定の枠組みで$F(n - 1, nT - n - K)$で区別可能. ランダム効果モデル(RE): 一方, 回帰変数と個別効果が無相関の場合がREモデル. REモデルの誤差項は系列相関するため, GLSで推定される. プール回帰との検定は, 帰無仮説$\sigma_z^2=0$のラグランジュ乗数検定で行う. FEとREの検定は, 帰無仮説$Cov(z_i, x_{i,t}=0)$のハウスマン検定で行う.\\
+パネルデータは例えば, 以下のように特定化できる.
 
+\begin{equation*}
+ y_{i,t} = \mathbf{x}_{i,t}^T \beta + \mathbf{z}_{i}^T \alpha + \epsilon_{i,t} = \mathbf{x}_{i,t}^T \beta + c_i + \epsilon_{i,t}
+\end{equation*}
+
+ここで, $c_i$は観測不能な異質性を表す. 我々は状況を以下の三つに大別することが出来る. 1. $\mathbf{z}_i$は完全に一定. 2. $\mathbf{z}_i$は$\mathbf{x}_{i,t}$と無相関. 3. $\mathbf{z}_i$は$\mathbf{x}_{i,t}$と相関. $1$の場合, プール回帰モデルは一致性を持ち, かつ最良推定量を導く. しかし$2$の場合, プール回帰の効率性は損なわれ, 解決法としてRE推定量の使用が挙げられる. さらに$3$の場合には不偏性も一致性も損なわれ, この解決法がFE推定量の使用である. 以下ではそれぞれの回帰モデルとその性質を確認してみよう.\\
+
+\subsubsection{プール回帰モデル}
+$\mathbf{z}_{i} = 1$で一定. 地点と個人を平等に扱い, 各被説明変数を$nT$個のデータを用いて回帰する. 
+
+\begin{equation*}
+  y_{i,t} = \alpha + \mathbf{x}_{i,t}^T \beta + \epsilon_{i,t}
+\end{equation*}
+
+\begin{align*}
+  &\mathbf{(PL1)}　\mathbb{E}[\epsilon_{i,t}|\mathbf{x}_{i,1}, \mathbf{x}_{i,2}, \dots, \mathbf{x}_{i,T}]=0\\
+  &\mathbf{(PL2)}　(\mathbf{x}_{i,1}, \mathbf{x}_{i,2}, \dots, \mathbf{x}_{i,T}, \epsilon_{i,1}, \dots, \epsilon_{i,T}) \forall i\text{はそれらの同時分布からi.i.d.抽出される}\\
+  &\mathbf{(PL3)}　(\mathbf{x}_{i,t}, \epsilon_{i,t})\text{は無限ではない4次のモーメントを持つ}\\
+  &\mathbf{(PL4)}　\text{完全な多重共線性が存在しない}\\
+  &\mathbf{(PL5)}　Var(\epsilon_{i,t}|\mathbf{x}_{i,1}, \mathbf{x}_{i,2}, \dots, \mathbf{x}_{i,T}) = \sigma_\epsilon^2\\
+  &\mathbf{(PL6)}　Cov(\epsilon_{i,t}\epsilon_{i,s}|\mathbf{x}_{i,1}, \mathbf{x}_{i,2}, \dots, \mathbf{x}_{i,T}) = 0　\text{for}　t \neq s
+\end{align*}
+
+プールOLS推定量は以下で与えられる.
+
+\begin{align*}
+  &\mathbf{b}^{POLS} = (\sum_{i=1}^{n}\sum_{i=1}^{T}(\mathbf{x}_{i,t} - \bar{\bar{\mathbf{x}}})(\mathbf{x}_{i,t} - \bar{\bar{\mathbf{x}}})^T)^{-1} (\sum_{i=1}^{n}\sum_{i=1}^{T}(\mathbf{x}_{i,t} - \bar{\bar{\mathbf{x}}})(y_{i,t} - \bar{\bar{y}}))\\
+  &\text{where}　\bar{\bar{\mathbf{x}}} = \frac{1}{nT}\sum_{i=1}^{n}\sum_{i=1}^{T}\mathbf{x}_{i,t}　\text{and}　\bar{\bar{y}} = \frac{1}{nT}\sum_{i=1}^{n}\sum_{i=1}^{T}y_{i,t}
+\end{align*}
+
+ここで, $\mathbf{b}^{POLS}$は$\beta$の最良一致推定量である.\\
+
+\subsubsection{ランダム効果モデル}
+$\mathbf{z}_i$は$\mathbf{x}_{i,t}$と無相関と仮定したモデル. $\mathbf{E}[\mathbf{z}_{i}|\mathbf{x}_{i,1}, \mathbf{x}_{i,2}, \dots, \mathbf{x}_{i,T}] = \mathbf{E}[\mathbf{z}_{i}] = \mu_{\mathbf{z}}$と仮定する. ${u}_i = \mathbf{z}_{i}^T \alpha - \mu_{\mathbf{z}}^T \alpha = \mathbf{z}_{i}^T \alpha - \alpha_1$と表記すると, 以下のように変形可能. 
+
+\begin{equation*}
+  y_{i,t} = \mathbf{x}_{i,t}^T \beta + \mathbf{z}_{i}^T \alpha + \epsilon_{i,t} = \alpha_1 + \mathbf{x}_{i,t}^T \beta + {u}_i + \epsilon_{i,t} = \alpha_1 + \mathbf{x}_{i,t}^T \beta + \eta_{i,t}
+\end{equation*}
+
+$\eta_{i,t} = {u}_i + \epsilon_{i,t}$. 更に以下を仮定する.
+
+\begin{align*}
+  &\mathbf{(RE1)}　\mathbb{E}[\epsilon_{i,t}|\mathbf{x}_{i,1}, \mathbf{x}_{i,2}, \dots, \mathbf{x}_{i,T}]=0\\
+  &\mathbf{(RE2)}　(\mathbf{x}_{i,1}, \mathbf{x}_{i,2}, \dots, \mathbf{x}_{i,T}, \epsilon_{i,1}, \dots, \epsilon_{i,T}) \forall i\text{はそれらの同時分布からi.i.d.抽出される}\\
+  &\mathbf{(RE3)}　(\mathbf{x}_{i,t}, \epsilon_{i,t})\text{は無限ではない4次のモーメントを持つ}\\
+  &\mathbf{(RE4)}　\text{完全な多重共線性が存在しない}\\
+  &\mathbf{(RE5)}　Var(\epsilon_{i,t}|\mathbf{x}_{i,1}, \mathbf{x}_{i,2}, \dots, \mathbf{x}_{i,T}) = \sigma_\epsilon^2,　Cov(\epsilon_{i,t}\epsilon_{i,s}|\mathbf{x}_{i,1}, \mathbf{x}_{i,2}, \dots, \mathbf{x}_{i,T}) = 0　\text{for}　t \neq s\\
+  &\mathbf{(RE6)}　{Var}({u}_{i}|\mathbf{x}_{i,1}, \mathbf{x}_{i,2}, \dots, \mathbf{x}_{i,T}) = \sigma_u^2,　Cov(\epsilon_{i,t}{u}_{i}|\mathbf{x}_{i,1}, \mathbf{x}_{i,2}, \dots, \mathbf{x}_{i,T}) = 0
+\end{align*}
+
+モデルには欠落変数が無いが, 系列相関の問題は存在する. 
+
+\begin{equation*}
+  \Sigma = \mathbf{E}[\eta_i\eta_i^T|\mathbf{x}_{i,1}, \mathbf{x}_{i,2}, \dots, \mathbf{x}_{i,T}]
+  =
+  \begin{pmatrix}
+    \sigma_\epsilon^2 + \sigma_u^2 & \sigma_u^2 & \sigma_u^2 &\dots&\sigma_u^2\\
+    \sigma_u^2 &\sigma_\epsilon^2 + \sigma_u^2 & \sigma_u^2 &\dots&\sigma_u^2\\
+    \\
+    &&&\ddots&\\
+    \sigma_u^2&\sigma_u^2&\sigma_u^2&\dots&\sigma_\epsilon^2 + \sigma_u^2
+  \end{pmatrix}
+\end{equation*}
+
+最早POLSは効率性を持たないため, 代わりにGLS推定量$\mathbf{b}^{GLS}$を用いて$\beta$を推定する. データを適切に変形して, 以下を得る.
+
+\begin{equation*}
+  y_{i,t} - \theta\bar{y}_{i}= \alpha(1-\theta) + (\mathbf{x}_{i,t} - \theta\bar{\mathbf{x}}_{i})^T \beta + (\eta_{i,t} - \theta\bar{\eta}_{i})　\mathbf{with}　\theta = 1 - \sqrt{\frac{\sigma_\epsilon^2}{\sigma_\epsilon^2 + T \sigma_u^2}}
+\end{equation*}
+
+この回帰によって得られるGLS推定量をランダム効果推定量(Random Effects Estimator, RE Estimator)と呼ぶ. 特に, $\sigma_u^2 = 0$で観測不能な異質性が存在しない時, $\theta = 0$であり, $\mathbf{b}^{GLS} = \mathbf{b}^{POLS}$で両推定量が一致する. また, $T \to \infty$または$\sigma_u^2 \gg \sigma_\epsilon^2$ならば, $\theta = 1$であり, このGLSが偏差同士を回帰していることとなるので$\mathbf{b}^{GLS} = \mathbf{b}^{FE}$となる(FE推定量は後述, 既出のそれの一般化).\\
+
+\subsubsection{固定効果モデル}
+プール回帰モデルの定数項は個人間で同じだが, この仮定は時に非現実的. 時間には依存しない, しかし属性ごとの, 例えば都市ごとの固有の要因を考えるべきだ. $L$個の要因があるとすると, これを全て観察できないことがしばしばなので, 固定効果を足し合わせて一つに纏める. これをプール回帰モデルの定数項に纏めてやれば, 個人ごとに異なる定数項を持つ固定効果モデル(FE model)が作れる. 説明変数と固定効果は相関していると一般に仮定して議論が行われる. First Difference Estimation: 二期間しかない場合は, 同一個人の回帰式を辺々引くことで, この内生性を解消できる. 差を差で回帰すればよい. FE推定量: 二期間以上を考えると, FEモデルから時間平均FEモデルを辺々引いて回帰すればこれがFE推定量. $n$個のダミーを追加したモデルと同じ推定量をだすことから, 最小二乗ダミー推定量とも呼ぶ.プール回帰とFEは通常の$F$検定の枠組みで$F(n - 1, nT - n - K)$で区別可能. ランダム効果モデル(RE): 一方, 回帰変数と個別効果が無相関の場合がREモデル. REモデルの誤差項は系列相関するため, GLSで推定される. プール回帰との検定は, 帰無仮説$\sigma_z^2=0$のラグランジュ乗数検定で行う. FEとREの検定は, 帰無仮説$Cov(z_i, x_{i,t}=0)$のハウスマン検定で行う.
 
 \end{document}
