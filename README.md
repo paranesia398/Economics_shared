@@ -39,3 +39,5 @@
 2025/05/25 19:59 Econometrics Sueishi, 第1章について書き終えました.
 
 2025/05/29 18:38 Econometrics Sueishi, 第2章について書き終えました.
+
+2025/05/30 15:52 Econometrics Sueishi, 第3章について書き終えました.
