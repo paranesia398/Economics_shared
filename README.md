@@ -43,3 +43,5 @@
 2025/05/30 15:52 Econometrics Sueishi, 第3章について書き終えました.
 
 2025/05/31 21:44 Econometrics Sueishi, 第4章2節まで書き終えました.
+
+2025/06/06 21:44 Econometrics Sueishi, Wald推定量まで書き終えました.
