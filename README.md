@@ -48,4 +48,4 @@
 
 2025/06/08 01:02 Econometrics Sueishi, 第4章3節まで書き終えました.
 
-2025/06/010 23:42 Econometrics Sueishi, 第4章4節まで書き終えました.
+2025/06/10 23:42 Econometrics Sueishi, 第4章4節まで書き終えました.
