@@ -7,7 +7,7 @@
 
 ### **Note**: 勉強した内容を自分なりに再構成したもの
 
-**Econometric Note**: Heidelbergのコア計量を自分なりにまとめました, 一橋の上級コア受講の際, 更に訂正します.
+**Econometrics Note**: Heidelbergのコア計量を自分なりにまとめました, 一橋の上級コア受講の際, 更に訂正します.
 
 **Econometrics Sueishi**: 『計量経済学-ミクロデータ分析へのいざない』の不明点や行間を埋めるノートです.
 
