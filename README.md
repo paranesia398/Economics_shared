@@ -11,7 +11,7 @@
 
 **Econometrics Sueishi**: 『計量経済学-ミクロデータ分析へのいざない』の不明点や行間を埋めるノートです.
 
-**Data Driven Regression Sueishi**: 『データ駆動型回帰分析』の不明点や行間を埋めるノートです.
+**Data Driven Regression**: 『データ駆動型回帰分析』の不明点や行間を埋めるノートです.
 
 **RStudyGroup**: 『Rによる実証分析』の不明点や行間を埋めるノートです.
 
@@ -52,8 +52,8 @@
 
 2025/06/10 23:42 Econometrics Sueishi, 第4章4節まで書き終えました.
 
-2025/06/18 13:06 Data Driven Regression Sueishi, 第1章1節を書きました.
+2025/06/18 13:06 Data Driven Regression, 第1章1節を書きました.
 
-2025/06/21 00:56 Data Driven Regression Sueishi, 付録で測度論的確率論について書いています. 独立性や条件付期待値周りの議論はここで得た結果を用いて補強する予定です. 末石計量のi.i.d.性周りの議論は再度検証の余地が生まれると予想されます.
+2025/06/21 00:56 Data Driven Regression, 付録で測度論的確率論について書いています. 独立性や条件付期待値周りの議論はここで得た結果を用いて補強する予定です. 末石計量のi.i.d.性周りの議論は再度検証の余地が生まれると予想されます.
 
-2025/06/29 00:02 Data Driven Regression Sueishi, 付録を少し追加しました.
+2025/06/29 00:02 Data Driven Regression, 付録を少し追加しました.
