@@ -63,3 +63,5 @@
 2025/07/06 12:03 Data Driven Regression, 付録の記述が一通り完了しました.
 
 2025/07/11 01:44 Data Driven Regression, 第1章の記述が一通り完了しました.
+
+2025/07/12 01:48 Data Driven Regression, 記述を一部手直ししました.
