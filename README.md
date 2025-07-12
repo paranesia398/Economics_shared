@@ -65,3 +65,5 @@
 2025/07/11 01:44 Data Driven Regression, 第1章の記述が一通り完了しました.
 
 2025/07/12 01:48 Data Driven Regression, 記述を一部手直ししました.
+
+2025/07/12 18:08 Data Driven Regression, 1章4節の構造モデルの識別に関する記述を手直ししました.
