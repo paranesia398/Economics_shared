@@ -70,4 +70,4 @@
 
 2025/07/17 23:50 Data Driven Regression, 1章4節のATETに関する記述を訂正.
 
-2025/07/30 12:29 Data Driven Regression, 2章2節の記述を追加しました.
+2025/07/31 10:43 Data Driven Regression, 2章2節の記述を追加しました.
